@@ -2,6 +2,7 @@ import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
 import { projectId, dataset } from '@/sanity/env'
+import { schemaTypes } from '@/sanity/schemas'
 
 export default defineConfig({
   name: 'simkaur-studio',
@@ -9,5 +10,5 @@ export default defineConfig({
   projectId,
   dataset,
   plugins: [structureTool(), visionTool()],
-  schema: { types: [] }, // Empty for now - schemas added in Task 5
+  schema: { types: schemaTypes },
 })
