@@ -6,6 +6,8 @@ import { CustomCursor } from '@/components/CustomCursor'
 import { SideNav } from '@/components/nav/SideNav'
 import { MobileNav } from '@/components/nav/MobileNav'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const generalSans = localFont({
   src: '../public/fonts/GeneralSans-Variable.woff2',
@@ -36,6 +38,8 @@ export default function RootLayout({
             <ThemeToggle />
           </div>
           <main className="lg:ml-20">{children}</main>
+          <Analytics />
+          <SpeedInsights />
         </Providers>
       </body>
     </html>
