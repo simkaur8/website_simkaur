@@ -3,6 +3,7 @@ import { siteSettingsQuery } from '@/sanity/lib/queries'
 import { AboutPageClient } from '@/components/about/AboutPageClient'
 import { Footer } from '@/components/Footer'
 import type { SiteSettings } from '@/sanity/lib/types'
+import { PersonJsonLd } from '@/components/seo/PersonJsonLd'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export default async function AboutPage() {
 
   return (
     <>
+      <PersonJsonLd />
       <div className="px-6 pb-16 pt-24 lg:px-12">
         <h1
           className="mb-12 text-center font-semibold tracking-[0.1em]"
