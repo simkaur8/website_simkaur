@@ -65,7 +65,8 @@ export function HeroSection({ logoWebmUrl, logoMp4Url, showreelUrl }: HeroSectio
       {/* Scroll indicator */}
       <motion.button
         onClick={scrollToGallery}
-        className="absolute bottom-8 z-10 flex flex-col items-center gap-1 text-[var(--text-muted)]"
+        className="absolute z-10 flex flex-col items-center gap-1 text-[var(--text-muted)]"
+        style={{ bottom: '16vh' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 0.5 }}
