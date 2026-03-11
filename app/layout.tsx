@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="dark" className={generalSans.variable}>
-      <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased">
+      <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans">
         <Providers>
           <CustomCursor />
           <SideNav />

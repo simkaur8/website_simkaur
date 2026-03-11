@@ -65,8 +65,9 @@ export function FilterBar({
           <button
             type="button"
             onClick={() => onChange(filter.value)}
+            style={{ fontSize: 'clamp(0.65rem, 0.6rem + 0.2vw, 0.75rem)' }}
             className={cn(
-              'text-[var(--text-xs)] uppercase tracking-[0.12em] transition-colors duration-200 rounded-[4px] px-[1.1em] py-[0.5em] border',
+              'uppercase tracking-[0.12em] transition-colors duration-200 rounded-[4px] px-[1.1em] py-[0.5em] border',
               filter.value === active
                 ? 'border-[var(--text-primary)] text-[var(--text-primary)] font-medium'
                 : 'border-transparent text-[var(--text-muted)] hover:border-[var(--border)] hover:text-[var(--text-primary)]'

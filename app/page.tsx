@@ -21,9 +21,9 @@ export default function HomePage() {
   return (
     <>
       <HeroSection
-        showreelUrl="/videos/showreel.mp4"
+        showreelUrl={process.env.NEXT_PUBLIC_SHOWREEL_URL || '/videos/showreel.mp4'}
         logoWebmUrl="/videos/logo.webm"
-        logoMovUrl="/videos/logo.mov"
+        logoMp4Url="/videos/logo.mp4"
       />
       <VortexGallery />
       <Footer

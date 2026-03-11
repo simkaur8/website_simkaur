@@ -40,7 +40,7 @@ export function SideNav() {
       )}
     >
       <Link href="/" aria-label="Home" className="mb-10">
-        <LogoVideo webmSrc="/videos/logo.webm" movSrc="/videos/logo.mov" className="w-[130px]" />
+        <LogoVideo webmSrc="/videos/logo.webm" mp4Src="/videos/logo.mp4" className="w-[130px]" />
       </Link>
 
       <ul className="flex flex-col gap-4">
@@ -50,11 +50,10 @@ export function SideNav() {
             <li>
               <Link
                 href={link.href}
+                style={{ fontSize: 'clamp(1.05rem, 0.95rem + 0.5vw, 1.25rem)' }}
                 className={cn(
-                  'text-[var(--text-lg)] font-normal tracking-wide transition-colors duration-[var(--duration-fast)]',
-                  pathname.startsWith(link.href)
-                    ? 'text-[var(--text-primary)] font-medium'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  'text-[var(--text-secondary)] transition-colors duration-[var(--duration-fast)] hover:text-[var(--text-primary)]',
+                  pathname.startsWith(link.href) ? 'font-medium' : 'font-normal'
                 )}
               >
                 {link.label}

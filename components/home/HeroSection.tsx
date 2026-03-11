@@ -5,11 +5,11 @@ import { LogoVideo } from '@/components/nav/LogoVideo'
 
 interface HeroSectionProps {
   logoWebmUrl?: string
-  logoMovUrl?: string
+  logoMp4Url?: string
   showreelUrl?: string
 }
 
-export function HeroSection({ logoWebmUrl, logoMovUrl, showreelUrl }: HeroSectionProps) {
+export function HeroSection({ logoWebmUrl, logoMp4Url, showreelUrl }: HeroSectionProps) {
   function scrollToGallery() {
     const gallery = document.getElementById('gallerySection')
     gallery?.scrollIntoView({ behavior: 'smooth' })
@@ -44,7 +44,7 @@ export function HeroSection({ logoWebmUrl, logoMovUrl, showreelUrl }: HeroSectio
       >
         <LogoVideo
           webmSrc={logoWebmUrl}
-          movSrc={logoMovUrl}
+          mp4Src={logoMp4Url}
           className="cursor-pointer"
           style={{ width: 'clamp(240px, 38vw, 480px)' }}
         />

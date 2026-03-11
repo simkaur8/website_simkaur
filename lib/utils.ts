@@ -17,7 +17,7 @@ export function getVideoEmbedUrl(platform: string, id: string): string {
     case 'vimeo':
       return `https://player.vimeo.com/video/${id}`
     case 'youtube':
-      return `https://www.youtube.com/watch?v=${id}`
+      return `https://www.youtube.com/embed/${id}`
     default:
       throw new Error(`Unsupported video platform: ${platform}`)
   }
