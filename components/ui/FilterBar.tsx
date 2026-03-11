@@ -66,10 +66,10 @@ export function FilterBar({
             type="button"
             onClick={() => onChange(filter.value)}
             className={cn(
-              'text-[var(--text-xs)] uppercase tracking-[0.12em] transition-colors duration-200',
+              'text-[var(--text-xs)] uppercase tracking-[0.12em] transition-colors duration-200 rounded-[4px] px-[1.1em] py-[0.5em] border',
               filter.value === active
-                ? 'border border-[var(--text-primary)] rounded-[4px] px-[1.1em] py-[0.5em] text-[var(--text-primary)]'
-                : 'px-[1.1em] py-[0.5em] text-[var(--text-muted)] hover:text-[var(--text-secondary)]'
+                ? 'border-[var(--text-primary)] text-[var(--text-primary)] font-medium'
+                : 'border-transparent text-[var(--text-muted)] hover:border-[var(--border)] hover:text-[var(--text-primary)]'
             )}
             aria-pressed={filter.value === active}
           >

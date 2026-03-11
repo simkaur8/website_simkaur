@@ -21,7 +21,7 @@ export function PhotographyGrid() {
           filters={filters}
           active={activeFilter}
           onChange={setActiveFilter}
-          variant="photography"
+          variant="direction"
         />
       </div>
 

@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://simkaur.art
+
+# Sitemaps
+Sitemap: https://simkaur.art/sitemap.xml

@@ -15,7 +15,7 @@ export default async function PhotographyPage() {
       <div className="px-6 pb-16 pt-24 lg:px-12">
         <h1
           className="mb-12 text-center font-light uppercase tracking-[0.08em]"
-          style={{ fontSize: 'var(--text-display)' }}
+          style={{ fontSize: 'var(--text-display)', lineHeight: 1 }}
         >
           PHOTOGRAPHY
         </h1>
