@@ -13,7 +13,9 @@
     "test:watch": "vitest",
     "test:unit": "vitest run --dir tests/unit",
     "test:integration": "vitest run --dir tests/integration",
-    "test:prop": "vitest run tests/property/"
+    "test:prop": "vitest run tests/property/",
+    "test:lighthouse": "lhci autorun",
+    "test:perf": "vitest run tests/performance/"
   },
   "dependencies": {
     "@formspree/react": "^3.0.0",
@@ -39,6 +41,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.4.3",
     "@commitlint/config-conventional": "^20.4.3",
+    "@lhci/cli": "^0.15.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
