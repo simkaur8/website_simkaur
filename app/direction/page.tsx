@@ -6,6 +6,7 @@ import { Footer } from '@/components/Footer'
 import { staticProjects } from '@/lib/projects-data'
 import type { Project } from '@/sanity/lib/types'
 import type { Metadata } from 'next'
+import { DirectionCollectionJsonLd } from '@/components/seo/DirectionCollectionJsonLd'
 
 export const metadata: Metadata = {
   title: 'Direction',
@@ -36,6 +37,7 @@ export default async function DirectionPage() {
 
   return (
     <>
+      <DirectionCollectionJsonLd />
       <div className="px-6 pb-16 pt-24 lg:px-12">
         <h1
           className="mb-12 text-center font-normal uppercase tracking-[0.08em]"

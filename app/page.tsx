@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { HeroSection } from '@/components/home/HeroSection'
 import { VortexGallery } from '@/components/home/VortexGallery'
 import { Footer } from '@/components/Footer'
+import { WebsiteJsonLd } from '@/components/seo/WebsiteJsonLd'
+import { PersonJsonLd } from '@/components/seo/PersonJsonLd'
 
 export const metadata: Metadata = {
   title: 'Sim Kaur | Creative Director',
@@ -19,6 +21,8 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      <WebsiteJsonLd />
+      <PersonJsonLd />
       <HeroSection
         showreelUrl={process.env.NEXT_PUBLIC_SHOWREEL_URL || '/videos/showreel.mp4'}
         logoWebmUrl="/videos/logo.webm"
