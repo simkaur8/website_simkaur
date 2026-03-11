@@ -163,7 +163,11 @@ export function VortexGallery() {
   }, [])
 
   return (
-    <section className="vortex-wrap" id="gallerySection">
+    <section
+      className="vortex-wrap"
+      id="gallerySection"
+      style={{ marginTop: '-15vh', position: 'relative', zIndex: 10 }}
+    >
       <div className="vortex" ref={vortexRef}>
         {vortexItems.map((item) => (
           <VortexItem key={item.id} {...item} />
