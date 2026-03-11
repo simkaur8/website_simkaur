@@ -1,26 +1,181 @@
 @import "tailwindcss";
 
+/* ============================================
+   Design System – CSS Custom Properties
+   Dark mode is default. Light mode via [data-theme="light"]
+   ============================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Spacing (8px base) */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+
+  /* Type Scale (Major Third 1.25, fluid via clamp()) */
+  --text-xs: clamp(0.64rem, 0.6rem + 0.2vw, 0.75rem);
+  --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --text-xl: clamp(1.563rem, 1.4rem + 0.8vw, 2rem);
+  --text-2xl: clamp(1.953rem, 1.7rem + 1.25vw, 2.5rem);
+  --text-3xl: clamp(2.441rem, 2rem + 2.2vw, 3.5rem);
+  --text-4xl: clamp(3.052rem, 2.5rem + 2.75vw, 4.5rem);
+
+  /* Colors – Dark mode (default) */
+  --bg-primary: #0a0a0a;
+  --bg-elevated: #141414;
+  --bg-surface: #1a1a1a;
+  --text-primary: #f5f5f5;
+  --text-secondary: #a3a3a3;
+  --text-muted: #636363;
+  --accent: #e8d5b7;
+  --accent-hover: #f0e2cc;
+  --border: #262626;
+  --border-hover: #404040;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 20px rgba(232, 213, 183, 0.15);
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
 }
+
+/* Light mode overrides */
+[data-theme="light"] {
+  --bg-primary: #fafaf9;
+  --bg-elevated: #ffffff;
+  --bg-surface: #f5f5f4;
+  --text-primary: #1a1a1a;
+  --text-secondary: #525252;
+  --text-muted: #a3a3a3;
+  --accent: #8b6914;
+  --accent-hover: #a37d1a;
+  --border: #e5e5e5;
+  --border-hover: #d4d4d4;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(139, 105, 20, 0.1);
+}
+
+/* ============================================
+   Tailwind v4 Theme Mapping
+   Maps CSS custom properties to Tailwind utilities
+   ============================================ */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Font */
+  --font-sans: "General Sans Variable", "General Sans", system-ui, -apple-system, sans-serif;
+
+  /* Colors */
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-surface: var(--bg-surface);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-border: var(--border);
+  --color-border-hover: var(--border-hover);
+
+  /* Shadows */
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-glow: var(--shadow-glow);
+
+  /* Border Radius */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-full: var(--radius-full);
+
+  /* Spacing */
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-8: var(--space-8);
+  --spacing-10: var(--space-10);
+  --spacing-12: var(--space-12);
+  --spacing-16: var(--space-16);
+  --spacing-20: var(--space-20);
+  --spacing-24: var(--space-24);
+
+  /* Easing */
+  --ease-out-expo: var(--ease-out-expo);
+  --ease-standard: var(--ease-standard);
+
+  /* Transition durations */
+  --duration-fast: var(--duration-fast);
+  --duration-normal: var(--duration-normal);
+  --duration-slow: var(--duration-slow);
+
+  /* Font sizes */
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-base: var(--text-base);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-2xl: var(--text-2xl);
+  --text-3xl: var(--text-3xl);
+  --text-4xl: var(--text-4xl);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ============================================
+   Base Styles
+   ============================================ */
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection styling */
+::selection {
+  background-color: var(--accent);
+  color: var(--bg-primary);
+}
+
+/* Focus visible styling */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
