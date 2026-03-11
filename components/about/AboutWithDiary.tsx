@@ -20,8 +20,8 @@ export function AboutWithDiary() {
   return (
     <>
       <div
-        className="flex flex-col items-start px-6 pb-16 pt-24 lg:pl-[calc(var(--nav-w)+2rem)] lg:pr-12"
-        style={{ maxWidth: 960 }}
+        className="flex flex-col items-start px-6 pb-16 pt-24 lg:px-12"
+        style={{ maxWidth: 700 }}
       >
         {/* Portrait */}
         <div className="w-full" style={{ maxWidth: 700 }}>

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <>
+    <div className="lg:ml-[calc(var(--nav-w)*-1)]">
       <WebsiteJsonLd />
       <PersonJsonLd />
       <HeroSection
@@ -37,6 +37,6 @@ export default function HomePage() {
           { platform: 'Vimeo', url: 'https://vimeo.com/user197917349' },
         ]}
       />
-    </>
+    </div>
   )
 }

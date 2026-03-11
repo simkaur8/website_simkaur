@@ -69,7 +69,7 @@ export default function RootLayout({
           <div className="fixed right-4 top-4 z-40 hidden lg:block">
             <ThemeToggle />
           </div>
-          <main>{children}</main>
+          <main className="lg:pl-[var(--nav-w)]">{children}</main>
           <Analytics />
           <SpeedInsights />
         </Providers>
