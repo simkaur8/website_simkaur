@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 /* ============================================
    Design System – CSS Custom Properties
    Dark mode is default. Light mode via [data-theme="light"]
@@ -89,7 +91,7 @@
 
 @theme inline {
   /* Font */
-  --font-sans: "General Sans Variable", "General Sans", system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-general-sans), system-ui, sans-serif;
 
   /* Colors */
   --color-bg-primary: var(--bg-primary);
