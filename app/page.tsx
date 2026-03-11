@@ -6,12 +6,12 @@ import { Footer } from '@/components/Footer'
 export const metadata: Metadata = {
   title: 'Sim Kaur | Creative Director',
   description:
-    'Portfolio of Sim Kaur — Creative Director and Filmmaker crafting compelling visual narratives.',
+    'Sim Kaur — Creative Director, Fashion Film Director, and Music Video Director based in Sydney. Watch the showreel and explore fashion films, dance films, and music videos.',
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'Sim Kaur | Creative Director',
+    title: 'Sim Kaur | Creative Director — Fashion Films & Music Videos',
     description:
-      'Portfolio of Sim Kaur — Creative Director and Filmmaker crafting compelling visual narratives.',
+      'Sim Kaur — Creative Director, Fashion Film Director, and Music Video Director based in Sydney. Watch the showreel and explore fashion films, dance films, and music videos.',
     url: 'https://simkaur.art',
   },
 }

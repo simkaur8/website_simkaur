@@ -4,11 +4,20 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Photography',
-  description: 'Photography by Sim Kaur — fashion, portraits, life, and events.',
+  description:
+    'Photography by Sim Kaur — fashion photography, editorial portraits, and event documentation. Sydney-based photographer and creative director.',
+  keywords: [
+    'fashion photography Sydney',
+    'editorial photographer',
+    'portrait photographer Sydney',
+    'Sim Kaur photography',
+    'creative director photography',
+  ],
   alternates: { canonical: '/photography' },
   openGraph: {
     title: 'Photography | Sim Kaur',
-    description: 'Photography by Sim Kaur — fashion, portraits, life, and events.',
+    description:
+      'Photography by Sim Kaur — fashion photography, editorial portraits, and event documentation. Sydney-based photographer and creative director.',
     url: 'https://simkaur.art/photography',
   },
 }

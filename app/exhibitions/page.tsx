@@ -8,11 +8,20 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Exhibitions',
-  description: 'Art exhibitions and installations by Sim Kaur.',
+  description:
+    'Art exhibitions and gallery installations by Sim Kaur — film screenings, video art, and multimedia installations in Sydney and internationally.',
+  keywords: [
+    'art exhibitions Sydney',
+    'video art installation',
+    'film screening gallery',
+    'Sim Kaur exhibitions',
+    'multimedia installation',
+  ],
   alternates: { canonical: '/exhibitions' },
   openGraph: {
     title: 'Exhibitions | Sim Kaur',
-    description: 'Art exhibitions and installations by Sim Kaur.',
+    description:
+      'Art exhibitions and gallery installations by Sim Kaur — film screenings, video art, and multimedia installations in Sydney and internationally.',
     url: 'https://simkaur.art/exhibitions',
   },
 }

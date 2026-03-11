@@ -8,11 +8,20 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'About Sim Kaur — Creative Director, Filmmaker, and Photographer based in Sydney.',
+  description:
+    'About Sim Kaur — Creative Director, Filmmaker, and Photographer based in Sydney, Australia. Directing fashion films, dance films, and music videos for brands and artists.',
+  keywords: [
+    'about Sim Kaur',
+    'creative director bio',
+    'filmmaker Sydney',
+    'fashion film director Australia',
+    'hire creative director Sydney',
+  ],
   alternates: { canonical: '/about' },
   openGraph: {
-    title: 'About | Sim Kaur',
-    description: 'About Sim Kaur — Creative Director, Filmmaker, and Photographer based in Sydney.',
+    title: 'About Sim Kaur — Creative Director, Sydney',
+    description:
+      'About Sim Kaur — Creative Director, Filmmaker, and Photographer based in Sydney, Australia. Directing fashion films, dance films, and music videos for brands and artists.',
     url: 'https://simkaur.art/about',
   },
 }

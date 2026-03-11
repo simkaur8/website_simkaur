@@ -9,11 +9,22 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Direction',
-  description: 'Film direction work by Sim Kaur — fashion films, dance films, and music videos.',
+  description:
+    'Film direction portfolio by Sim Kaur — fashion films, dance films, and music videos. Sydney-based creative director working with brands, artists, and labels.',
+  keywords: [
+    'fashion film direction',
+    'music video direction',
+    'dance film',
+    'fashion filmmaker Sydney',
+    'music video director Sydney',
+    'director reel',
+    'Sim Kaur direction',
+  ],
   alternates: { canonical: '/direction' },
   openGraph: {
-    title: 'Direction | Sim Kaur',
-    description: 'Film direction work by Sim Kaur — fashion films, dance films, and music videos.',
+    title: 'Direction — Fashion Films & Music Videos | Sim Kaur',
+    description:
+      'Film direction portfolio by Sim Kaur — fashion films, dance films, and music videos. Sydney-based creative director working with brands, artists, and labels.',
     url: 'https://simkaur.art/direction',
   },
 }

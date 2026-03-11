@@ -28,13 +28,15 @@ export async function generateMetadata({
   // Try Sanity first
   const project: Project | null = await client.fetch(projectBySlugQuery, { slug }).catch(() => null)
   if (project) {
-    const desc = `${project.title} — ${project.category === 'fashion-dance' ? 'Fashion & Dance Film' : 'Music Video'} by Sim Kaur`
+    const genre = project.category === 'fashion-dance' ? 'Fashion & Dance Film' : 'Music Video'
+    const desc = `${project.title} — ${genre} directed by Sim Kaur. Sydney-based creative director.`
     return {
       title: project.title,
       description: desc,
+      keywords: [project.title, genre.toLowerCase(), 'Sim Kaur', 'direction', 'Sydney'],
       alternates: { canonical: `/direction/${slug}` },
       openGraph: {
-        title: `${project.title} | Sim Kaur`,
+        title: `${project.title} — ${genre} | Sim Kaur`,
         description: desc,
         url: `https://simkaur.art/direction/${slug}`,
         type: 'article',
@@ -45,13 +47,16 @@ export async function generateMetadata({
   // Fall back to static data
   const staticProject = staticProjects.find((p) => p.slug === slug)
   if (staticProject) {
-    const desc = staticProject.description.split('\n')[0]
+    const genre =
+      staticProject.category === 'fashion-dance' ? 'Fashion & Dance Film' : 'Music Video'
+    const desc = `${staticProject.title} — ${genre} directed by Sim Kaur. ${staticProject.description.split('\n')[0]}`
     return {
       title: staticProject.title,
       description: desc,
+      keywords: [staticProject.title, genre.toLowerCase(), 'Sim Kaur', 'direction', 'Sydney'],
       alternates: { canonical: `/direction/${slug}` },
       openGraph: {
-        title: `${staticProject.title} | Sim Kaur`,
+        title: `${staticProject.title} — ${genre} | Sim Kaur`,
         description: desc,
         url: `https://simkaur.art/direction/${slug}`,
         type: 'article',
