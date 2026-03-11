@@ -28,22 +28,38 @@ export async function generateMetadata({
   // Try Sanity first
   const project: Project | null = await client.fetch(projectBySlugQuery, { slug }).catch(() => null)
   if (project) {
+    const desc = `${project.title} — ${project.category === 'fashion-dance' ? 'Fashion & Dance Film' : 'Music Video'} by Sim Kaur`
     return {
-      title: `${project.title} | Sim Kaur`,
-      description: `${project.title} — ${project.category === 'fashion-dance' ? 'Fashion & Dance Film' : 'Music Video'} by Sim Kaur`,
+      title: project.title,
+      description: desc,
+      alternates: { canonical: `/direction/${slug}` },
+      openGraph: {
+        title: `${project.title} | Sim Kaur`,
+        description: desc,
+        url: `https://simkaur.art/direction/${slug}`,
+        type: 'article',
+      },
     }
   }
 
   // Fall back to static data
   const staticProject = staticProjects.find((p) => p.slug === slug)
   if (staticProject) {
+    const desc = staticProject.description.split('\n')[0]
     return {
-      title: `${staticProject.title} | Sim Kaur`,
-      description: staticProject.description.split('\n')[0],
+      title: staticProject.title,
+      description: desc,
+      alternates: { canonical: `/direction/${slug}` },
+      openGraph: {
+        title: `${staticProject.title} | Sim Kaur`,
+        description: desc,
+        url: `https://simkaur.art/direction/${slug}`,
+        type: 'article',
+      },
     }
   }
 
-  return { title: 'Not Found | Sim Kaur' }
+  return { title: 'Not Found' }
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {

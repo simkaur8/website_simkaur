@@ -7,13 +7,12 @@ export const metadata: Metadata = {
   title: 'Sim Kaur | Creative Director',
   description:
     'Portfolio of Sim Kaur — Creative Director and Filmmaker crafting compelling visual narratives.',
+  alternates: { canonical: '/' },
   openGraph: {
     title: 'Sim Kaur | Creative Director',
     description:
       'Portfolio of Sim Kaur — Creative Director and Filmmaker crafting compelling visual narratives.',
     url: 'https://simkaur.art',
-    siteName: 'Sim Kaur',
-    type: 'website',
   },
 }
 

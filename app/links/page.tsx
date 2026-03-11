@@ -4,8 +4,10 @@ import type { LinkInBio } from '@/sanity/lib/types'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Links | Sim Kaur',
+  title: 'Links',
   description: 'Links and social media for Sim Kaur.',
+  alternates: { canonical: '/links' },
+  robots: { index: false },
 }
 
 export const revalidate = 60

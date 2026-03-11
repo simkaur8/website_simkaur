@@ -7,8 +7,14 @@ import type { Exhibition } from '@/sanity/lib/types'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Exhibitions | Sim Kaur',
+  title: 'Exhibitions',
   description: 'Art exhibitions and installations by Sim Kaur.',
+  alternates: { canonical: '/exhibitions' },
+  openGraph: {
+    title: 'Exhibitions | Sim Kaur',
+    description: 'Art exhibitions and installations by Sim Kaur.',
+    url: 'https://simkaur.art/exhibitions',
+  },
 }
 
 export const revalidate = 60

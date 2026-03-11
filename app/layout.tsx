@@ -17,9 +17,25 @@ const generalSans = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'Sim Kaur | Creative Director',
+  metadataBase: new URL('https://simkaur.art'),
+  title: {
+    default: 'Sim Kaur | Creative Director',
+    template: '%s | Sim Kaur',
+  },
   description:
     'Portfolio of Sim Kaur — Creative Director and Filmmaker crafting compelling visual narratives.',
+  openGraph: {
+    type: 'website',
+    locale: 'en_AU',
+    siteName: 'Sim Kaur',
+    url: 'https://simkaur.art',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
+  alternates: {
+    canonical: '/',
+  },
 }
 
 export default function RootLayout({

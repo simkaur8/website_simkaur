@@ -7,8 +7,14 @@ import { PersonJsonLd } from '@/components/seo/PersonJsonLd'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About | Sim Kaur',
+  title: 'About',
   description: 'About Sim Kaur — Creative Director, Filmmaker, and Photographer based in Sydney.',
+  alternates: { canonical: '/about' },
+  openGraph: {
+    title: 'About | Sim Kaur',
+    description: 'About Sim Kaur — Creative Director, Filmmaker, and Photographer based in Sydney.',
+    url: 'https://simkaur.art/about',
+  },
 }
 
 export const revalidate = 60

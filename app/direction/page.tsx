@@ -8,8 +8,14 @@ import type { Project } from '@/sanity/lib/types'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Direction | Sim Kaur',
+  title: 'Direction',
   description: 'Film direction work by Sim Kaur — fashion films, dance films, and music videos.',
+  alternates: { canonical: '/direction' },
+  openGraph: {
+    title: 'Direction | Sim Kaur',
+    description: 'Film direction work by Sim Kaur — fashion films, dance films, and music videos.',
+    url: 'https://simkaur.art/direction',
+  },
 }
 
 export const revalidate = 60

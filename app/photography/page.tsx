@@ -3,8 +3,14 @@ import { PhotographyGrid } from '@/components/photography/PhotographyGrid'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Photography | Sim Kaur',
+  title: 'Photography',
   description: 'Photography by Sim Kaur — fashion, portraits, life, and events.',
+  alternates: { canonical: '/photography' },
+  openGraph: {
+    title: 'Photography | Sim Kaur',
+    description: 'Photography by Sim Kaur — fashion, portraits, life, and events.',
+    url: 'https://simkaur.art/photography',
+  },
 }
 
 export const revalidate = 60
