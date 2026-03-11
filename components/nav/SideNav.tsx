@@ -33,7 +33,7 @@ export function SideNav() {
   return (
     <nav
       className={cn(
-        'fixed left-0 top-0 z-40 hidden h-full w-[var(--nav-w)] flex-col py-8 pl-8 transition-all duration-500 lg:flex',
+        'fixed left-0 top-0 z-40 hidden h-full w-[220px] flex-col py-8 pl-8 transition-all duration-500 lg:flex',
         visible
           ? 'opacity-100 translate-x-0 pointer-events-auto'
           : 'opacity-0 -translate-x-5 pointer-events-none'

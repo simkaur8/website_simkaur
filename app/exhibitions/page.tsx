@@ -21,7 +21,7 @@ export default async function ExhibitionsPage() {
       <div className="px-6 pb-16 pt-24 lg:px-12">
         <h1
           className="mb-12 text-center font-light uppercase tracking-[0.08em]"
-          style={{ fontSize: 'var(--text-display)', lineHeight: 1 }}
+          style={{ fontSize: 'clamp(2.8rem, 2rem + 4vw, 5.5rem)', lineHeight: 1 }}
         >
           EXHIBITIONS
         </h1>
