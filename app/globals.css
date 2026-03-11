@@ -338,6 +338,21 @@ html {
     width: 95vw;
     height: 95vw;
   }
+  .vx-lg {
+    width: clamp(140px, 38vw, 190px);
+  }
+  .vx-md {
+    width: clamp(115px, 30vw, 160px);
+  }
+  .vx-sm {
+    width: clamp(85px, 22vw, 120px);
+  }
+  .vx-wide {
+    width: clamp(90px, 24vw, 130px);
+  }
+  .vx-land {
+    width: clamp(130px, 34vw, 175px);
+  }
 }
 @media (min-width: 600px) and (max-width: 899px) {
   .vx-ring-2,
