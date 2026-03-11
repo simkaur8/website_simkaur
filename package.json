@@ -15,7 +15,9 @@
     "test:integration": "vitest run --dir tests/integration",
     "test:prop": "vitest run tests/property/",
     "test:lighthouse": "lhci autorun",
-    "test:perf": "vitest run tests/performance/"
+    "test:perf": "vitest run tests/performance/",
+    "test:visual": "playwright test tests/visual/",
+    "test:visual:update": "playwright test tests/visual/ --update-snapshots"
   },
   "dependencies": {
     "@formspree/react": "^3.0.0",
@@ -39,9 +41,11 @@
     "yet-another-react-lightbox": "^3.29.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
     "@commitlint/cli": "^20.4.3",
     "@commitlint/config-conventional": "^20.4.3",
     "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
