@@ -186,3 +186,10 @@ html {
 .writing-mode-vertical-lr {
   writing-mode: vertical-lr;
 }
+
+/* Hide default cursor when custom cursor is active */
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
