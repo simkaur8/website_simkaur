@@ -335,8 +335,8 @@ html {
     display: none;
   }
   .vortex {
-    width: 130vw;
-    height: 130vw;
+    width: 100vw;
+    height: 100vh;
   }
   .vx-lg {
     width: clamp(140px, 38vw, 190px);
