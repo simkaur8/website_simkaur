@@ -6,6 +6,7 @@ interface LogoVideoProps {
   webmSrc?: string
   movSrc?: string
   className?: string
+  style?: React.CSSProperties
 }
 
 function getIsSafari() {
@@ -15,15 +16,24 @@ function getIsSafari() {
 
 const subscribe = () => () => {}
 
-export function LogoVideo({ webmSrc, movSrc, className }: LogoVideoProps) {
+export function LogoVideo({ webmSrc, movSrc, className, style }: LogoVideoProps) {
   const isSafari = useSyncExternalStore(subscribe, getIsSafari, () => false)
   const src = isSafari && movSrc ? movSrc : webmSrc || null
 
   if (!src) {
-    return <div className={className} aria-hidden="true" />
+    return <div className={className} style={style} aria-hidden="true" />
   }
 
   return (
-    <video autoPlay loop muted playsInline className={className} src={src} aria-hidden="true" />
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      className={className}
+      style={style}
+      src={src}
+      aria-hidden="true"
+    />
   )
 }

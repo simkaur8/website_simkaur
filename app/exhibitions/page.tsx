@@ -20,10 +20,10 @@ export default async function ExhibitionsPage() {
     <>
       <div className="px-6 pb-16 pt-24 lg:px-12">
         <h1
-          className="mb-12 text-center font-semibold tracking-[0.1em]"
-          style={{ fontSize: 'var(--text-3xl)' }}
+          className="mb-12 text-center font-light uppercase tracking-[0.08em]"
+          style={{ fontSize: 'var(--text-display)' }}
         >
-          Exhibitions
+          EXHIBITIONS
         </h1>
 
         {exhibitions.length > 0 ? (

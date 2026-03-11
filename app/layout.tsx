@@ -37,7 +37,7 @@ export default function RootLayout({
           <div className="fixed right-4 top-4 z-40 hidden lg:block">
             <ThemeToggle />
           </div>
-          <main className="lg:ml-20">{children}</main>
+          <main>{children}</main>
           <Analytics />
           <SpeedInsights />
         </Providers>

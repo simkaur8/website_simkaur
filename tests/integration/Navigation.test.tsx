@@ -53,11 +53,11 @@ describe('SideNav – integration', () => {
     mockPathname = '/direction'
     render(<SideNav />)
     const directionLink = screen.getByText('Direction')
-    expect(directionLink.className).toContain('text-[var(--accent)]')
+    expect(directionLink.className).toContain('text-[var(--text-primary)]')
 
-    // Other links should have muted styling
+    // Other links should have secondary styling
     const photoLink = screen.getByText('Photography')
-    expect(photoLink.className).toContain('text-[var(--text-muted)]')
+    expect(photoLink.className).toContain('text-[var(--text-secondary)]')
 
     // Reset
     mockPathname = '/'

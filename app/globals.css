@@ -31,6 +31,10 @@
   --text-2xl: clamp(1.953rem, 1.7rem + 1.25vw, 2.5rem);
   --text-3xl: clamp(2.441rem, 2rem + 2.2vw, 3.5rem);
   --text-4xl: clamp(3.052rem, 2.5rem + 2.75vw, 4.5rem);
+  --text-display: clamp(2.8rem, 2rem + 4vw, 5.5rem);
+
+  /* Layout */
+  --nav-w: 220px;
 
   /* Colors – Dark mode (default) */
   --bg-primary: #0a0a0a;
