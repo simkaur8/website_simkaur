@@ -20,7 +20,11 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      <HeroSection />
+      <HeroSection
+        showreelUrl="/videos/showreel.mp4"
+        logoWebmUrl="/videos/logo.webm"
+        logoMovUrl="/videos/logo.mov"
+      />
       <VortexGallery />
       <Footer
         email="simtheaquarius@gmail.com"

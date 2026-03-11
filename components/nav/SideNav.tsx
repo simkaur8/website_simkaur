@@ -40,7 +40,7 @@ export function SideNav() {
       )}
     >
       <Link href="/" aria-label="Home" className="mb-10">
-        <LogoVideo className="w-[130px]" />
+        <LogoVideo webmSrc="/videos/logo.webm" movSrc="/videos/logo.mov" className="w-[130px]" />
       </Link>
 
       <ul className="flex flex-col gap-4">
