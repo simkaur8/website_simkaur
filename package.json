@@ -17,7 +17,8 @@
     "test:lighthouse": "lhci autorun",
     "test:perf": "vitest run tests/performance/",
     "test:visual": "playwright test tests/visual/",
-    "test:visual:update": "playwright test tests/visual/ --update-snapshots"
+    "test:visual:update": "playwright test tests/visual/ --update-snapshots",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@formspree/react": "^3.0.0",
