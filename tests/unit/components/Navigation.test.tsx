@@ -20,8 +20,11 @@ vi.mock('next/link', () => ({
 // Mock framer-motion to render without animations
 vi.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }: Record<string, unknown>) => {
-      const { initial: _i, animate: _a, exit: _e, transition: _t, ...rest } = props
+    div: ({ children, initial, animate, exit, transition, ...rest }: Record<string, unknown>) => {
+      void initial
+      void animate
+      void exit
+      void transition
       return <div {...rest}>{children as React.ReactNode}</div>
     },
   },
