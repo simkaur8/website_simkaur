@@ -451,14 +451,6 @@ const vortexItems = [
     image: `${V}/sara.webp`,
   },
   {
-    id: 'r5-diwali',
-    left: 15,
-    top: 5,
-    size: 'vx-xs',
-    ring: 5,
-    image: `${V}/diwali.webp`,
-  },
-  {
     id: 'r5-bali',
     left: 85,
     top: 95,

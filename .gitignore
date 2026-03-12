@@ -35,7 +35,6 @@ yarn-error.log*
 !.env.example
 
 # Large video assets (deployed separately)
-public/videos/showreel.mp4
 public/videos/logo.mov
 
 # vercel
