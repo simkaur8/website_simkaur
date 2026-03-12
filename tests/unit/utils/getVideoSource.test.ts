@@ -9,7 +9,7 @@ describe('getVideoEmbedUrl', () => {
   })
   it('returns YouTube watch URL', () => {
     expect(getVideoEmbedUrl('youtube', 'dGxXAoKr_X4')).toBe(
-      'https://www.youtube.com/watch?v=dGxXAoKr_X4'
+      'https://www.youtube.com/embed/dGxXAoKr_X4'
     )
   })
   it('throws for unknown platform', () => {
