@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react'
 
 function getInitialTheme(): 'dark' | 'light' {
-  if (typeof window === 'undefined') return 'dark'
+  if (typeof window === 'undefined') return 'light'
   const stored = localStorage.getItem('theme')
   if (stored === 'light' || stored === 'dark') return stored
-  return (document.documentElement.getAttribute('data-theme') as 'dark' | 'light') ?? 'dark'
+  return (document.documentElement.getAttribute('data-theme') as 'dark' | 'light') ?? 'light'
 }
 
 export function ThemeToggle() {

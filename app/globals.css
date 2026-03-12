@@ -75,9 +75,9 @@
   --bg-primary: #fafaf9;
   --bg-elevated: #ffffff;
   --bg-surface: #f5f5f4;
-  --text-primary: #1a1a1a;
-  --text-secondary: #525252;
-  --text-muted: #a3a3a3;
+  --text-primary: #0a367c;
+  --text-secondary: #1a4a8a;
+  --text-muted: #6b8ab5;
   --accent: #8b6914;
   --accent-hover: #a37d1a;
   --border: #e5e5e5;
@@ -220,6 +220,7 @@ html {
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
+  contain: layout style;
 }
 
 .vx-item {
@@ -246,6 +247,7 @@ html {
   height: 100%;
   object-fit: cover;
   display: block;
+  content-visibility: auto;
 }
 
 /* Size classes */
@@ -368,7 +370,92 @@ html {
   }
 }
 @media (min-width: 1200px) and (max-width: 1599px) {
-  .vx-ring-4 {
+  .vx-ring-4,
+  .vx-ring-5 {
     display: none;
+  }
+}
+
+/* Large monitors — expand vortex */
+@media (min-width: 1600px) {
+  .vortex {
+    width: min(78vw, 1200px);
+    height: min(78vw, 1200px);
+  }
+  .vx-ring-5 {
+    display: none;
+  }
+  .vx-lg {
+    width: clamp(160px, 14vw, 240px);
+  }
+  .vx-md {
+    width: clamp(130px, 11vw, 200px);
+  }
+  .vx-sm {
+    width: clamp(90px, 8vw, 140px);
+  }
+  .vx-xs {
+    width: clamp(70px, 6vw, 110px);
+  }
+  .vx-tiny {
+    width: clamp(60px, 5vw, 95px);
+  }
+  .vx-tall {
+    width: clamp(100px, 9vw, 160px);
+  }
+  .vx-land {
+    width: clamp(155px, 12vw, 220px);
+  }
+  .vx-land-sm {
+    width: clamp(120px, 10vw, 175px);
+  }
+  .vx-wide {
+    width: clamp(100px, 8vw, 150px);
+  }
+}
+
+/* Ultrawide / 4K — even bigger, show ring 5 */
+@media (min-width: 1920px) {
+  .vortex {
+    width: min(75vw, 1500px);
+    height: min(75vw, 1500px);
+  }
+  .vx-ring-5 {
+    display: block;
+  }
+  .vx-lg {
+    width: clamp(180px, 12vw, 280px);
+  }
+  .vx-md {
+    width: clamp(150px, 10vw, 230px);
+  }
+  .vx-sm {
+    width: clamp(100px, 7vw, 160px);
+  }
+  .vx-xs {
+    width: clamp(80px, 5.5vw, 120px);
+  }
+  .vx-tiny {
+    width: clamp(65px, 4.5vw, 100px);
+  }
+  .vx-tall {
+    width: clamp(110px, 8vw, 180px);
+  }
+  .vx-land {
+    width: clamp(170px, 11vw, 250px);
+  }
+  .vx-land-sm {
+    width: clamp(135px, 9vw, 195px);
+  }
+  .vx-wide {
+    width: clamp(110px, 7vw, 165px);
+  }
+}
+
+/* Super ultrawide */
+@media (min-width: 2560px) {
+  .vortex {
+    width: min(70vw, 1800px);
+    height: min(70vw, 1800px);
   }
 }

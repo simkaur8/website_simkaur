@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { FilterBar } from '@/components/ui/FilterBar'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { filterProjects } from '@/lib/utils'
+import { urlFor } from '@/sanity/lib/image'
 import type { Project } from '@/sanity/lib/types'
 
 const filters = [
@@ -47,7 +48,7 @@ export function DirectionGrid({ projects }: DirectionGridProps) {
                   <div className="aspect-video overflow-hidden bg-[var(--bg-surface)]">
                     {project.thumbnail ? (
                       <img
-                        src="/placeholder.svg"
+                        src={urlFor(project.thumbnail).width(800).url()}
                         alt={project.thumbnail.alt || project.title}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"

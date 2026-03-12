@@ -11,14 +11,42 @@ interface VortexItemProps {
   title?: string
   tag?: string
   image: string
+  under?: boolean
+  imageStyle?: string
 }
 
-export function VortexItem({ left, top, size, ring, href, title, tag, image }: VortexItemProps) {
+export function VortexItem({
+  left,
+  top,
+  size,
+  ring,
+  href,
+  title,
+  tag,
+  image,
+  under,
+  imageStyle,
+}: VortexItemProps) {
   const ringClass = ring > 0 ? `vx-ring-${ring}` : ''
+
+  // Parse imageStyle string into a style object
+  const imgStyle: React.CSSProperties = {}
+  if (imageStyle) {
+    imageStyle.split(';').forEach((s) => {
+      const [k, v] = s.split(':').map((x) => x.trim())
+      if (k === 'object-position') imgStyle.objectPosition = v
+    })
+  }
 
   const content = (
     <>
-      <img src={image} alt={title || ''} loading="lazy" />
+      <img
+        src={image}
+        alt={title || ''}
+        loading={ring <= 1 ? 'eager' : 'lazy'}
+        decoding="async"
+        style={imgStyle}
+      />
       {title && (
         <div className="g-overlay">
           <span className="g-title">{title}</span>
@@ -28,7 +56,7 @@ export function VortexItem({ left, top, size, ring, href, title, tag, image }: V
     </>
   )
 
-  const className = cn('vx-item', size, ringClass)
+  const className = cn('vx-item', size, ringClass, under && 'vx-under')
 
   if (href) {
     return (

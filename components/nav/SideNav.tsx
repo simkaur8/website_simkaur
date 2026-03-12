@@ -15,7 +15,7 @@ const navLinks = [
 
 function getScrollPastHero() {
   if (typeof window === 'undefined') return false
-  return window.scrollY > window.innerHeight * 0.8
+  return window.scrollY > window.innerHeight * 0.3
 }
 
 function subscribeScroll(callback: () => void) {

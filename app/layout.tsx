@@ -60,7 +60,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" data-theme="dark" className={generalSans.variable}>
+    <html lang="en" data-theme="light" className={generalSans.variable}>
       <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans">
         <Providers>
           <CustomCursor />
