@@ -100,6 +100,7 @@ export function PhotoBooth({ isOpen, onClose }: PhotoBoothProps) {
                 <iframe
                   key={clip.src}
                   src={`https://www.youtube.com/embed/${clip.src}?autoplay=1&rel=0`}
+                  title="Video diary"
                   className="absolute inset-0 h-full w-full border-none"
                   allow="autoplay; fullscreen; encrypted-media"
                   allowFullScreen

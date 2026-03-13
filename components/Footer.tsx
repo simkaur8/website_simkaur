@@ -1,13 +1,17 @@
 interface FooterProps {
   email: string
-  footerCta: string
+  footerCta?: string
   socialLinks?: { platform: string; url: string }[]
 }
 
 export function Footer({ email, footerCta, socialLinks }: FooterProps) {
+  const year = new Date().getFullYear()
+
   return (
     <footer className="flex flex-col items-center gap-4 py-24 text-center">
-      <p className="text-[var(--text-lg)] font-medium text-[var(--text-primary)]">{footerCta}</p>
+      {footerCta && (
+        <p className="text-[var(--text-lg)] font-medium text-[var(--text-primary)]">{footerCta}</p>
+      )}
       <div className="flex flex-col items-center gap-3 text-[var(--text-sm)] text-[var(--text-secondary)] sm:flex-row sm:gap-2">
         <a href={`mailto:${email}`} className="transition-colors hover:text-[var(--accent)]">
           {email}
@@ -26,6 +30,9 @@ export function Footer({ email, footerCta, socialLinks }: FooterProps) {
           </span>
         ))}
       </div>
+      <p className="mt-2 text-[var(--text-sm)] text-[var(--text-muted)]">
+        Sim Kaur &copy; {year} Creative Director
+      </p>
     </footer>
   )
 }

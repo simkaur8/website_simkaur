@@ -60,8 +60,21 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" data-theme="light" className={generalSans.variable}>
+    <html lang="en" data-theme="light" suppressHydrationWarning className={generalSans.variable}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}`,
+          }}
+        />
+      </head>
       <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-[var(--bg-primary)] focus:px-4 focus:py-2 focus:text-[var(--text-primary)] focus:outline-2 focus:outline-[var(--accent)]"
+        >
+          Skip to content
+        </a>
         <Providers>
           <CustomCursor />
           <SideNav />
@@ -69,7 +82,9 @@ export default function RootLayout({
           <div className="fixed right-4 top-4 z-40 hidden lg:block">
             <ThemeToggle />
           </div>
-          <main className="lg:pl-[var(--nav-w)]">{children}</main>
+          <main id="main-content" className="lg:pl-[var(--nav-w)]">
+            {children}
+          </main>
           <Analytics />
           <SpeedInsights />
         </Providers>

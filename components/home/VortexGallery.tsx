@@ -57,7 +57,7 @@ const vortexItems = [
     top: 38,
     size: 'vx-md',
     ring: 0,
-    href: '/direction/jiggy-jaya-x-sftm',
+    href: '/direction/jiggy-jaya-sftm',
     title: 'Jiggy Jaya x SFTM',
     tag: 'Fashion Film',
     image: `${V}/jiggy.webp`,
@@ -325,14 +325,6 @@ const vortexItems = [
     image: `${V}/ref29.webp`,
   },
   {
-    id: 'purg2',
-    left: 50,
-    top: 8,
-    size: 'vx-tiny',
-    ring: 3,
-    image: `${V}/purgatory.webp`,
-  },
-  {
     id: 'aafw',
     left: 86,
     top: 82,
@@ -355,14 +347,6 @@ const vortexItems = [
     size: 'vx-land-sm',
     ring: 3,
     image: `${V}/tiara.webp`,
-  },
-  {
-    id: 'flux2',
-    left: 40,
-    top: 86,
-    size: 'vx-tiny',
-    ring: 3,
-    image: `${V}/flux.webp`,
   },
 
   // ═══ RING 4 — Extra content for large monitors (1600px+) ═══

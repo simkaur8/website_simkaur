@@ -140,6 +140,14 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
           >
             {project.meta}
           </p>
+          {project.role && (
+            <p
+              className="mt-2 uppercase tracking-[0.15em] text-[var(--text-muted)]"
+              style={{ fontSize: 'var(--text-sm)' }}
+            >
+              {project.role}
+            </p>
+          )}
         </div>
       </RevealOnScroll>
 
@@ -367,9 +375,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
       {/* Synopsis + Credits */}
       {(project.synopsis?.length || project.credits?.length) && (
         <RevealOnScroll>
-          <div
-            className={`mb-16 ${project.synopsis ? 'grid grid-cols-1 gap-12 lg:grid-cols-2' : ''}`}
-          >
+          <div className="mb-16 space-y-12">
             {/* Synopsis */}
             {project.synopsis && project.synopsis.length > 0 && (
               <div>
@@ -400,7 +406,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                   Credits
                 </h3>
                 <div
-                  className={`space-y-2 ${project.credits.length > 10 ? 'columns-1 gap-x-12 sm:columns-2' : ''}`}
+                  className="columns-1 gap-x-12 space-y-2 sm:columns-2"
                   style={{ fontSize: 'var(--text-sm)' }}
                 >
                   {project.credits.map((credit, i) => (
@@ -478,13 +484,17 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
       )}
 
       {/* BTS Lightbox */}
-      {btsLightboxIdx !== null && project.btsImages && (
+      {btsLightboxIdx !== null && project.btsImages && project.btsImages[btsLightboxIdx] && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
           onClick={() => setBtsLightboxIdx(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Behind the scenes gallery"
         >
           <button
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-4xl text-white/70 hover:text-white"
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-4xl text-white/70 hover:text-white focus-visible:outline-2 focus-visible:outline-white"
+            aria-label="Previous image"
             onClick={(e) => {
               e.stopPropagation()
               setBtsLightboxIdx(
@@ -501,7 +511,8 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
             onClick={(e) => e.stopPropagation()}
           />
           <button
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-4xl text-white/70 hover:text-white"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-4xl text-white/70 hover:text-white focus-visible:outline-2 focus-visible:outline-white"
+            aria-label="Next image"
             onClick={(e) => {
               e.stopPropagation()
               setBtsLightboxIdx((btsLightboxIdx + 1) % project.btsImages!.length)
@@ -510,7 +521,8 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
             &#8250;
           </button>
           <button
-            className="absolute right-6 top-6 text-2xl text-white/70 hover:text-white"
+            className="absolute right-6 top-6 text-2xl text-white/70 hover:text-white focus-visible:outline-2 focus-visible:outline-white"
+            aria-label="Close"
             onClick={() => setBtsLightboxIdx(null)}
           >
             &times;
@@ -519,13 +531,17 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
       )}
 
       {/* Lightbox */}
-      {lightboxIdx !== null && project.galleryImages && (
+      {lightboxIdx !== null && project.galleryImages && project.galleryImages[lightboxIdx] && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
           onClick={() => setLightboxIdx(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Gallery lightbox"
         >
           <button
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-4xl text-white/70 hover:text-white"
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-4xl text-white/70 hover:text-white focus-visible:outline-2 focus-visible:outline-white"
+            aria-label="Previous image"
             onClick={(e) => {
               e.stopPropagation()
               setLightboxIdx(
@@ -542,7 +558,8 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
             onClick={(e) => e.stopPropagation()}
           />
           <button
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-4xl text-white/70 hover:text-white"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-4xl text-white/70 hover:text-white focus-visible:outline-2 focus-visible:outline-white"
+            aria-label="Next image"
             onClick={(e) => {
               e.stopPropagation()
               setLightboxIdx((lightboxIdx + 1) % project.galleryImages!.length)
@@ -551,7 +568,8 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
             &#8250;
           </button>
           <button
-            className="absolute right-6 top-6 text-2xl text-white/70 hover:text-white"
+            className="absolute right-6 top-6 text-2xl text-white/70 hover:text-white focus-visible:outline-2 focus-visible:outline-white"
+            aria-label="Close"
             onClick={() => setLightboxIdx(null)}
           >
             &times;

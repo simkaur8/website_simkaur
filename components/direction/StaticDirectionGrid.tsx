@@ -21,8 +21,16 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
   const [activeFilter, setActiveFilter] = useState('all')
   const [activeIdx, setActiveIdx] = useState<number | null>(null)
 
+  // Reset overlay when filter changes to prevent stale index
+  const handleFilterChange = useCallback((value: string) => {
+    setActiveIdx(null)
+    setActiveFilter(value)
+  }, [])
+
   const filtered =
-    activeFilter === 'all' ? projects : projects.filter((p) => p.category === activeFilter)
+    activeFilter === 'all'
+      ? projects.filter((p) => !p.hideFromAll)
+      : projects.filter((p) => p.category === activeFilter)
 
   const activeProject = activeIdx !== null ? filtered[activeIdx] : null
 
@@ -37,7 +45,7 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
   return (
     <div>
       <div className="mb-8 flex justify-center">
-        <FilterBar filters={filters} active={activeFilter} onChange={setActiveFilter} />
+        <FilterBar filters={filters} active={activeFilter} onChange={handleFilterChange} />
       </div>
 
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">

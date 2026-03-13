@@ -30,7 +30,7 @@ export default function AboutPage() {
       <AboutWithDiary />
       <Footer
         email="simtheaquarius@gmail.com"
-        footerCta="contact me :-)"
+        footerCta="Get in touch"
         socialLinks={[
           { platform: 'Instagram', url: 'https://www.instagram.com/s1mkaur/' },
           { platform: 'Vimeo', url: 'https://vimeo.com/user197917349' },

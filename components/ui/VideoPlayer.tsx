@@ -29,6 +29,7 @@ export function VideoPlayer({
     <div className={className} style={{ aspectRatio: aspect, position: 'relative' }}>
       <iframe
         src={src}
+        title={`${platform === 'vimeo' ? 'Vimeo' : 'YouTube'} video player`}
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
         allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
         allowFullScreen

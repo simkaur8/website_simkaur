@@ -19,38 +19,41 @@ export function AboutWithDiary() {
 
   return (
     <>
-      <div className="flex flex-col px-6 pb-16 pt-24 lg:flex-row lg:items-stretch lg:px-12">
-        {/* Text side (left) */}
-        <div className="flex flex-col justify-between lg:w-1/2 lg:pr-10">
-          {/* Bio */}
+      <div className="flex flex-col px-6 pb-16 pt-24 sm:flex-row sm:items-stretch sm:px-12">
+        {/* Portrait (left) */}
+        <div className="sm:w-2/5">
+          <picture className="block h-full">
+            <source srcSet="/images/about/portrait.webp" type="image/webp" />
+            <img
+              src="/images/about/portrait.jpg"
+              alt="Simrat Kaur"
+              className="h-full w-full object-cover"
+              loading="eager"
+            />
+          </picture>
+        </div>
+
+        {/* Text side (right) */}
+        <div className="mt-10 flex flex-col justify-between sm:mt-0 sm:w-3/5 sm:pl-10">
+          {/* Bio — centred vertically */}
           <div
-            className="space-y-6 leading-[1.8] text-[var(--text-secondary)]"
+            className="flex flex-1 items-center leading-[1.8] text-[var(--text-secondary)]"
             style={{ fontSize: 'var(--text-base)' }}
           >
             <p>
-              Sim Kaur is a Punjabi creative director, filmmaker and photographer based in North
-              West Sydney, Australia.
-            </p>
-            <p>
-              Her creative journey started in high school as a spoken word poet before she launched
-              a t-shirt brand, fell in love with fashion photography, and spent years shooting
-              fashion and events. She went on to study at Western Sydney University, graduating with
-              a Bachelor of Creative Industries majoring in Screen Media. Now working across
-              direction, editing and photography, her practice is rooted in her South Asian
-              heritage, drawing on the rhythms, textures and storytelling traditions of the Punjabi
-              diaspora.
-            </p>
-            <p>
-              Moving forward, she is focused on directing fashion campaigns and music videos, with
-              an eye toward narrative work. She is constantly inspired by dance and the performing
-              arts, and by nature.
+              Sim Kaur is a Punjabi creative director, filmmaker, and photographer based in North
+              West Sydney. A graduate of Western Sydney University (B.C.I., Screen Media), her work
+              spans direction, editing, and photography, blending fashion and narrative through the
+              lens of her South Asian heritage. Inspired by nature, experimentation, and movement,
+              she has collaborated with clients including Westfield Australia, Elle India, ModiBodi,
+              Office Magazine, P.A.M., Song for the Mute, Refinery29, and Acclaim Magazine.
             </p>
           </div>
 
-          {/* Contact + Social links pinned to bottom */}
-          <div className="mt-10 lg:mt-auto lg:pt-8">
+          {/* Contact + Social links — pinned to bottom */}
+          <div className="mt-6">
             <div style={{ fontSize: 'var(--text-base)' }}>
-              <p className="text-[var(--text-secondary)]">lets chat!</p>
+              <p className="text-[var(--text-secondary)]">Get in touch</p>
               <a
                 href="mailto:simtheaquarius@gmail.com"
                 className="mt-1 inline-block text-[var(--text-primary)] hover:text-[var(--accent)]"
@@ -86,19 +89,6 @@ export function AboutWithDiary() {
               />
             </button>
           </div>
-        </div>
-
-        {/* Portrait (right) */}
-        <div className="mt-10 lg:mt-0 lg:w-1/2">
-          <picture className="block h-full">
-            <source srcSet="/images/about/portrait.webp" type="image/webp" />
-            <img
-              src="/images/about/portrait.jpg"
-              alt="Simrat Kaur"
-              className="h-full w-full object-cover"
-              loading="eager"
-            />
-          </picture>
         </div>
       </div>
 

@@ -45,5 +45,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  return [...staticPages, ...projectPages]
+  const photographyCategories: MetadataRoute.Sitemap = [
+    'fashion',
+    'portraits',
+    'event',
+    'life',
+  ].map((cat) => ({
+    url: `${baseUrl}/photography/${cat}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.5,
+  }))
+
+  return [...staticPages, ...projectPages, ...photographyCategories]
 }

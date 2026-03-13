@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { FilterBar } from '@/components/ui/FilterBar'
 
 const P = '/images/photography'
 
@@ -10,6 +11,9 @@ interface Photo {
   title: string
   category: 'fashion' | 'portraits' | 'event' | 'life'
   curated?: boolean
+  role?: string
+  description?: string
+  year?: string
 }
 
 const photos: Photo[] = [
@@ -19,23 +23,34 @@ const photos: Photo[] = [
     title: 'Westfield Australia Diwali Campaign',
     category: 'fashion',
     curated: true,
+    role: 'Campaign Photography',
+    description:
+      "Diwali campaign, commissioned by Westfield Australia. Featuring Akshaya Bhutkar's 'Sweet Escape' fashion collection.",
+    year: '2023',
   },
   {
     src: `${P}/fashion/modibodi.webp`,
     title: 'ModiBodi Campaign',
     category: 'fashion',
     curated: true,
+    role: 'Campaign Photography',
+    description: "I'm Dying Inside, TikTok content series directed by Arundati Thandur.",
+    year: '2023',
   },
   {
     src: `${P}/fashion/pam-nick-sethi.webp`,
     title: 'PAM x Nick Sethi',
     category: 'fashion',
     curated: true,
+    role: 'Direction, Cinematography & Edit',
+    description:
+      'Featuring Balinese street dancers Rory and Billy for Perks and Mini (P.A.M) x Nick Sethi collaboration. Shot at Kuta Beach Skatepark, Bali.',
+    year: '2024',
   },
   {
     src: `${P}/fashion/donna-bertram.webp`,
     title: 'Donna Bertram',
-    category: 'fashion',
+    category: 'portraits',
     curated: true,
   },
   {
@@ -43,89 +58,211 @@ const photos: Photo[] = [
     title: 'Loyle Carner',
     category: 'portraits',
     curated: true,
+    role: 'Photography',
+    description: 'Photographed for Acclaim Magazine.',
+    year: '2023',
   },
   {
-    src: `${P}/fashion/ref29-parra1.webp`,
-    title: 'Refinery29 Parramatta',
+    src: `${P}/event/office-aafw-great.webp`,
+    title: 'Office Magazine AAFW',
+    category: 'event',
+    curated: true,
+  },
+  {
+    src: `${P}/fashion/aafw1.webp`,
+    title: 'AAFW Erik Yvon Show',
     category: 'fashion',
     curated: true,
+    role: 'Photography',
+    year: '2023',
   },
-  { src: `${P}/fashion/purgatory2.webp`, title: 'Purgatory', category: 'fashion', curated: true },
-  {
-    src: `${P}/fashion/ref29-mtdruitt1.webp`,
-    title: 'Refinery29 Mt Druitt',
-    category: 'fashion',
-    curated: true,
-  },
-  {
-    src: `${P}/fashion/snakes-shanti.webp`,
-    title: 'Snakes and Shanti',
-    category: 'fashion',
-    curated: true,
-  },
-  {
-    src: `${P}/portraits/cherry-chola2.webp`,
-    title: 'Cherry Chola',
-    category: 'portraits',
-    curated: true,
-  },
-  { src: `${P}/portraits/elle-ngo.webp`, title: 'Elle Ngo', category: 'portraits', curated: true },
-  {
-    src: `${P}/portraits/nancy-dennis.webp`,
-    title: 'Nancy Dennis',
-    category: 'portraits',
-    curated: true,
-  },
-  {
-    src: `${P}/portraits/nimrit-kaur.webp`,
-    title: 'Nimrit Kaur',
-    category: 'portraits',
-    curated: true,
-  },
-  {
-    src: `${P}/portraits/jack-garcia.webp`,
-    title: 'Jack Garcia',
-    category: 'portraits',
-    curated: true,
-  },
-  { src: `${P}/fashion/maya.webp`, title: 'Maya', category: 'portraits', curated: true },
-  { src: `${P}/life/paris-2025-1.webp`, title: 'Paris, 2025', category: 'life', curated: true },
-  { src: `${P}/life/paris-2025-2.webp`, title: 'Paris, 2025', category: 'life', curated: true },
-  { src: `${P}/life/india-2019-6.webp`, title: 'India, 2019', category: 'life', curated: true },
   {
     src: `${P}/life/3rd-eye4.webp`,
     title: 'Colombia, Sri Lanka, Bali, 2024',
     category: 'life',
     curated: true,
   },
+  {
+    src: `${P}/fashion/flux1.webp`,
+    title: 'Flux Handbag Brand',
+    category: 'fashion',
+    curated: true,
+    role: 'Fashion Photography',
+    year: '2022',
+  },
+  {
+    src: `${P}/fashion/oats-b3.webp`,
+    title: 'Oats the Label',
+    category: 'fashion',
+    curated: true,
+    role: 'Campaign Photography, Casting',
+    year: '2019',
+  },
+  { src: `${P}/portraits/elle-ngo.webp`, title: 'Elle Ngo', category: 'portraits', curated: true },
+  {
+    src: `${P}/portraits/jack-garcia.webp`,
+    title: 'Jack Garcia',
+    category: 'portraits',
+    curated: true,
+  },
   { src: `${P}/life/india-2019-2.webp`, title: 'India, 2019', category: 'life', curated: true },
+  {
+    src: `${P}/fashion/tiara-vella.webp`,
+    title: 'Tiara Vella',
+    category: 'portraits',
+    curated: true,
+  },
+  {
+    src: `${P}/fashion/culture-machine.webp`,
+    title: 'Culture Machine',
+    category: 'fashion',
+    curated: true,
+  },
+  {
+    src: `${P}/portraits/brown-suga1.webp`,
+    title: 'Brown Suga Princess Press',
+    category: 'portraits',
+    curated: true,
+  },
 
-  // ═══ FASHION ADDITIONAL ═══
-  { src: `${P}/fashion/ref29-mtdruitt2.webp`, title: 'Refinery29 Mt Druitt', category: 'fashion' },
-  { src: `${P}/fashion/ref29-parra2.webp`, title: 'Refinery29 Parramatta', category: 'fashion' },
-  { src: `${P}/fashion/ref29-parra3.webp`, title: 'Refinery29 Parramatta', category: 'fashion' },
-  { src: `${P}/fashion/ref29-mtdruitt3.webp`, title: 'Refinery29 Mt Druitt', category: 'fashion' },
-  { src: `${P}/fashion/ref29-parra4.webp`, title: 'Refinery29 Parramatta', category: 'fashion' },
-  { src: `${P}/fashion/oats-b3.webp`, title: 'Oats the Label', category: 'fashion' },
-  { src: `${P}/fashion/oats2.webp`, title: 'Oats the Label', category: 'fashion' },
-  { src: `${P}/fashion/flux2.webp`, title: 'Flux Handbag Brand', category: 'fashion' },
+  // ═══ FASHION ADDITIONAL (order determines fashion-filter top rows) ═══
+  {
+    src: `${P}/fashion/snakes-shanti2.webp`,
+    title: 'Snakes and Shanti',
+    category: 'fashion',
+    role: 'Direction, Videography, Photography',
+    description: 'Featuring the Eye sarong. Starring Gia-Tinh, Hazel, and Aziza.',
+    year: '2024',
+  },
+  {
+    src: `${P}/fashion/purgatory1.webp`,
+    title: 'Purgatory',
+    category: 'fashion',
+    role: 'Fashion Photography, Casting',
+    description: 'Starring Mia Kidis from Stone Street Agency.',
+    year: '2022',
+  },
+  {
+    src: `${P}/fashion/ref29-mtdruitt2.webp`,
+    title: 'Refinery29',
+    category: 'fashion',
+    role: 'Photography, Casting',
+    description:
+      "Street View: Mount Druitt.\nA street style documentary for Refinery29's series celebrating the multicultural creative community of Western Sydney. Profiling 21 individuals blending coveted streetwear, thrifted finds, and culturally significant pieces.",
+    year: '2023',
+  },
   {
     src: `${P}/fashion/akshaya-honours.webp`,
     title: 'Akshaya Bhutkar Honours Collection',
     category: 'fashion',
   },
+  {
+    src: `${P}/fashion/purgatory2.webp`,
+    title: 'Purgatory',
+    category: 'fashion',
+    role: 'Fashion Photography, Casting',
+    description: 'Starring Mia Kidis from Stone Street Agency.',
+    year: '2022',
+  },
+  {
+    src: `${P}/fashion/ref29-parra2.webp`,
+    title: 'Refinery29',
+    category: 'fashion',
+    role: 'Photography, Casting',
+    description:
+      "Street View: Parramatta.\nA street style documentary for Refinery29's series capturing the fashion identity of Sydney's western cultural hub.",
+    year: '2022',
+  },
   { src: `${P}/fashion/liaxs1.webp`, title: 'Lia x S', category: 'fashion' },
-  { src: `${P}/fashion/tiara-vella.webp`, title: 'Tiara Vella', category: 'fashion' },
-  { src: `${P}/fashion/aafw1.webp`, title: 'AAFW Erik Yvon Show', category: 'fashion' },
-  { src: `${P}/fashion/culture-machine.webp`, title: 'Culture Machine', category: 'fashion' },
+  {
+    src: `${P}/fashion/oats1.webp`,
+    title: 'Oats the Label',
+    category: 'fashion',
+    role: 'Campaign Photography, Casting',
+    year: '2019',
+  },
+  {
+    src: `${P}/fashion/ref29-mtdruitt4.webp`,
+    title: 'Refinery29',
+    category: 'fashion',
+    role: 'Photography, Casting',
+    description:
+      "Street View: Mount Druitt.\nA street style documentary for Refinery29's series celebrating the multicultural creative community of Western Sydney.",
+    year: '2023',
+  },
+  {
+    src: `${P}/fashion/ref29-mtdruitt5.webp`,
+    title: 'Refinery29',
+    category: 'fashion',
+    role: 'Photography, Casting',
+    description:
+      "Street View: Mount Druitt.\nA street style documentary for Refinery29's series celebrating the multicultural creative community of Western Sydney.",
+    year: '2023',
+  },
+  {
+    src: `${P}/fashion/ref29-parra5.webp`,
+    title: 'Refinery29',
+    category: 'fashion',
+    role: 'Photography, Casting',
+    description:
+      "Street View: Parramatta.\nA street style documentary for Refinery29's series capturing the fashion identity of Sydney's western cultural hub.",
+    year: '2022',
+  },
+  {
+    src: `${P}/fashion/oats2.webp`,
+    title: 'Oats the Label',
+    category: 'fashion',
+    role: 'Campaign Photography, Casting',
+    year: '2021',
+  },
+  {
+    src: `${P}/fashion/oats-b1.webp`,
+    title: 'Oats the Label',
+    category: 'fashion',
+    role: 'Campaign Photography, Casting',
+    year: '2019',
+  },
+  {
+    src: `${P}/fashion/oats-b2.webp`,
+    title: 'Oats the Label',
+    category: 'fashion',
+    role: 'Campaign Photography, Casting',
+    year: '2019',
+  },
+  {
+    src: `${P}/fashion/flux2.webp`,
+    title: 'Flux Handbag Brand',
+    category: 'fashion',
+    role: 'Fashion Photography',
+    year: '2022',
+  },
+  {
+    src: `${P}/fashion/flux-polaroid1.webp`,
+    title: 'Flux Handbag Brand',
+    category: 'fashion',
+    role: 'Fashion Photography',
+    year: '2022',
+  },
+  {
+    src: `${P}/fashion/flux-polaroid2.webp`,
+    title: 'Flux Handbag Brand',
+    category: 'fashion',
+    role: 'Fashion Photography',
+    year: '2022',
+  },
+  { src: `${P}/fashion/liaxs2.webp`, title: 'Lia x S', category: 'fashion' },
   {
     src: `${P}/fashion/akshaya-westfields.webp`,
     title: 'Akshaya x Westfields',
     category: 'fashion',
   },
-  { src: `${P}/fashion/snakes-shanti2.webp`, title: 'Snakes and Shanti', category: 'fashion' },
-  { src: `${P}/fashion/aafw2.webp`, title: 'AAFW Erik Yvon Show', category: 'fashion' },
-  { src: `${P}/fashion/ref29-parra5.webp`, title: 'Refinery29 Parramatta', category: 'fashion' },
+  {
+    src: `${P}/fashion/aafw2.webp`,
+    title: 'AAFW Erik Yvon Show',
+    category: 'fashion',
+    role: 'Photography',
+    year: '2023',
+  },
 
   // ═══ PORTRAITS ADDITIONAL ═══
   {
@@ -134,11 +271,6 @@ const photos: Photo[] = [
     category: 'portraits',
   },
   { src: `${P}/portraits/mia-dennis1.webp`, title: 'Mia Dennis', category: 'portraits' },
-  {
-    src: `${P}/portraits/brown-suga1.webp`,
-    title: 'Brown Suga Princess Press',
-    category: 'portraits',
-  },
   { src: `${P}/portraits/min-wong.webp`, title: 'Min Wong', category: 'portraits' },
   { src: `${P}/portraits/kuta-beach.webp`, title: 'Kuta Beach', category: 'portraits' },
   { src: `${P}/portraits/mia-dennis2.webp`, title: 'Mia Dennis', category: 'portraits' },
@@ -172,7 +304,6 @@ const photos: Photo[] = [
   { src: `${P}/event/diwali-ph2.webp`, title: 'Diwali at Powerhouse Museum', category: 'event' },
   { src: `${P}/event/diwali-ph3.webp`, title: 'Diwali at Powerhouse Museum', category: 'event' },
   { src: `${P}/event/office-aafw.webp`, title: 'Office Magazine AAFW', category: 'event' },
-  { src: `${P}/event/office-aafw-great.webp`, title: 'Office Magazine AAFW', category: 'event' },
   { src: `${P}/event/office-aafw3.webp`, title: 'Office Magazine AAFW', category: 'event' },
   { src: `${P}/event/office-aafw5.webp`, title: 'Office Magazine AAFW', category: 'event' },
   { src: `${P}/event/office-aafw6.webp`, title: 'Office Magazine AAFW', category: 'event' },
@@ -184,6 +315,9 @@ const photos: Photo[] = [
   { src: `${P}/event/genesis-owusu.webp`, title: 'Genesis Owusu', category: 'event' },
   { src: `${P}/event/planet-abundance.webp`, title: 'Planet Abundance', category: 'event' },
   { src: `${P}/event/diwali-ph4.webp`, title: 'Diwali at Powerhouse Museum', category: 'event' },
+  { src: `${P}/event/wedding81.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
+  { src: `${P}/event/wedding83.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
+  { src: `${P}/event/office-aafw4.webp`, title: 'Office Magazine AAFW', category: 'event' },
 
   // ═══ LIFE ADDITIONAL ═══
   { src: `${P}/life/paris-2025-3.webp`, title: 'Paris, 2025', category: 'life' },
@@ -199,7 +333,6 @@ const photos: Photo[] = [
   { src: `${P}/life/3rd-eye5.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
   { src: `${P}/life/3rd-eye7.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
   { src: `${P}/life/3rd-eye9.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/3rd-eye11.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
   { src: `${P}/life/3rd-eye14.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
   { src: `${P}/life/3rd-eye17.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
   { src: `${P}/life/india-2019-1.webp`, title: 'India, 2019', category: 'life' },
@@ -208,43 +341,85 @@ const photos: Photo[] = [
   { src: `${P}/life/india-2019-5.webp`, title: 'India, 2019', category: 'life' },
 ]
 
-const filterTabs = [
-  { key: 'all', label: 'All' },
-  { key: 'fashion', label: 'Fashion' },
-  { key: 'portraits', label: 'Portraits' },
-  { key: 'event', label: 'Event' },
-  { key: 'life', label: 'Life' },
+const filters = [
+  { value: 'all', label: 'All' },
+  { value: 'fashion', label: 'Fashion' },
+  { value: 'portraits', label: 'Portraits' },
+  { value: 'event', label: 'Event' },
+  { value: 'life', label: 'Life' },
 ]
 
 export function PhotographyGrid() {
   const [filter, setFilter] = useState('all')
   const [lightbox, setLightbox] = useState<number | null>(null)
+  const lightboxOpenRef = useRef(false)
+
+  // Reset lightbox when filter changes to prevent out-of-bounds access
+  const handleFilterChange = useCallback((value: string) => {
+    if (lightboxOpenRef.current) {
+      lightboxOpenRef.current = false
+      window.history.back()
+    }
+    setLightbox(null)
+    setFilter(value)
+  }, [])
 
   const filtered =
     filter === 'all' ? photos.filter((p) => p.curated) : photos.filter((p) => p.category === filter)
 
+  const openLightbox = useCallback((idx: number) => {
+    setLightbox(idx)
+    lightboxOpenRef.current = true
+    window.history.pushState({ lightbox: true }, '')
+  }, [])
+
+  const closeLightbox = useCallback(() => {
+    if (lightboxOpenRef.current) {
+      lightboxOpenRef.current = false
+      window.history.back()
+    }
+    setLightbox(null)
+  }, [])
+
+  // Close lightbox on browser back
+  useEffect(() => {
+    const onPopState = () => {
+      lightboxOpenRef.current = false
+      setLightbox(null)
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
+
+  // Keyboard: Escape to close, arrows to navigate
+  useEffect(() => {
+    if (lightbox === null) return
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox()
+      if (e.key === 'ArrowLeft')
+        setLightbox((prev) =>
+          prev !== null ? (prev - 1 + filtered.length) % filtered.length : null
+        )
+      if (e.key === 'ArrowRight')
+        setLightbox((prev) => (prev !== null ? (prev + 1) % filtered.length : null))
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [lightbox, filtered.length, closeLightbox])
+
+  // Lock body scroll when lightbox is open
+  useEffect(() => {
+    document.body.style.overflow = lightbox !== null ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [lightbox])
+
   return (
     <>
       {/* Filter bar */}
-      <div className="mb-10 flex flex-wrap items-center justify-center gap-3">
-        {filterTabs.map((f, i) => (
-          <span key={f.key} className="flex items-center gap-3">
-            <button
-              onClick={() => setFilter(f.key)}
-              className={`uppercase tracking-[0.15em] transition-colors ${
-                filter === f.key
-                  ? 'text-[var(--text-primary)]'
-                  : 'text-[var(--text-muted)] hover:text-[var(--text-secondary)]'
-              }`}
-              style={{ fontSize: 'var(--text-sm)' }}
-            >
-              {f.label}
-            </button>
-            {i < filterTabs.length - 1 && (
-              <span className="text-[var(--text-muted)] opacity-30">/</span>
-            )}
-          </span>
-        ))}
+      <div className="mb-10 flex justify-center">
+        <FilterBar filters={filters} active={filter} onChange={handleFilterChange} />
       </div>
 
       {/* Photo grid — uniform vertical ratio */}
@@ -258,16 +433,22 @@ export function PhotographyGrid() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3, delay: Math.min(i * 0.02, 0.3) }}
-              className="cursor-pointer overflow-hidden"
-              onClick={() => setLightbox(i)}
+              className="group cursor-pointer overflow-hidden"
+              onClick={() => openLightbox(i)}
             >
-              <div className="aspect-[4/5] overflow-hidden">
+              <div className="relative aspect-[4/5] overflow-hidden">
                 <img
                   src={photo.src}
                   alt={photo.title}
                   loading={i < 10 ? 'eager' : 'lazy'}
-                  className="h-full w-full object-cover transition-transform duration-300 hover:scale-[1.02]"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
+                {/* Hover overlay with text */}
+                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="text-[var(--text-base)] font-medium text-white">
+                    {photo.title}
+                  </span>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -275,13 +456,21 @@ export function PhotographyGrid() {
       </div>
 
       {/* Lightbox */}
-      {lightbox !== null && (
+      {lightbox !== null && filtered[lightbox] && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
-          onClick={() => setLightbox(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          onClick={closeLightbox}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Photo: ${filtered[lightbox].title}`}
         >
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" />
+
+          {/* Left arrow */}
           <button
-            className="absolute left-4 top-1/2 z-10 -translate-y-1/2 text-4xl text-white/70 hover:text-white"
+            className="absolute left-3 top-1/2 z-30 -translate-y-1/2 p-4 text-3xl text-white/60 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-white sm:left-5 sm:text-4xl"
+            aria-label="Previous photo"
             onClick={(e) => {
               e.stopPropagation()
               setLightbox((lightbox - 1 + filtered.length) % filtered.length)
@@ -290,22 +479,10 @@ export function PhotographyGrid() {
             &#8249;
           </button>
 
-          <div
-            className="flex max-h-[90vh] max-w-[90vw] flex-col items-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <img
-              src={filtered[lightbox].src}
-              alt={filtered[lightbox].title}
-              className="max-h-[82vh] max-w-[88vw] object-contain"
-            />
-            <p className="mt-3 text-center text-sm tracking-wide text-white/70">
-              {filtered[lightbox].title}
-            </p>
-          </div>
-
+          {/* Right arrow */}
           <button
-            className="absolute right-4 top-1/2 z-10 -translate-y-1/2 text-4xl text-white/70 hover:text-white"
+            className="absolute right-3 top-1/2 z-30 -translate-y-1/2 p-4 text-3xl text-white/60 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-white sm:right-5 sm:text-4xl"
+            aria-label="Next photo"
             onClick={(e) => {
               e.stopPropagation()
               setLightbox((lightbox + 1) % filtered.length)
@@ -313,12 +490,85 @@ export function PhotographyGrid() {
           >
             &#8250;
           </button>
+
+          {/* Close */}
           <button
-            className="absolute right-6 top-6 text-2xl text-white/70 hover:text-white"
-            onClick={() => setLightbox(null)}
+            className="absolute right-4 top-4 z-30 p-2 text-xl text-white/60 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-white sm:right-6 sm:top-6 sm:text-2xl"
+            aria-label="Close lightbox"
+            onClick={(e) => {
+              e.stopPropagation()
+              closeLightbox()
+            }}
           >
             &times;
           </button>
+
+          {/* Content */}
+          {filtered[lightbox].role || filtered[lightbox].description ? (
+            /* Image left, text right — for photos with project info */
+            <div
+              className="relative z-10 flex w-full flex-col items-center gap-6 overflow-y-auto px-12 sm:px-16 lg:flex-row lg:items-center lg:justify-center lg:gap-10 lg:px-20"
+              style={{ maxHeight: '85vh' }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="w-full shrink-0 lg:max-w-[55vw] xl:max-w-[50vw]">
+                <img
+                  src={filtered[lightbox].src}
+                  alt={filtered[lightbox].title}
+                  className="max-h-[80vh] w-full object-contain"
+                />
+              </div>
+              <div className="flex max-w-md flex-col gap-4 py-2 text-white lg:max-w-sm xl:max-w-md">
+                <h2
+                  className="font-medium uppercase tracking-[0.04em]"
+                  style={{ fontSize: 'clamp(1.4rem, 1.2rem + 1vw, 2rem)' }}
+                >
+                  {filtered[lightbox].title}
+                </h2>
+                {filtered[lightbox].year && (
+                  <p
+                    className="uppercase tracking-[0.12em] text-white/70"
+                    style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
+                  >
+                    {filtered[lightbox].year}
+                  </p>
+                )}
+                {filtered[lightbox].role && (
+                  <p
+                    className="uppercase tracking-[0.12em] text-white/70"
+                    style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
+                  >
+                    {filtered[lightbox].role}
+                  </p>
+                )}
+                {filtered[lightbox].description && (
+                  <div
+                    className="space-y-3 leading-relaxed text-white/90"
+                    style={{ fontSize: 'var(--text-sm, 0.875rem)' }}
+                  >
+                    {filtered[lightbox].description
+                      .split('\n')
+                      .filter((l) => l.trim())
+                      .map((line, i) => (
+                        <p key={i}>{line}</p>
+                      ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            /* Centred image only — no text panel */
+            <div
+              className="relative z-10 flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={filtered[lightbox].src}
+                alt={filtered[lightbox].title}
+                className="max-h-[85vh] max-w-[90vw] object-contain"
+              />
+            </div>
+          )}
         </div>
       )}
     </>
