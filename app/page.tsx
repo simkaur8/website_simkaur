@@ -24,7 +24,7 @@ export default function HomePage() {
       <WebsiteJsonLd />
       <PersonJsonLd />
       <HeroSection
-        showreelUrl={process.env.NEXT_PUBLIC_SHOWREEL_URL || '/videos/showreel.mp4'}
+        showreelUrl="/videos/showreel.mp4"
         logoWebmUrl="/videos/logo.webm"
         logoMp4Url="/videos/logo.mp4"
       />
