@@ -13,6 +13,8 @@ interface StaticProjectDetailProps {
 export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
   const [carouselIdx, setCarouselIdx] = useState(0)
+  const [isMuted, setIsMuted] = useState(true)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const hasVignettes = project.postcardVideos && project.postcardVideos.length > 0
   const hasGallery = project.galleryImages && project.galleryImages.length > 0
 
@@ -97,13 +99,14 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
               <div className="aspect-[5/4] w-full overflow-hidden bg-black">
                 {carouselIdx < project.postcardVideos!.length ? (
                   <video
+                    ref={videoRef}
                     key={carouselIdx}
                     src={project.postcardVideos![carouselIdx]}
                     autoPlay
                     loop
                     playsInline
-                    controls
-                    className="h-full w-full object-cover"
+                    muted={isMuted}
+                    className="h-full w-full object-contain"
                   />
                 ) : (
                   project.video && (
@@ -119,17 +122,57 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                 )}
               </div>
 
+              {/* Sound toggle */}
+              {carouselIdx < project.postcardVideos!.length && (
+                <button
+                  onClick={() => {
+                    setIsMuted((m) => !m)
+                    if (videoRef.current) videoRef.current.muted = !videoRef.current.muted
+                  }}
+                  className="absolute bottom-4 left-4 z-10 p-2 text-sm text-white transition-opacity hover:opacity-70"
+                  aria-label={isMuted ? 'Unmute' : 'Mute'}
+                >
+                  {isMuted ? (
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                      <line x1="23" y1="9" x2="17" y2="15" />
+                      <line x1="17" y1="9" x2="23" y2="15" />
+                    </svg>
+                  ) : (
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                    </svg>
+                  )}
+                </button>
+              )}
+
               {/* Arrows */}
               <button
                 onClick={prevCarousel}
-                className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/40 px-3 py-1 text-3xl text-white/80 transition-colors hover:bg-black/60 hover:text-white"
+                className="absolute left-3 top-1/2 z-10 -translate-y-1/2 p-2 text-3xl text-white transition-opacity hover:opacity-70"
                 aria-label="Previous"
               >
                 &#8249;
               </button>
               <button
                 onClick={nextCarousel}
-                className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/40 px-3 py-1 text-3xl text-white/80 transition-colors hover:bg-black/60 hover:text-white"
+                className="absolute right-3 top-1/2 z-10 -translate-y-1/2 p-2 text-3xl text-white transition-opacity hover:opacity-70"
                 aria-label="Next"
               >
                 &#8250;
