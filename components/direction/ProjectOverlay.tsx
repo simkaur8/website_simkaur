@@ -80,10 +80,10 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
             &times;
           </button>
 
-          {/* Content */}
+          {/* Content — centered on page, responsive */}
           <motion.div
             key={project.slug}
-            className="relative z-10 mx-auto flex w-[90vw] max-w-6xl flex-col gap-6 overflow-y-auto lg:flex-row lg:items-center lg:gap-10"
+            className="relative z-10 flex w-full flex-col items-center gap-6 overflow-y-auto px-12 sm:px-16 lg:flex-row lg:items-center lg:justify-center lg:gap-10 lg:px-20"
             style={{ maxHeight: '85vh' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -94,7 +94,9 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
             {project.video && (
               <div
                 className={`w-full shrink-0 ${
-                  project.video.aspect === '9 / 16' ? 'lg:w-[35%]' : 'lg:w-[62%]'
+                  project.video.aspect === '9 / 16'
+                    ? 'max-w-[280px] sm:max-w-[320px] lg:max-w-[35vh]'
+                    : 'max-w-full lg:max-w-[55vw] xl:max-w-[50vw]'
                 }`}
               >
                 <VideoPlayer
@@ -107,7 +109,7 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
             )}
 
             {/* Text */}
-            <div className="flex flex-col gap-4 py-2 text-white lg:max-w-[38%]">
+            <div className="flex max-w-md flex-col gap-4 py-2 text-white lg:max-w-sm xl:max-w-md">
               <h2
                 className="font-medium uppercase tracking-[0.04em]"
                 style={{ fontSize: 'clamp(1.4rem, 1.2rem + 1vw, 2rem)' }}
