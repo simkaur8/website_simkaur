@@ -56,8 +56,11 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
 
           {/* Left arrow */}
           <button
-            onClick={onPrev}
-            className="absolute left-3 top-1/2 z-10 -translate-y-1/2 p-2 text-3xl text-white/60 transition-colors hover:text-white sm:left-5 sm:text-4xl"
+            onClick={(e) => {
+              e.stopPropagation()
+              onPrev()
+            }}
+            className="absolute left-3 top-1/2 z-30 -translate-y-1/2 p-4 text-3xl text-white/60 transition-colors hover:text-white sm:left-5 sm:text-4xl"
             aria-label="Previous project"
           >
             &#8249;
@@ -65,8 +68,11 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
 
           {/* Right arrow */}
           <button
-            onClick={onNext}
-            className="absolute right-3 top-1/2 z-10 -translate-y-1/2 p-2 text-3xl text-white/60 transition-colors hover:text-white sm:right-5 sm:text-4xl"
+            onClick={(e) => {
+              e.stopPropagation()
+              onNext()
+            }}
+            className="absolute right-3 top-1/2 z-30 -translate-y-1/2 p-4 text-3xl text-white/60 transition-colors hover:text-white sm:right-5 sm:text-4xl"
             aria-label="Next project"
           >
             &#8250;
@@ -74,8 +80,11 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
 
           {/* Close */}
           <button
-            onClick={onClose}
-            className="absolute right-4 top-4 z-10 p-2 text-xl text-white/60 transition-colors hover:text-white sm:right-6 sm:top-6 sm:text-2xl"
+            onClick={(e) => {
+              e.stopPropagation()
+              onClose()
+            }}
+            className="absolute right-4 top-4 z-30 p-2 text-xl text-white/60 transition-colors hover:text-white sm:right-6 sm:top-6 sm:text-2xl"
             aria-label="Close"
           >
             &times;
