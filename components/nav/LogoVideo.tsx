@@ -5,6 +5,7 @@ import { useSyncExternalStore } from 'react'
 interface LogoVideoProps {
   webmSrc?: string
   mp4Src?: string
+  fallbackImg?: string
   className?: string
   style?: React.CSSProperties
 }
@@ -16,9 +17,21 @@ function getIsSafari() {
 
 const subscribe = () => () => {}
 
-export function LogoVideo({ webmSrc, mp4Src, className, style }: LogoVideoProps) {
+export function LogoVideo({
+  webmSrc,
+  mp4Src,
+  fallbackImg = '/images/logo.png',
+  className,
+  style,
+}: LogoVideoProps) {
   const isSafari = useSyncExternalStore(subscribe, getIsSafari, () => false)
-  const src = isSafari && mp4Src ? mp4Src : webmSrc || mp4Src || null
+
+  // Safari/iOS doesn't support mix-blend-mode on video reliably — use static image
+  if (isSafari) {
+    return <img src={fallbackImg} alt="" className={className} style={style} aria-hidden="true" />
+  }
+
+  const src = webmSrc || mp4Src || null
 
   if (!src) {
     return <div className={className} style={style} aria-hidden="true" />
