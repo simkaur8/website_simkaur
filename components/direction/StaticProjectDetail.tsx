@@ -129,7 +129,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                     setIsMuted((m) => !m)
                     if (videoRef.current) videoRef.current.muted = !videoRef.current.muted
                   }}
-                  className="absolute bottom-5 right-5 z-10 p-2 text-sm text-white transition-opacity hover:opacity-70"
+                  className="absolute bottom-8 right-5 z-10 p-2 text-sm text-white transition-opacity hover:opacity-70"
                   aria-label={isMuted ? 'Unmute' : 'Mute'}
                 >
                   {isMuted ? (
