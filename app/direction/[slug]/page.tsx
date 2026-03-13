@@ -70,26 +70,7 @@ export async function generateMetadata({
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
 
-  // Try Sanity first
-  const project: Project | null = await client.fetch(projectBySlugQuery, { slug }).catch(() => null)
-
-  if (project) {
-    return (
-      <>
-        <ProjectDetail project={project} />
-        <Footer
-          email="simtheaquarius@gmail.com"
-          footerCta="contact me :-)"
-          socialLinks={[
-            { platform: 'Instagram', url: 'https://www.instagram.com/s1mkaur/' },
-            { platform: 'Vimeo', url: 'https://vimeo.com/user197917349' },
-          ]}
-        />
-      </>
-    )
-  }
-
-  // Fall back to static data
+  // Use static data
   const staticProject = staticProjects.find((p) => p.slug === slug)
   if (!staticProject) notFound()
 
