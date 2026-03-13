@@ -58,9 +58,9 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
   }, [])
 
   return (
-    <article className="px-4 pb-20 pt-24 sm:px-8 md:px-12 lg:px-16 xl:px-24">
+    <article className="mx-auto max-w-7xl px-4 pb-20 pt-24 sm:px-8 md:px-12 lg:px-16 xl:px-24">
       {/* Back link */}
-      <div className="mx-auto mb-10 max-w-7xl">
+      <div className="mb-10">
         <Link
           href="/direction"
           className="text-[var(--text-muted)] transition-colors hover:text-[var(--text-primary)]"
@@ -72,7 +72,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
 
       {/* Title + meta */}
       <RevealOnScroll>
-        <div className="mx-auto mb-12 max-w-7xl">
+        <div className="mb-12">
           <h1
             className="mb-2 font-medium uppercase tracking-[0.04em]"
             style={{ fontSize: 'clamp(2.4rem, 2rem + 2vw, 4rem)' }}
@@ -91,7 +91,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
       {/* Vignette carousel (Elle India style) */}
       {hasVignettes ? (
         <RevealOnScroll>
-          <div className="mx-auto mb-16 max-w-7xl">
+          <div className="mb-16">
             <div className="relative">
               {/* Current slide */}
               <div className="aspect-[5/4] w-full overflow-hidden bg-black">
@@ -155,7 +155,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
         /* Standard video (Crossfire, Velvet Skin, etc.) */
         project.video && (
           <RevealOnScroll>
-            <div className="mx-auto mb-16 max-w-7xl overflow-hidden">
+            <div className="mb-16 overflow-hidden">
               <VideoPlayer
                 platform={project.video.platform}
                 videoId={project.video.id}
@@ -170,7 +170,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
       {/* Gallery — horizontal scrolling row, same width as video */}
       {allGalleryItems.length > 0 && (
         <RevealOnScroll>
-          <div className="mx-auto mb-14 max-w-7xl">
+          <div className="mb-14">
             <h3
               className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
               style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
@@ -225,11 +225,11 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                 ))}
               </div>
 
-              {/* Scroll arrows */}
+              {/* Scroll arrows — clean white, no bubble */}
               {canScrollLeft && (
                 <button
                   onClick={() => scrollGallery(-1)}
-                  className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 px-3 py-1 text-2xl text-white/80 transition-colors hover:bg-black/70 hover:text-white"
+                  className="absolute left-2 top-1/2 z-10 -translate-y-1/2 p-2 text-3xl text-white transition-opacity hover:opacity-70"
                   aria-label="Scroll left"
                 >
                   &#8249;
@@ -238,7 +238,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
               {canScrollRight && (
                 <button
                   onClick={() => scrollGallery(1)}
-                  className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 px-3 py-1 text-2xl text-white/80 transition-colors hover:bg-black/70 hover:text-white"
+                  className="absolute right-2 top-1/2 z-10 -translate-y-1/2 p-2 text-3xl text-white transition-opacity hover:opacity-70"
                   aria-label="Scroll right"
                 >
                   &#8250;
@@ -252,7 +252,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
       {/* Synopsis */}
       {project.synopsis && project.synopsis.length > 0 && (
         <RevealOnScroll>
-          <div className="mx-auto mb-14 max-w-7xl">
+          <div className="mb-14">
             <h3
               className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
               style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
@@ -260,7 +260,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
               Synopsis
             </h3>
             <div
-              className="max-w-3xl space-y-5 leading-relaxed text-[var(--text-secondary)]"
+              className="space-y-5 leading-relaxed text-[var(--text-secondary)]"
               style={{ fontSize: 'var(--text-base)' }}
             >
               {project.synopsis.map((p, i) => (
@@ -274,7 +274,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
       {/* Credits — 2 columns */}
       {project.credits && project.credits.length > 0 && (
         <RevealOnScroll>
-          <div className="mx-auto mb-16 max-w-7xl">
+          <div className="mb-16">
             <h3
               className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
               style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
