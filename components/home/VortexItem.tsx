@@ -13,6 +13,7 @@ interface VortexItemProps {
   image: string
   under?: boolean
   imageStyle?: string
+  zIndex?: number
 }
 
 export function VortexItem({
@@ -26,6 +27,7 @@ export function VortexItem({
   image,
   under,
   imageStyle,
+  zIndex,
 }: VortexItemProps) {
   const ringClass = ring > 0 ? `vx-ring-${ring}` : ''
 
@@ -75,14 +77,21 @@ export function VortexItem({
 
   if (href) {
     return (
-      <Link href={href} className={className} style={{ left: `${left}%`, top: `${top}%` }}>
+      <Link
+        href={href}
+        className={className}
+        style={{ left: `${left}%`, top: `${top}%`, ...(zIndex != null && { zIndex }) }}
+      >
         {content}
       </Link>
     )
   }
 
   return (
-    <div className={className} style={{ left: `${left}%`, top: `${top}%` }}>
+    <div
+      className={className}
+      style={{ left: `${left}%`, top: `${top}%`, ...(zIndex != null && { zIndex }) }}
+    >
       {content}
     </div>
   )

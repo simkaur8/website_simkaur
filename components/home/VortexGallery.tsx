@@ -101,6 +101,7 @@ const vortexItems = [
     title: 'PAM Bali',
     tag: 'Fashion Film',
     image: `${V}/pam-bali.gif`,
+    zIndex: 6,
   },
   {
     id: 'oats',
