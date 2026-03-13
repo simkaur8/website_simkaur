@@ -219,84 +219,103 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
         )
       )}
 
-      {/* Gallery — horizontal scrolling row, same width as video */}
+      {/* Gallery — contact sheet grid or horizontal scrolling row */}
       {allGalleryItems.length > 0 && (
         <RevealOnScroll>
           <div className="mb-14">
-            <h3
-              className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
-              style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
-            >
-              Gallery
-            </h3>
-            <div className="relative">
-              <div
-                ref={scrollRef}
-                className="flex gap-3 overflow-x-auto"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-              >
+            {project.contactSheet ? (
+              /* Contact sheet: tight grid, no spacing */
+              <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4">
                 {allGalleryItems.map((item, i) => (
-                  <div
-                    key={i}
-                    className="shrink-0"
-                    style={{ width: `${100 / Math.min(allGalleryItems.length, 5)}%` }}
-                  >
-                    {item.type === 'bts' ? (
-                      <div className="relative aspect-[3/4] overflow-hidden">
-                        <img
-                          src={item.src}
-                          alt={`${project.title} BTS`}
-                          loading="lazy"
-                          className="h-full w-full object-cover opacity-50"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <span
-                            className="text-center font-medium uppercase tracking-[0.15em] text-white"
-                            style={{ fontSize: 'var(--text-sm)' }}
-                          >
-                            BTS Video
-                            <br />
-                            Coming Soon
-                          </span>
-                        </div>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => setLightboxIdx(project.btsThumbnail ? i - 1 : i)}
-                        className="w-full overflow-hidden transition-opacity hover:opacity-80"
-                      >
-                        <img
-                          src={item.src}
-                          alt={`${project.title} still ${i + 1}`}
-                          loading="lazy"
-                          className="aspect-[3/4] w-full object-cover"
-                        />
-                      </button>
-                    )}
+                  <div key={i} className="overflow-hidden">
+                    <img
+                      src={item.src}
+                      alt={`${project.title} still ${i + 1}`}
+                      loading="lazy"
+                      className="block h-full w-full object-cover"
+                    />
                   </div>
                 ))}
               </div>
+            ) : (
+              /* Horizontal scrolling row */
+              <>
+                <h3
+                  className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
+                  style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
+                >
+                  Gallery
+                </h3>
+                <div className="relative">
+                  <div
+                    ref={scrollRef}
+                    className="flex gap-3 overflow-x-auto"
+                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                  >
+                    {allGalleryItems.map((item, i) => (
+                      <div
+                        key={i}
+                        className="shrink-0"
+                        style={{ width: `${100 / Math.min(allGalleryItems.length, 5)}%` }}
+                      >
+                        {item.type === 'bts' ? (
+                          <div className="relative aspect-[3/4] overflow-hidden">
+                            <img
+                              src={item.src}
+                              alt={`${project.title} BTS`}
+                              loading="lazy"
+                              className="h-full w-full object-cover opacity-50"
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <span
+                                className="text-center font-medium uppercase tracking-[0.15em] text-white"
+                                style={{ fontSize: 'var(--text-sm)' }}
+                              >
+                                BTS Video
+                                <br />
+                                Coming Soon
+                              </span>
+                            </div>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => setLightboxIdx(project.btsThumbnail ? i - 1 : i)}
+                            className="w-full overflow-hidden transition-opacity hover:opacity-80"
+                          >
+                            <img
+                              src={item.src}
+                              alt={`${project.title} still ${i + 1}`}
+                              loading="lazy"
+                              className="aspect-[3/4] w-full object-cover"
+                            />
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
 
-              {/* Scroll arrows — clean white, no bubble */}
-              {canScrollLeft && (
-                <button
-                  onClick={() => scrollGallery(-1)}
-                  className="absolute left-2 top-1/2 z-10 -translate-y-1/2 p-2 text-3xl text-white transition-opacity hover:opacity-70"
-                  aria-label="Scroll left"
-                >
-                  &#8249;
-                </button>
-              )}
-              {canScrollRight && (
-                <button
-                  onClick={() => scrollGallery(1)}
-                  className="absolute right-2 top-1/2 z-10 -translate-y-1/2 p-2 text-3xl text-white transition-opacity hover:opacity-70"
-                  aria-label="Scroll right"
-                >
-                  &#8250;
-                </button>
-              )}
-            </div>
+                  {/* Scroll arrows — clean white, no bubble */}
+                  {canScrollLeft && (
+                    <button
+                      onClick={() => scrollGallery(-1)}
+                      className="absolute left-2 top-1/2 z-10 -translate-y-1/2 p-2 text-3xl text-white transition-opacity hover:opacity-70"
+                      aria-label="Scroll left"
+                    >
+                      &#8249;
+                    </button>
+                  )}
+                  {canScrollRight && (
+                    <button
+                      onClick={() => scrollGallery(1)}
+                      className="absolute right-2 top-1/2 z-10 -translate-y-1/2 p-2 text-3xl text-white transition-opacity hover:opacity-70"
+                      aria-label="Scroll right"
+                    >
+                      &#8250;
+                    </button>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </RevealOnScroll>
       )}

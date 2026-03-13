@@ -24,6 +24,7 @@ export interface StaticProject {
   video?: { platform: 'vimeo' | 'youtube'; id: string; hash?: string; aspect?: string }
   btsThumbnail?: string
   comingSoon?: boolean
+  contactSheet?: boolean
 }
 
 export const staticProjects: StaticProject[] = [
@@ -196,6 +197,7 @@ export const staticProjects: StaticProject[] = [
       { role: 'Starring', name: 'Rory, Billy' },
       { role: 'Styling', name: 'Hazel Sherritt' },
     ],
+    comingSoon: true,
     video: { platform: 'vimeo', id: '1153113366' },
   },
   {
@@ -209,12 +211,13 @@ export const staticProjects: StaticProject[] = [
       'Direction, cinematography & edit. 2023, Sydney.\n\nShort experimental Bharatanatyam dance film featuring Anjana Chandran. The dance traces the cycle of life and death. Shot on VHS.\n\nExhibited at Pari (ARI) Art Gallery, 2025.',
     synopsis: [
       'Direction, cinematography & edit. 2023, Sydney. Short experimental Bharatanatyam dance film featuring Anjana Chandran. The dance traces the cycle of life and death. Shot on VHS.',
-      'Exhibited at Pari (ARI) Art Gallery, 2025.',
+      'This was my experimental media video project for uni. Exhibited at Pari (ARI) Art Gallery, 2025.',
     ],
     credits: [
       { role: 'Direction, Cinematography & Edit', name: 'Simrat Kaur' },
       { role: 'Featuring', name: 'Anjana Chandran' },
     ],
+    comingSoon: true,
     video: { platform: 'vimeo', id: '1151462076' },
   },
   {
@@ -224,9 +227,17 @@ export const staticProjects: StaticProject[] = [
     thumbnail: '/images/direction/thumbnails/paris-in-sydney.webp',
     category: 'fashion-dance',
     year: 2024,
-    description: 'Direction.',
-    synopsis: ['Direction.'],
-    credits: [{ role: 'Direction', name: 'Simrat Kaur' }],
+    description:
+      'Direction. Starring Paris Crossley, a London-based movement artist and popper known for her work with Fiya House crew and performances for Rita Ora, Dua Lipa, and Little Mix. Cinematography by Max Dona.',
+    synopsis: [
+      'Direction. Starring Paris Crossley, a London-based movement artist and popper known for her work with Fiya House crew and performances for Rita Ora, Dua Lipa, and Little Mix. Cinematography by Max Dona.',
+    ],
+    credits: [
+      { role: 'Direction', name: 'Simrat Kaur' },
+      { role: 'Starring', name: 'Paris Crossley' },
+      { role: 'Cinematography', name: 'Max Dona' },
+    ],
+    comingSoon: true,
     video: { platform: 'vimeo', id: '1153107275' },
   },
   {
@@ -236,16 +247,63 @@ export const staticProjects: StaticProject[] = [
     thumbnail: '/images/vortex/velvet-skin.webp',
     category: 'music-video',
     year: 2024,
-    description:
-      'Direction. 2024, Sydney.\n\nMusic video for Dylan Atlantis.\n\nTalent: Cat Strat\nProducer: Jacinthe Lau\nCinematography: Jesse Campos\nEditor: Zion Garcia',
-    synopsis: ['Direction. 2024, Sydney. Music video for Dylan Atlantis.'],
+    description: 'Direction. 2024, Sydney.\n\nMusic video for Dylan Atlantis, featuring Cat Strat.',
+    synopsis: ['Direction. 2024, Sydney. Music video for Dylan Atlantis, featuring Cat Strat.'],
     credits: [
-      { role: 'Direction', name: 'Simrat Kaur' },
+      { role: 'Artist', name: 'Dylan Atlantis' },
       { role: 'Talent', name: 'Cat Strat' },
+      { role: 'Direction', name: 'Simrat Kaur' },
       { role: 'Producer', name: 'Jacinthe Lau' },
-      { role: 'Cinematography', name: 'Jesse Campos' },
+      { role: 'DOP', name: 'Jesse Campos' },
       { role: 'Editor', name: 'Zion Garcia' },
+      { role: 'Assistant Camera', name: 'Natasha Vincent' },
+      { role: 'Gaffer', name: 'Deniz Celik' },
+      { role: 'Lighting Assistant', name: 'Abigail Wu' },
+      { role: 'Stylist', name: 'Hazel Sherritt' },
+      { role: 'Nail Artist', name: 'Lillian Robillo' },
+      { role: 'Production Design Director', name: 'Annika Kumar' },
+      { role: 'Art Director', name: 'Alice Ly' },
+      {
+        role: 'Production Design Assistants',
+        name: 'Taj Chowdhury, Pamela Manos, Emily Sutcliffe',
+      },
+      { role: 'Sword Choreographer', name: 'Ray Anthony' },
+      { role: 'Pole Dance Choreographer', name: 'Basjia Almaan' },
+      { role: 'Duet Dance Choreographers', name: 'Amy Zhang, Jack Garcia' },
+      { role: 'Movement Directors', name: 'Tiara Vella, Rylee Lister' },
+      { role: 'Title Design', name: 'Lazaro' },
+      { role: 'VFX', name: 'Kyla Bosque' },
+      { role: 'Colour Grade', name: 'Jesse Campos' },
+      { role: 'Runners', name: 'Nimrit Kaur, Josh Robillo' },
+      { role: 'Photographer', name: 'Anne Thu Pham' },
+      {
+        role: 'BTS Media',
+        name: 'Jane Inyang, Jack Rockcliffe, Feker Yibeltal, Joyce Fidel, Jade D\u2019Amico, Elle Ngo',
+      },
+      {
+        role: 'Venues',
+        name: 'Red Rattler Theater, Sydney Vintage Dance Studio, Camber Studios',
+      },
     ],
+    galleryImages: [
+      '/images/direction/velvet-skin/vs_0.webp',
+      '/images/direction/velvet-skin/vs_1.webp',
+      '/images/direction/velvet-skin/vs_3.webp',
+      '/images/direction/velvet-skin/vs_4.5.webp',
+      '/images/direction/velvet-skin/vs_7.webp',
+      '/images/direction/velvet-skin/vs_10.webp',
+      '/images/direction/velvet-skin/vs_11.webp',
+      '/images/direction/velvet-skin/vs_12.webp',
+      '/images/direction/velvet-skin/vs_12.5.webp',
+      '/images/direction/velvet-skin/vs_13.webp',
+      '/images/direction/velvet-skin/vs_15.webp',
+      '/images/direction/velvet-skin/vs_16.webp',
+      '/images/direction/velvet-skin/vs_17.webp',
+      '/images/direction/velvet-skin/vs_18.webp',
+      '/images/direction/velvet-skin/vs_20.webp',
+      '/images/direction/velvet-skin/vs_21.webp',
+    ],
+    contactSheet: true,
     video: { platform: 'youtube', id: 'dGxXAoKr_X4' },
   },
   {
