@@ -292,54 +292,54 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
         </RevealOnScroll>
       )}
 
-      {/* Synopsis */}
-      {project.synopsis && project.synopsis.length > 0 && (
+      {/* Synopsis + Credits — side by side when both exist */}
+      {(project.synopsis?.length || project.credits?.length) && (
         <RevealOnScroll>
-          <div className="mb-14">
-            <h3
-              className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
-              style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
-            >
-              Synopsis
-            </h3>
-            <div
-              className="space-y-5 leading-relaxed text-[var(--text-secondary)]"
-              style={{ fontSize: 'var(--text-base)' }}
-            >
-              {project.synopsis.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-            </div>
-          </div>
-        </RevealOnScroll>
-      )}
-
-      {/* Credits — 2 columns */}
-      {project.credits && project.credits.length > 0 && (
-        <RevealOnScroll>
-          <div className="mb-16">
-            <h3
-              className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
-              style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
-            >
-              Credits
-            </h3>
-            <div
-              className="grid grid-cols-1 gap-x-12 gap-y-2 sm:grid-cols-2"
-              style={{ fontSize: 'var(--text-sm)' }}
-            >
-              {project.credits.map((credit, i) => (
-                <div key={i} className="flex gap-3">
-                  <span
-                    className="shrink-0 font-medium text-[var(--text-primary)]"
-                    style={{ minWidth: '200px' }}
-                  >
-                    {credit.role}
-                  </span>
-                  <span className="text-[var(--text-secondary)]">{credit.name}</span>
+          <div className="mb-16 grid grid-cols-1 gap-12 lg:grid-cols-2">
+            {/* Synopsis */}
+            {project.synopsis && project.synopsis.length > 0 && (
+              <div>
+                <h3
+                  className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
+                  style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
+                >
+                  Synopsis
+                </h3>
+                <div
+                  className="space-y-5 leading-relaxed text-[var(--text-secondary)]"
+                  style={{ fontSize: 'var(--text-base)' }}
+                >
+                  {project.synopsis.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
+
+            {/* Credits */}
+            {project.credits && project.credits.length > 0 && (
+              <div>
+                <h3
+                  className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
+                  style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
+                >
+                  Credits
+                </h3>
+                <div className="space-y-2" style={{ fontSize: 'var(--text-sm)' }}>
+                  {project.credits.map((credit, i) => (
+                    <div key={i} className="flex gap-3">
+                      <span
+                        className="shrink-0 font-medium text-[var(--text-primary)]"
+                        style={{ minWidth: '200px' }}
+                      >
+                        {credit.role}
+                      </span>
+                      <span className="text-[var(--text-secondary)]">{credit.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </RevealOnScroll>
       )}
