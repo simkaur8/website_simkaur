@@ -12,11 +12,13 @@ interface StaticProjectDetailProps {
 
 export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
+  const [btsLightboxIdx, setBtsLightboxIdx] = useState<number | null>(null)
   const [carouselIdx, setCarouselIdx] = useState(0)
   const [isMuted, setIsMuted] = useState(true)
   const videoRef = useRef<HTMLVideoElement>(null)
   const hasVignettes = project.postcardVideos && project.postcardVideos.length > 0
   const hasGallery = project.galleryImages && project.galleryImages.length > 0
+  const hasBts = project.btsImages && project.btsImages.length > 0
 
   // For vignette carousel: videos + optional reel as last slide
   const vignetteCount = hasVignettes ? project.postcardVideos!.length + (project.video ? 1 : 0) : 0
@@ -64,6 +66,40 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
 
   const scrollGallery = useCallback((dir: number) => {
     const el = scrollRef.current
+    if (!el) return
+    el.scrollBy({ left: dir * el.clientWidth * 0.6, behavior: 'smooth' })
+  }, [])
+
+  // BTS gallery horizontal scroll
+  const btsScrollRef = useRef<HTMLDivElement>(null)
+  const [canBtsScrollLeft, setCanBtsScrollLeft] = useState(false)
+  const [canBtsScrollRight, setCanBtsScrollRight] = useState(false)
+
+  const updateBtsScrollState = useCallback(() => {
+    const el = btsScrollRef.current
+    if (!el) return
+    setCanBtsScrollLeft(el.scrollLeft > 0)
+    setCanBtsScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 2)
+  }, [])
+
+  useEffect(() => {
+    if (!hasBts) return
+    updateBtsScrollState()
+    const el = btsScrollRef.current
+    if (!el) return
+    el.addEventListener('scroll', updateBtsScrollState, { passive: true })
+    const imgs = el.querySelectorAll('img')
+    imgs.forEach((img) => img.addEventListener('load', updateBtsScrollState))
+    const timer = setTimeout(updateBtsScrollState, 500)
+    return () => {
+      el.removeEventListener('scroll', updateBtsScrollState)
+      imgs.forEach((img) => img.removeEventListener('load', updateBtsScrollState))
+      clearTimeout(timer)
+    }
+  }, [hasBts, updateBtsScrollState])
+
+  const scrollBts = useCallback((dir: number) => {
+    const el = btsScrollRef.current
     if (!el) return
     el.scrollBy({ left: dir * el.clientWidth * 0.6, behavior: 'smooth' })
   }, [])
@@ -225,7 +261,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
           <div className="mb-14">
             {project.contactSheet ? (
               /* Contact sheet: tight grid, no spacing */
-              <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4">
+              <div className="grid grid-cols-4 sm:grid-cols-7">
                 {allGalleryItems.map((item, i) => (
                   <div key={i} className="overflow-hidden">
                     <img
@@ -370,6 +406,107 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
             )}
           </div>
         </RevealOnScroll>
+      )}
+
+      {/* BTS Gallery — horizontal scrolling row below credits */}
+      {hasBts && (
+        <RevealOnScroll>
+          <div className="mb-14">
+            <h3
+              className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
+              style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
+            >
+              Behind the Scenes
+            </h3>
+            <div className="relative">
+              <div
+                ref={btsScrollRef}
+                className="flex gap-3 overflow-x-auto"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                {project.btsImages!.map((src, i) => (
+                  <div
+                    key={i}
+                    className="shrink-0"
+                    style={{ width: `${100 / Math.min(project.btsImages!.length, 5)}%` }}
+                  >
+                    <button
+                      onClick={() => setBtsLightboxIdx(i)}
+                      className="w-full overflow-hidden transition-opacity hover:opacity-80"
+                    >
+                      <img
+                        src={src}
+                        alt={`${project.title} BTS ${i + 1}`}
+                        loading="lazy"
+                        className="aspect-[3/2] w-full object-cover"
+                      />
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {canBtsScrollLeft && (
+                <button
+                  onClick={() => scrollBts(-1)}
+                  className="absolute left-2 top-1/2 z-10 -translate-y-1/2 p-2 text-3xl text-white transition-opacity hover:opacity-70"
+                  aria-label="Scroll left"
+                >
+                  &#8249;
+                </button>
+              )}
+              {canBtsScrollRight && (
+                <button
+                  onClick={() => scrollBts(1)}
+                  className="absolute right-2 top-1/2 z-10 -translate-y-1/2 p-2 text-3xl text-white transition-opacity hover:opacity-70"
+                  aria-label="Scroll right"
+                >
+                  &#8250;
+                </button>
+              )}
+            </div>
+          </div>
+        </RevealOnScroll>
+      )}
+
+      {/* BTS Lightbox */}
+      {btsLightboxIdx !== null && project.btsImages && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+          onClick={() => setBtsLightboxIdx(null)}
+        >
+          <button
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-4xl text-white/70 hover:text-white"
+            onClick={(e) => {
+              e.stopPropagation()
+              setBtsLightboxIdx(
+                (btsLightboxIdx - 1 + project.btsImages!.length) % project.btsImages!.length
+              )
+            }}
+          >
+            &#8249;
+          </button>
+          <img
+            src={project.btsImages[btsLightboxIdx]}
+            alt={`${project.title} BTS ${btsLightboxIdx + 1}`}
+            className="max-h-[85vh] max-w-[90vw] object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-4xl text-white/70 hover:text-white"
+            onClick={(e) => {
+              e.stopPropagation()
+              setBtsLightboxIdx((btsLightboxIdx + 1) % project.btsImages!.length)
+            }}
+          >
+            &#8250;
+          </button>
+          <button
+            className="absolute right-6 top-6 text-2xl text-white/70 hover:text-white"
+            onClick={() => setBtsLightboxIdx(null)}
+          >
+            &times;
+          </button>
+        </div>
       )}
 
       {/* Lightbox */}

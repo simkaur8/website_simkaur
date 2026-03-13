@@ -23,6 +23,7 @@ export interface StaticProject {
   thumbnail?: string
   video?: { platform: 'vimeo' | 'youtube'; id: string; hash?: string; aspect?: string }
   btsThumbnail?: string
+  btsImages?: string[]
   comingSoon?: boolean
   contactSheet?: boolean
 }
@@ -295,15 +296,28 @@ export const staticProjects: StaticProject[] = [
       '/images/direction/velvet-skin/vs_11.webp',
       '/images/direction/velvet-skin/vs_12.webp',
       '/images/direction/velvet-skin/vs_12.5.webp',
-      '/images/direction/velvet-skin/vs_13.webp',
       '/images/direction/velvet-skin/vs_15.webp',
       '/images/direction/velvet-skin/vs_16.webp',
-      '/images/direction/velvet-skin/vs_17.webp',
       '/images/direction/velvet-skin/vs_18.webp',
       '/images/direction/velvet-skin/vs_20.webp',
       '/images/direction/velvet-skin/vs_21.webp',
     ],
     contactSheet: true,
+    btsImages: [
+      '/images/direction/velvet-skin/bts/pole6.webp',
+      '/images/direction/velvet-skin/bts/pole32.webp',
+      '/images/direction/velvet-skin/bts/pole11.webp',
+      '/images/direction/velvet-skin/bts/02-000040.webp',
+      '/images/direction/velvet-skin/bts/000028.webp',
+      '/images/direction/velvet-skin/bts/000031.webp',
+      '/images/direction/velvet-skin/bts/000035.webp',
+      '/images/direction/velvet-skin/bts/03-000029.webp',
+      '/images/direction/velvet-skin/bts/dsc00235.webp',
+      '/images/direction/velvet-skin/bts/img_0123.webp',
+      '/images/direction/velvet-skin/bts/img_9857.webp',
+      '/images/direction/velvet-skin/bts/img_9881.webp',
+      '/images/direction/velvet-skin/bts/jpoycef2781-r1-22-14.webp',
+    ],
     video: { platform: 'youtube', id: 'dGxXAoKr_X4' },
   },
   {
