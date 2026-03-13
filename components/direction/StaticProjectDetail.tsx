@@ -50,7 +50,16 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
     const el = scrollRef.current
     if (!el) return
     el.addEventListener('scroll', updateScrollState, { passive: true })
-    return () => el.removeEventListener('scroll', updateScrollState)
+    // Re-check after images load
+    const imgs = el.querySelectorAll('img')
+    imgs.forEach((img) => img.addEventListener('load', updateScrollState))
+    // Also re-check after a short delay for layout settling
+    const timer = setTimeout(updateScrollState, 500)
+    return () => {
+      el.removeEventListener('scroll', updateScrollState)
+      imgs.forEach((img) => img.removeEventListener('load', updateScrollState))
+      clearTimeout(timer)
+    }
   }, [updateScrollState])
 
   const scrollGallery = useCallback((dir: number) => {

@@ -49,9 +49,10 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
+          onClick={onClose}
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" onClick={onClose} />
+          <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" />
 
           {/* Left arrow */}
           <button
@@ -89,6 +90,7 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.25 }}
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Video */}
             {project.video && (
