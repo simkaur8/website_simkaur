@@ -210,9 +210,9 @@ html {
   padding-top: 1rem;
   padding-bottom: 4rem;
   position: relative;
-  overflow: hidden;
-  -webkit-mask-image: radial-gradient(ellipse 90% 85% at center, black 60%, transparent 100%);
-  mask-image: radial-gradient(ellipse 90% 85% at center, black 60%, transparent 100%);
+  overflow: visible;
+  -webkit-mask-image: radial-gradient(ellipse 92% 92% at center, black 65%, transparent 100%);
+  mask-image: radial-gradient(ellipse 92% 92% at center, black 65%, transparent 100%);
 }
 
 .vortex {
