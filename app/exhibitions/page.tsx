@@ -126,6 +126,7 @@ export default function ExhibitionsPage() {
                             loop
                             muted
                             playsInline
+                            preload="auto"
                             className="h-full w-full object-cover"
                           />
                         </div>
