@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import { VideoPlayer } from '@/components/ui/VideoPlayer'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
@@ -27,20 +27,35 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
     setCarouselIdx((i) => (i + 1) % vignetteCount)
   }, [vignetteCount])
 
-  // Gallery carousel (for non-vignette projects like Crossfire)
+  // Gallery horizontal scroll
   const allGalleryItems = [
     ...(project.btsThumbnail ? [{ type: 'bts' as const, src: project.btsThumbnail }] : []),
     ...(project.galleryImages || []).map((src) => ({ type: 'image' as const, src })),
   ]
-  const [galleryIdx, setGalleryIdx] = useState(0)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(false)
 
-  const prevGallery = useCallback(() => {
-    setGalleryIdx((i) => (i - 1 + allGalleryItems.length) % allGalleryItems.length)
-  }, [allGalleryItems.length])
+  const updateScrollState = useCallback(() => {
+    const el = scrollRef.current
+    if (!el) return
+    setCanScrollLeft(el.scrollLeft > 0)
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 2)
+  }, [])
 
-  const nextGallery = useCallback(() => {
-    setGalleryIdx((i) => (i + 1) % allGalleryItems.length)
-  }, [allGalleryItems.length])
+  useEffect(() => {
+    updateScrollState()
+    const el = scrollRef.current
+    if (!el) return
+    el.addEventListener('scroll', updateScrollState, { passive: true })
+    return () => el.removeEventListener('scroll', updateScrollState)
+  }, [updateScrollState])
+
+  const scrollGallery = useCallback((dir: number) => {
+    const el = scrollRef.current
+    if (!el) return
+    el.scrollBy({ left: dir * el.clientWidth * 0.6, behavior: 'smooth' })
+  }, [])
 
   return (
     <article className="px-4 pb-20 pt-24 sm:px-8 md:px-12 lg:px-16 xl:px-24">
@@ -152,7 +167,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
         )
       )}
 
-      {/* Gallery carousel (horizontal, full-width, arrows) */}
+      {/* Gallery — horizontal scrolling row, same width as video */}
       {allGalleryItems.length > 0 && (
         <RevealOnScroll>
           <div className="mx-auto mb-14 max-w-7xl">
@@ -163,61 +178,71 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
               Gallery
             </h3>
             <div className="relative">
-              <div className="aspect-[3/4] w-full overflow-hidden bg-[var(--bg-surface)]">
-                {allGalleryItems[galleryIdx].type === 'bts' ? (
-                  <div className="relative h-full w-full">
-                    <img
-                      src={allGalleryItems[galleryIdx].src}
-                      alt={`${project.title} BTS`}
-                      className="h-full w-full object-cover opacity-50"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span
-                        className="text-center font-medium uppercase tracking-[0.15em] text-white"
-                        style={{ fontSize: 'var(--text-sm)' }}
+              <div
+                ref={scrollRef}
+                className="flex gap-3 overflow-x-auto"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                {allGalleryItems.map((item, i) => (
+                  <div
+                    key={i}
+                    className="shrink-0"
+                    style={{ width: `${100 / Math.min(allGalleryItems.length, 4)}%` }}
+                  >
+                    {item.type === 'bts' ? (
+                      <div className="relative aspect-[3/4] overflow-hidden">
+                        <img
+                          src={item.src}
+                          alt={`${project.title} BTS`}
+                          loading="lazy"
+                          className="h-full w-full object-cover opacity-50"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span
+                            className="text-center font-medium uppercase tracking-[0.15em] text-white"
+                            style={{ fontSize: 'var(--text-sm)' }}
+                          >
+                            BTS Video
+                            <br />
+                            Coming Soon
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setLightboxIdx(project.btsThumbnail ? i - 1 : i)}
+                        className="w-full overflow-hidden transition-opacity hover:opacity-80"
                       >
-                        BTS Video
-                        <br />
-                        Coming Soon
-                      </span>
-                    </div>
+                        <img
+                          src={item.src}
+                          alt={`${project.title} still ${i + 1}`}
+                          loading="lazy"
+                          className="aspect-[3/4] w-full object-cover"
+                        />
+                      </button>
+                    )}
                   </div>
-                ) : (
-                  <img
-                    src={allGalleryItems[galleryIdx].src}
-                    alt={`${project.title} still ${galleryIdx + 1}`}
-                    className="h-full w-full object-cover"
-                  />
-                )}
+                ))}
               </div>
 
-              {allGalleryItems.length > 1 && (
-                <>
-                  <button
-                    onClick={prevGallery}
-                    className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/40 px-3 py-1 text-3xl text-white/80 transition-colors hover:bg-black/60 hover:text-white"
-                    aria-label="Previous image"
-                  >
-                    &#8249;
-                  </button>
-                  <button
-                    onClick={nextGallery}
-                    className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/40 px-3 py-1 text-3xl text-white/80 transition-colors hover:bg-black/60 hover:text-white"
-                    aria-label="Next image"
-                  >
-                    &#8250;
-                  </button>
-                </>
-              )}
-
-              {/* Counter */}
-              {allGalleryItems.length > 1 && (
-                <div
-                  className="mt-3 text-center text-[var(--text-muted)]"
-                  style={{ fontSize: 'var(--text-xs)' }}
+              {/* Scroll arrows */}
+              {canScrollLeft && (
+                <button
+                  onClick={() => scrollGallery(-1)}
+                  className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 px-3 py-1 text-2xl text-white/80 transition-colors hover:bg-black/70 hover:text-white"
+                  aria-label="Scroll left"
                 >
-                  {galleryIdx + 1} / {allGalleryItems.length}
-                </div>
+                  &#8249;
+                </button>
+              )}
+              {canScrollRight && (
+                <button
+                  onClick={() => scrollGallery(1)}
+                  className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 px-3 py-1 text-2xl text-white/80 transition-colors hover:bg-black/70 hover:text-white"
+                  aria-label="Scroll right"
+                >
+                  &#8250;
+                </button>
               )}
             </div>
           </div>
