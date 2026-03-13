@@ -141,6 +141,7 @@ export const staticProjects: StaticProject[] = [
       { role: '2nd AC', name: 'Jeannry Marinas' },
       { role: 'Styling', name: 'Hazel Sherritt' },
     ],
+    comingSoon: true,
     video: { platform: 'vimeo', id: '1092672509' },
   },
   {
@@ -153,18 +154,29 @@ export const staticProjects: StaticProject[] = [
     description:
       'Dance fashion film starring Jiggy Jaya, in collaboration with Sydney label Song for the Mute. Direction.',
     synopsis: [
-      'Dance fashion film starring Jiggy Jaya, in collaboration with Sydney label Song for the Mute. Direction.',
+      'Direction. 2025, Sydney. Dance fashion film starring Jiggy Jaya, in collaboration with Sydney label Song for the Mute.',
+      'Inspired by the chaos of a circus, the film captures Jaya wearing Song for the Mute\u2019s Jester-inspired collection, blending playful energy with sharp choreography.',
     ],
     credits: [
       { role: 'Direction', name: 'Simrat Kaur' },
       { role: 'Cinematography', name: 'Max Dona' },
       { role: 'Sound Design', name: 'Jenny' },
+      { role: 'Photography', name: 'Hameed' },
       { role: 'Styling', name: 'Hazel Sherritt' },
-      { role: 'Background Movement Direction', name: 'Tiara Vella' },
+      { role: 'BG Movement Direction', name: 'Tiara Vella' },
       { role: 'Background Dancers', name: 'Allie Graham, Francesca Garcia' },
       { role: 'Music', name: 'Stilts by J Dilla' },
     ],
     galleryCount: 7,
+    galleryImages: [
+      '/images/direction/jiggy-jaya/img_2857.webp',
+      '/images/direction/jiggy-jaya/img_2882.webp',
+      '/images/direction/jiggy-jaya/img_2917.webp',
+      '/images/direction/jiggy-jaya/img_2939.webp',
+      '/images/direction/jiggy-jaya/img_2999.webp',
+      '/images/direction/jiggy-jaya/img_3038.webp',
+      '/images/direction/jiggy-jaya/img_3098.webp',
+    ],
     video: { platform: 'vimeo', id: '1092672296' },
   },
   {

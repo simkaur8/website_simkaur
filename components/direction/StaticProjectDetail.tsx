@@ -339,7 +339,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                     <div key={i} className="flex gap-3">
                       <span
                         className="shrink-0 font-medium text-[var(--text-primary)]"
-                        style={{ minWidth: '200px' }}
+                        style={{ minWidth: '240px' }}
                       >
                         {credit.role}
                       </span>

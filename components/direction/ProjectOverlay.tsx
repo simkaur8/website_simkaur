@@ -145,14 +145,16 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
                     <p key={i}>{para}</p>
                   ))}
               </div>
-              <Link
-                href={`/direction/${project.slug}`}
-                className="mt-3 inline-block text-white/80 transition-colors hover:text-white"
-                style={{ fontSize: 'var(--text-sm, 0.875rem)' }}
-                onClick={onClose}
-              >
-                View Project &rarr;
-              </Link>
+              {!project.comingSoon && (
+                <Link
+                  href={`/direction/${project.slug}`}
+                  className="mt-3 inline-block text-white/80 transition-colors hover:text-white"
+                  style={{ fontSize: 'var(--text-sm, 0.875rem)' }}
+                  onClick={onClose}
+                >
+                  View Project &rarr;
+                </Link>
+              )}
             </div>
           </motion.div>
         </motion.div>
