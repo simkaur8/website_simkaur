@@ -447,7 +447,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                         src={src}
                         alt={`${project.title} BTS ${i + 1}`}
                         loading="lazy"
-                        className="h-[280px] w-auto object-cover sm:h-[320px]"
+                        className="h-[280px] w-auto sm:h-[320px]"
                       />
                     </button>
                   </div>
