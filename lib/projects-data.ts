@@ -79,7 +79,7 @@ export const staticProjects: StaticProject[] = [
       '/images/direction/crossfire/crossfire3.webp',
       '/images/direction/crossfire/crossfire7.webp',
     ],
-    btsThumbnail: '/images/vortex/crossfire.gif',
+    btsThumbnail: '/images/direction/crossfire/crossfire-bts.webp',
     video: { platform: 'vimeo', id: '1172757704', hash: 'b2deaf9daf' },
   },
   {

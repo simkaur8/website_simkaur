@@ -83,7 +83,7 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
           {/* Content */}
           <motion.div
             key={project.slug}
-            className="relative z-10 mx-auto flex w-[90vw] max-w-6xl flex-col gap-6 overflow-y-auto lg:flex-row lg:items-start lg:gap-10"
+            className="relative z-10 mx-auto flex w-[90vw] max-w-6xl flex-col gap-6 overflow-y-auto lg:flex-row lg:items-center lg:gap-10"
             style={{ maxHeight: '85vh' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import { VideoPlayer } from '@/components/ui/VideoPlayer'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
@@ -12,11 +12,40 @@ interface StaticProjectDetailProps {
 
 export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
+  const [carouselIdx, setCarouselIdx] = useState(0)
+  const hasVignettes = project.postcardVideos && project.postcardVideos.length > 0
+  const hasGallery = project.galleryImages && project.galleryImages.length > 0
+
+  // For vignette carousel: videos + optional reel as last slide
+  const vignetteCount = hasVignettes ? project.postcardVideos!.length + (project.video ? 1 : 0) : 0
+
+  const prevCarousel = useCallback(() => {
+    setCarouselIdx((i) => (i - 1 + vignetteCount) % vignetteCount)
+  }, [vignetteCount])
+
+  const nextCarousel = useCallback(() => {
+    setCarouselIdx((i) => (i + 1) % vignetteCount)
+  }, [vignetteCount])
+
+  // Gallery carousel (for non-vignette projects like Crossfire)
+  const allGalleryItems = [
+    ...(project.btsThumbnail ? [{ type: 'bts' as const, src: project.btsThumbnail }] : []),
+    ...(project.galleryImages || []).map((src) => ({ type: 'image' as const, src })),
+  ]
+  const [galleryIdx, setGalleryIdx] = useState(0)
+
+  const prevGallery = useCallback(() => {
+    setGalleryIdx((i) => (i - 1 + allGalleryItems.length) % allGalleryItems.length)
+  }, [allGalleryItems.length])
+
+  const nextGallery = useCallback(() => {
+    setGalleryIdx((i) => (i + 1) % allGalleryItems.length)
+  }, [allGalleryItems.length])
 
   return (
-    <article className="px-6 pb-20 pt-24 sm:px-10 lg:px-20">
+    <article className="px-4 pb-20 pt-24 sm:px-8 md:px-12 lg:px-16 xl:px-24">
       {/* Back link */}
-      <div className="mx-auto mb-10 max-w-5xl">
+      <div className="mx-auto mb-10 max-w-7xl">
         <Link
           href="/direction"
           className="text-[var(--text-muted)] transition-colors hover:text-[var(--text-primary)]"
@@ -28,7 +57,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
 
       {/* Title + meta */}
       <RevealOnScroll>
-        <div className="mx-auto mb-12 max-w-5xl">
+        <div className="mx-auto mb-12 max-w-7xl">
           <h1
             className="mb-2 font-medium uppercase tracking-[0.04em]"
             style={{ fontSize: 'clamp(2.4rem, 2rem + 2vw, 4rem)' }}
@@ -44,66 +73,152 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
         </div>
       </RevealOnScroll>
 
-      {/* Video */}
-      {project.video && (
+      {/* Vignette carousel (Elle India style) */}
+      {hasVignettes ? (
         <RevealOnScroll>
-          <div className="mx-auto mb-16 max-w-5xl overflow-hidden">
-            <VideoPlayer
-              platform={project.video.platform}
-              videoId={project.video.id}
-              hash={project.video.hash}
-              aspect={project.video.aspect || '16 / 9'}
-            />
+          <div className="mx-auto mb-16 max-w-7xl">
+            <div className="relative">
+              {/* Current slide */}
+              <div className="aspect-[5/4] w-full overflow-hidden bg-black">
+                {carouselIdx < project.postcardVideos!.length ? (
+                  <video
+                    key={carouselIdx}
+                    src={project.postcardVideos![carouselIdx]}
+                    autoPlay
+                    loop
+                    playsInline
+                    controls
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  project.video && (
+                    <div className="h-full w-full">
+                      <VideoPlayer
+                        platform={project.video.platform}
+                        videoId={project.video.id}
+                        hash={project.video.hash}
+                        aspect="5 / 4"
+                      />
+                    </div>
+                  )
+                )}
+              </div>
+
+              {/* Arrows */}
+              <button
+                onClick={prevCarousel}
+                className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/40 px-3 py-1 text-3xl text-white/80 transition-colors hover:bg-black/60 hover:text-white"
+                aria-label="Previous"
+              >
+                &#8249;
+              </button>
+              <button
+                onClick={nextCarousel}
+                className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/40 px-3 py-1 text-3xl text-white/80 transition-colors hover:bg-black/60 hover:text-white"
+                aria-label="Next"
+              >
+                &#8250;
+              </button>
+
+              {/* Dots */}
+              <div className="mt-4 flex justify-center gap-2">
+                {Array.from({ length: vignetteCount }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCarouselIdx(i)}
+                    className={`h-1.5 rounded-full transition-all ${
+                      i === carouselIdx ? 'w-6 bg-white' : 'w-1.5 bg-white/30 hover:bg-white/50'
+                    }`}
+                    aria-label={`Slide ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </RevealOnScroll>
+      ) : (
+        /* Standard video (Crossfire, Velvet Skin, etc.) */
+        project.video && (
+          <RevealOnScroll>
+            <div className="mx-auto mb-16 max-w-7xl overflow-hidden">
+              <VideoPlayer
+                platform={project.video.platform}
+                videoId={project.video.id}
+                hash={project.video.hash}
+                aspect={project.video.aspect || '16 / 9'}
+              />
+            </div>
+          </RevealOnScroll>
+        )
       )}
 
-      {/* Gallery */}
-      {project.galleryImages && project.galleryImages.length > 0 && (
+      {/* Gallery carousel (horizontal, full-width, arrows) */}
+      {allGalleryItems.length > 0 && (
         <RevealOnScroll>
-          <div className="mx-auto mb-14 max-w-5xl">
+          <div className="mx-auto mb-14 max-w-7xl">
             <h3
               className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
               style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
             >
               Gallery
             </h3>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {/* BTS Coming Soon tile */}
-              {project.btsThumbnail && (
-                <div className="relative overflow-hidden">
-                  <img
-                    src={project.btsThumbnail}
-                    alt={`${project.title} BTS`}
-                    loading="lazy"
-                    className="aspect-video w-full object-cover opacity-50"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span
-                      className="text-center font-medium uppercase tracking-[0.15em] text-white"
-                      style={{ fontSize: 'var(--text-sm)' }}
-                    >
-                      BTS Video
-                      <br />
-                      Coming Soon
-                    </span>
+            <div className="relative">
+              <div className="aspect-[3/4] w-full overflow-hidden bg-[var(--bg-surface)]">
+                {allGalleryItems[galleryIdx].type === 'bts' ? (
+                  <div className="relative h-full w-full">
+                    <img
+                      src={allGalleryItems[galleryIdx].src}
+                      alt={`${project.title} BTS`}
+                      className="h-full w-full object-cover opacity-50"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span
+                        className="text-center font-medium uppercase tracking-[0.15em] text-white"
+                        style={{ fontSize: 'var(--text-sm)' }}
+                      >
+                        BTS Video
+                        <br />
+                        Coming Soon
+                      </span>
+                    </div>
                   </div>
+                ) : (
+                  <img
+                    src={allGalleryItems[galleryIdx].src}
+                    alt={`${project.title} still ${galleryIdx + 1}`}
+                    className="h-full w-full object-cover"
+                  />
+                )}
+              </div>
+
+              {allGalleryItems.length > 1 && (
+                <>
+                  <button
+                    onClick={prevGallery}
+                    className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/40 px-3 py-1 text-3xl text-white/80 transition-colors hover:bg-black/60 hover:text-white"
+                    aria-label="Previous image"
+                  >
+                    &#8249;
+                  </button>
+                  <button
+                    onClick={nextGallery}
+                    className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/40 px-3 py-1 text-3xl text-white/80 transition-colors hover:bg-black/60 hover:text-white"
+                    aria-label="Next image"
+                  >
+                    &#8250;
+                  </button>
+                </>
+              )}
+
+              {/* Counter */}
+              {allGalleryItems.length > 1 && (
+                <div
+                  className="mt-3 text-center text-[var(--text-muted)]"
+                  style={{ fontSize: 'var(--text-xs)' }}
+                >
+                  {galleryIdx + 1} / {allGalleryItems.length}
                 </div>
               )}
-              {project.galleryImages.map((src, i) => (
-                <button
-                  key={i}
-                  onClick={() => setLightboxIdx(i)}
-                  className="overflow-hidden transition-opacity hover:opacity-80"
-                >
-                  <img
-                    src={src}
-                    alt={`${project.title} still ${i + 1}`}
-                    loading="lazy"
-                    className="aspect-video w-full object-cover"
-                  />
-                </button>
-              ))}
             </div>
           </div>
         </RevealOnScroll>
@@ -112,7 +227,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
       {/* Synopsis */}
       {project.synopsis && project.synopsis.length > 0 && (
         <RevealOnScroll>
-          <div className="mx-auto mb-14 max-w-5xl">
+          <div className="mx-auto mb-14 max-w-7xl">
             <h3
               className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
               style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
@@ -131,54 +246,29 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
         </RevealOnScroll>
       )}
 
-      {/* Credits */}
+      {/* Credits — 2 columns */}
       {project.credits && project.credits.length > 0 && (
         <RevealOnScroll>
-          <div className="mx-auto mb-16 max-w-5xl">
+          <div className="mx-auto mb-16 max-w-7xl">
             <h3
               className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
               style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
             >
               Credits
             </h3>
-            <div className="max-w-3xl space-y-2" style={{ fontSize: 'var(--text-sm)' }}>
+            <div
+              className="grid grid-cols-1 gap-x-12 gap-y-2 sm:grid-cols-2"
+              style={{ fontSize: 'var(--text-sm)' }}
+            >
               {project.credits.map((credit, i) => (
                 <div key={i} className="flex gap-3">
                   <span
                     className="shrink-0 font-medium text-[var(--text-primary)]"
-                    style={{ minWidth: '220px' }}
+                    style={{ minWidth: '200px' }}
                   >
                     {credit.role}
                   </span>
                   <span className="text-[var(--text-secondary)]">{credit.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </RevealOnScroll>
-      )}
-
-      {/* Postcards / Vignettes */}
-      {project.postcardVideos && project.postcardVideos.length > 0 && (
-        <RevealOnScroll>
-          <div className="mx-auto mb-14 max-w-5xl">
-            <h3
-              className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
-              style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
-            >
-              Vignettes
-            </h3>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-              {project.postcardVideos.map((src, i) => (
-                <div key={i} className="overflow-hidden">
-                  <video
-                    src={src}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="aspect-[9/16] w-full object-cover"
-                  />
                 </div>
               ))}
             </div>
