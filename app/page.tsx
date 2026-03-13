@@ -11,9 +11,9 @@ export const metadata: Metadata = {
     'Sim Kaur — Creative Director, Fashion Film Director, and Music Video Director based in Sydney. Watch the showreel and explore fashion films, dance films, and music videos.',
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'Sim Kaur | Creative Director — Fashion Films & Music Videos',
+    title: 'Sim Kaur: Creative Direction',
     description:
-      'Sim Kaur — Creative Director, Fashion Film Director, and Music Video Director based in Sydney. Watch the showreel and explore fashion films, dance films, and music videos.',
+      'Creative Director, Fashion Film Director, and Music Video Director based in Sydney.',
     url: 'https://simkaur.art',
   },
 }
