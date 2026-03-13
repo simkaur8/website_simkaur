@@ -91,7 +91,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
       {/* Vignette carousel (Elle India style) */}
       {hasVignettes ? (
         <RevealOnScroll>
-          <div className="mb-16">
+          <div className="mx-auto mb-16 max-w-4xl">
             <div className="relative">
               {/* Current slide */}
               <div className="aspect-[5/4] w-full overflow-hidden bg-black">
@@ -187,7 +187,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                   <div
                     key={i}
                     className="shrink-0"
-                    style={{ width: `${100 / Math.min(allGalleryItems.length, 4)}%` }}
+                    style={{ width: `${100 / Math.min(allGalleryItems.length, 5)}%` }}
                   >
                     {item.type === 'bts' ? (
                       <div className="relative aspect-[3/4] overflow-hidden">
