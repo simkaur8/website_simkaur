@@ -18,21 +18,27 @@ export interface StaticProject {
   synopsis?: string[]
   credits?: Credit[]
   galleryCount?: number
-  video?: { platform: 'vimeo' | 'youtube'; id: string; aspect?: string }
+  galleryImages?: string[]
+  postcardVideos?: string[]
+  thumbnail?: string
+  video?: { platform: 'vimeo' | 'youtube'; id: string; hash?: string; aspect?: string }
+  btsThumbnail?: string
   comingSoon?: boolean
 }
 
 export const staticProjects: StaticProject[] = [
   {
     slug: 'crossfire',
-    title: 'Crossfire',
-    meta: 'Fashion Dance Film, 2025, Sydney',
+    title: 'CROSSFIRE',
+    meta: 'Fashion & Dance, 2026, Sydney',
+    thumbnail: '/images/vortex/crossfire-thumb.webp',
     category: 'fashion-dance',
-    year: 2025,
+    year: 2026,
     description:
-      'Direction, cinematography & edit. 2025, Sydney.\n\nDance fashion film starring Aaliyah Paea & Rome Champion. Premiered at Palace Cinemas as part of JD IN MOTION.\n\nInspired by the love and energy of dance battles and community in Sydney. A small crew hypes a casual battle between the couple. Their chemistry flips competition into conversation.',
+      'Direction, cinematography & edit. 2026, Sydney.\n\nDance fashion film starring Aaliyah Paea & Rome Champion. Premiered at Palace Cinemas as part of JD IN MOTION.\n\nThis film is inspired by my obsession with watching battles between friends, siblings, partners, members of the same crew. Despite it being a competition, the love is so palpable.\n\nA small crew hypes a casual battle between the couple. Rome throws the first call, Aaliyah answers, each round an energetic exchange that escalates from playful competition, to charged battle, to confession. Their chemistry flips competition into conversation: receiving, reimagining, returning, then dancing together.\n\nPaying homage to Aaliyah & Rome\u2019s talent, their love, and the energy of dance battles + community here in Syd through fashion and film.',
     synopsis: [
-      'Direction, cinematography & edit. 2025, Sydney. Dance fashion film starring Aaliyah Paea & Rome Champion. Premiered at Palace Cinemas as part of JD IN MOTION. This film is inspired by my obsession with watching battles between friends/siblings/partners/members of the same crew. Despite it being a competition, the love is so palpable.',
+      'Direction, cinematography & edit. 2026, Sydney. Dance fashion film starring Aaliyah Paea & Rome Champion. Premiered at Palace Cinemas as part of JD IN MOTION.',
+      'This film is inspired by my obsession with watching battles between friends, siblings, partners, members of the same crew. Despite it being a competition, the love is so palpable.',
       'A small crew hypes a casual battle between the couple. Rome throws the first call, Aaliyah answers, each round an energetic exchange that escalates from playful competition, to charged battle, to confession. Their chemistry flips competition into conversation: receiving, reimagining, returning, then dancing together. Paying homage to Aaliyah & Rome\u2019s talent, their love, and the energy of dance battles + community here in Syd through fashion and film.',
     ],
     credits: [
@@ -64,13 +70,23 @@ export const staticProjects: StaticProject[] = [
       { role: 'Graffiti Artist', name: 'Misty' },
     ],
     galleryCount: 7,
-    video: undefined,
-    comingSoon: true,
+    galleryImages: [
+      '/images/direction/crossfire/crossfire6.webp',
+      '/images/direction/crossfire/crossfire1.webp',
+      '/images/direction/crossfire/crossfire10.webp',
+      '/images/direction/crossfire/crossfire4.webp',
+      '/images/direction/crossfire/crossfire12.webp',
+      '/images/direction/crossfire/crossfire3.webp',
+      '/images/direction/crossfire/crossfire7.webp',
+    ],
+    btsThumbnail: '/images/vortex/crossfire.gif',
+    video: { platform: 'vimeo', id: '1172757704', hash: 'b2deaf9daf' },
   },
   {
     slug: 'padani-elle-india',
     title: 'Padani for ELLE India',
     meta: 'Fashion Reel & Vignettes, 2025, Paris',
+    thumbnail: '/images/vortex/elle-thumb.webp',
     category: 'fashion-dance',
     year: 2025,
     description:
@@ -90,12 +106,27 @@ export const staticProjects: StaticProject[] = [
       { role: 'Graphic Design', name: 'Laz Arroz' },
     ],
     galleryCount: 5,
+    galleryImages: [
+      '/images/direction/elle-india/padani1.webp',
+      '/images/direction/elle-india/padani2.webp',
+      '/images/direction/elle-india/padani3.webp',
+      '/images/direction/elle-india/padani4.webp',
+      '/images/direction/elle-india/padani5.webp',
+    ],
+    postcardVideos: [
+      '/images/direction/elle-india/postcards/padani_postcard_1.mp4',
+      '/images/direction/elle-india/postcards/padani_postcard_2.mp4',
+      '/images/direction/elle-india/postcards/padani_postcard_3.mp4',
+      '/images/direction/elle-india/postcards/padani_postcard_4.mp4',
+      '/images/direction/elle-india/postcards/padani_postcard_5.mp4',
+    ],
     video: { platform: 'vimeo', id: '1151520744', aspect: '9 / 16' },
   },
   {
     slug: 'swamp',
     title: 'SWAMP',
     meta: 'Dance Fashion Film, 2025',
+    thumbnail: '/images/vortex/swamp.webp',
     category: 'fashion-dance',
     year: 2025,
     description:
@@ -116,6 +147,7 @@ export const staticProjects: StaticProject[] = [
     slug: 'jiggy-jaya-sftm',
     title: 'Jiggy Jaya x Song for the Mute',
     meta: 'Dance Fashion Film, 2025, Sydney',
+    thumbnail: '/images/direction/thumbnails/jiggy.gif',
     category: 'fashion-dance',
     year: 2025,
     description:
@@ -139,6 +171,7 @@ export const staticProjects: StaticProject[] = [
     slug: 'pam-bali',
     title: 'PAM Bali',
     meta: 'Fashion Film, 2024',
+    thumbnail: '/images/direction/thumbnails/pam-bali.gif',
     category: 'fashion-dance',
     year: 2024,
     description:
@@ -157,6 +190,7 @@ export const staticProjects: StaticProject[] = [
     slug: 'pravaah',
     title: 'Pravaah',
     meta: 'Experimental Dance Film, 2023',
+    thumbnail: '/images/vortex/pravaah2.webp',
     category: 'fashion-dance',
     year: 2023,
     description:
@@ -175,6 +209,7 @@ export const staticProjects: StaticProject[] = [
     slug: 'paris-in-sydney',
     title: 'Paris in Sydney',
     meta: 'Dance Film',
+    thumbnail: '/images/vortex/paris-syd.webp',
     category: 'fashion-dance',
     year: 2024,
     description: 'Direction.',
@@ -186,6 +221,7 @@ export const staticProjects: StaticProject[] = [
     slug: 'velvet-skin',
     title: 'Velvet Skin',
     meta: 'Dylan Atlantis, 2024',
+    thumbnail: '/images/vortex/velvet-skin.webp',
     category: 'music-video',
     year: 2024,
     description:
@@ -204,6 +240,7 @@ export const staticProjects: StaticProject[] = [
     slug: 'shy-sol',
     title: 'Shy Sol',
     meta: 'JUPiTA, 2025',
+    thumbnail: '/images/vortex/shysol.webp',
     category: 'music-video',
     year: 2025,
     description:
@@ -242,6 +279,7 @@ export const staticProjects: StaticProject[] = [
     slug: 'sabor-celestial',
     title: 'Sabor Celestial',
     meta: 'Cherry Chola, 2025',
+    thumbnail: '/images/direction/thumbnails/sabor-celestial.gif',
     category: 'music-video',
     year: 2025,
     description:

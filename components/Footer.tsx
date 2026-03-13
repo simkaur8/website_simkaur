@@ -6,7 +6,7 @@ interface FooterProps {
 
 export function Footer({ email, footerCta, socialLinks }: FooterProps) {
   return (
-    <footer className="flex flex-col items-center gap-4 py-16 text-center">
+    <footer className="flex flex-col items-center gap-4 py-24 text-center">
       <p className="text-[var(--text-lg)] font-medium text-[var(--text-primary)]">{footerCta}</p>
       <div className="flex flex-col items-center gap-3 text-[var(--text-sm)] text-[var(--text-secondary)] sm:flex-row sm:gap-2">
         <a href={`mailto:${email}`} className="transition-colors hover:text-[var(--accent)]">

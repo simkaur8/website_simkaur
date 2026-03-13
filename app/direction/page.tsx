@@ -43,13 +43,9 @@ export default async function DirectionPage() {
           className="mb-12 text-center font-normal uppercase tracking-[0.08em]"
           style={{ fontSize: 'clamp(2.8rem, 2rem + 4vw, 5.5rem)', lineHeight: 1 }}
         >
-          Direction
+          Direction + Edit
         </h1>
-        {projects.length > 0 ? (
-          <DirectionGrid projects={projects} />
-        ) : (
-          <StaticDirectionGrid projects={staticProjects} />
-        )}
+        <StaticDirectionGrid projects={staticProjects} />
       </div>
       <Footer
         email="simtheaquarius@gmail.com"

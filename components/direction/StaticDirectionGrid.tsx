@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
+import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FilterBar } from '@/components/ui/FilterBar'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { ProjectOverlay } from './ProjectOverlay'
 import type { StaticProject } from '@/lib/projects-data'
 
 const filters = [
@@ -19,8 +19,20 @@ interface StaticDirectionGridProps {
 
 export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
   const [activeFilter, setActiveFilter] = useState('all')
+  const [activeIdx, setActiveIdx] = useState<number | null>(null)
+
   const filtered =
     activeFilter === 'all' ? projects : projects.filter((p) => p.category === activeFilter)
+
+  const activeProject = activeIdx !== null ? filtered[activeIdx] : null
+
+  const handlePrev = useCallback(() => {
+    setActiveIdx((prev) => (prev !== null ? (prev - 1 + filtered.length) % filtered.length : null))
+  }, [filtered.length])
+
+  const handleNext = useCallback(() => {
+    setActiveIdx((prev) => (prev !== null ? (prev + 1) % filtered.length : null))
+  }, [filtered.length])
 
   return (
     <div>
@@ -30,7 +42,7 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
-          {filtered.map((project) => (
+          {filtered.map((project, idx) => (
             <motion.div
               key={project.slug}
               layout
@@ -40,9 +52,19 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
               transition={{ duration: 0.3 }}
             >
               <RevealOnScroll>
-                <Link href={`/direction/${project.slug}`} className="group block overflow-hidden">
-                  <div className="aspect-video overflow-hidden bg-[var(--bg-surface)]">
-                    {project.video ? (
+                <button
+                  onClick={() => setActiveIdx(idx)}
+                  className="group block w-full overflow-hidden text-left"
+                >
+                  <div className="relative aspect-video overflow-hidden bg-[var(--bg-surface)]">
+                    {project.thumbnail ? (
+                      <img
+                        src={project.thumbnail}
+                        alt={project.title}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    ) : project.video ? (
                       <VideoThumbnail
                         platform={project.video.platform}
                         videoId={project.video.id}
@@ -52,21 +74,27 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
                         <PlayIcon />
                       </div>
                     )}
+                    {/* Hover overlay with text */}
+                    <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <span className="text-[var(--text-base)] font-medium text-white">
+                        {project.title}
+                      </span>
+                      <span className="text-[var(--text-xs)] text-white/70">{project.meta}</span>
+                    </div>
                   </div>
-                  <div className="mt-3 flex flex-col gap-1">
-                    <span className="text-[var(--text-base)] font-medium text-[var(--text-primary)]">
-                      {project.title}
-                    </span>
-                    <span className="text-[var(--text-xs)] text-[var(--text-muted)]">
-                      {project.meta}
-                    </span>
-                  </div>
-                </Link>
+                </button>
               </RevealOnScroll>
             </motion.div>
           ))}
         </AnimatePresence>
       </div>
+
+      <ProjectOverlay
+        project={activeProject}
+        onClose={() => setActiveIdx(null)}
+        onPrev={handlePrev}
+        onNext={handleNext}
+      />
     </div>
   )
 }
@@ -86,7 +114,6 @@ function VideoThumbnail({ platform, videoId }: { platform: 'vimeo' | 'youtube'; 
     )
   }
 
-  // Vimeo thumbnails require API call — show placeholder with play icon
   return (
     <div className="flex h-full w-full items-center justify-center bg-[var(--bg-elevated)] transition-colors duration-300 group-hover:bg-[var(--bg-surface)]">
       <PlayIcon />

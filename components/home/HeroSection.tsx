@@ -49,16 +49,16 @@ export function HeroSection({ logoWebmUrl, logoMp4Url, showreelUrl }: HeroSectio
           style={{ width: 'clamp(240px, 38vw, 480px)' }}
         />
         <h1
-          className="text-center font-medium uppercase tracking-[0.18em] text-[var(--text-primary)]"
-          style={{ fontSize: 'var(--text-base)' }}
+          className="text-center font-medium uppercase tracking-[0.18em]"
+          style={{ fontSize: 'var(--text-base)', color: '#ffffff' }}
         >
           SIM KAUR
         </h1>
         <p
-          className="uppercase tracking-[0.15em]"
-          style={{ fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.7)' }}
+          className="font-medium uppercase tracking-[0.18em]"
+          style={{ fontSize: 'var(--text-base)', color: '#ffffff' }}
         >
-          Creative Director
+          Creative Direction
         </p>
       </motion.div>
 
@@ -72,8 +72,15 @@ export function HeroSection({ logoWebmUrl, logoMp4Url, showreelUrl }: HeroSectio
         transition={{ delay: 1, duration: 0.5 }}
         aria-label="Scroll to gallery"
       >
-        <span className="text-[var(--text-xs)] tracking-[0.2em] lowercase">scroll</span>
-        <span className="text-lg">&#8964;</span>
+        <span
+          className="tracking-[0.2em] lowercase"
+          style={{ fontSize: 'var(--text-xs)', color: 'rgb(210, 120, 65)' }}
+        >
+          scroll
+        </span>
+        <span className="text-lg" style={{ color: 'rgb(210, 120, 65)' }}>
+          &#8964;
+        </span>
       </motion.button>
     </section>
   )

@@ -66,12 +66,24 @@ const exhibitions = [
       },
     ],
   },
+  {
+    title: 'Transmedia Worldbuilding Residency',
+    subtitle:
+      '4A Centre for Contemporary Asian Art x Antariksha Studio. October 2025 \u2013 June 2026, Sydney.',
+    description:
+      'Currently undertaking the Transmedia Worldbuilding Residency at 4A Centre for Contemporary Asian Art. A six-month collaborative program exploring worldbuilding across game design, performance, sound and digital art. The residency includes mentored development, an intensive in-person workshop, and public showcases across Sydney, digital platforms, and Mumbai\u2019s Eyemyth Festival.',
+    link: {
+      text: 'More info at 4A \u2192',
+      href: 'https://4a.com.au/events/transmedia-worldbuilding-residency',
+    },
+    comingSoon: true,
+  },
 ]
 
 export default function ExhibitionsPage() {
   return (
     <>
-      <div className="px-6 pb-16 pt-24 lg:px-12">
+      <div className="px-8 pb-16 pt-24 lg:px-16 xl:px-24">
         <h1
           className="mb-12 text-center font-normal uppercase tracking-[0.08em]"
           style={{ fontSize: 'clamp(2.8rem, 2rem + 4vw, 5.5rem)', lineHeight: 1 }}
@@ -79,7 +91,7 @@ export default function ExhibitionsPage() {
           Exhibitions
         </h1>
 
-        <div className="mx-auto max-w-4xl space-y-24">
+        <div className="mx-auto max-w-6xl space-y-24">
           {exhibitions.map((exh) => (
             <RevealOnScroll key={exh.title}>
               <article>
@@ -92,7 +104,7 @@ export default function ExhibitionsPage() {
                     {exh.title}
                   </h2>
                   <p
-                    className="mt-2 uppercase tracking-[0.1em] text-[var(--text-muted)]"
+                    className="mt-2 uppercase tracking-[0.1em] text-[var(--text-secondary)]"
                     style={{ fontSize: 'var(--text-sm)', lineHeight: 1.6 }}
                   >
                     {exh.subtitle}
@@ -100,39 +112,53 @@ export default function ExhibitionsPage() {
                 </div>
 
                 {/* Triptych grid */}
-                <div
-                  className="mb-8 grid grid-cols-3"
-                  style={{ gap: 'clamp(0.5rem, 1vw, 0.8rem)' }}
-                >
-                  {exh.media.map((item, i) =>
-                    item.type === 'video' ? (
-                      <div key={i} className="overflow-hidden">
-                        <video
-                          src={item.src}
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-                    ) : (
-                      <div key={i} className="overflow-hidden">
-                        <img
-                          src={item.src}
-                          alt={item.alt || ''}
-                          className="h-full w-full object-cover"
-                          loading="lazy"
-                        />
-                      </div>
-                    )
-                  )}
-                </div>
+                {'media' in exh && exh.media && (
+                  <div
+                    className="mb-8 grid grid-cols-1 sm:grid-cols-3"
+                    style={{ gap: 'clamp(0.5rem, 1vw, 0.8rem)' }}
+                  >
+                    {exh.media.map((item, i) =>
+                      item.type === 'video' ? (
+                        <div key={i} className="aspect-[3/2] overflow-hidden">
+                          <video
+                            src={item.src}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div key={i} className="aspect-[3/2] overflow-hidden">
+                          <img
+                            src={item.src}
+                            alt={item.alt || ''}
+                            className="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
+
+                {/* Coming Soon placeholder */}
+                {'comingSoon' in exh && exh.comingSoon && (
+                  <div className="mb-8 flex aspect-[3/1] items-center justify-center border border-[var(--border)] sm:aspect-[4/1]">
+                    <span
+                      className="uppercase tracking-[0.15em] text-[var(--text-muted)]"
+                      style={{ fontSize: 'var(--text-sm)' }}
+                    >
+                      Images coming soon
+                    </span>
+                  </div>
+                )}
 
                 {/* Description */}
                 {'description' in exh && exh.description && (
                   <p
-                    className="mb-6 max-w-2xl leading-relaxed text-[var(--text-secondary)]"
+                    className="mb-6 max-w-6xl leading-relaxed text-[var(--text-secondary)]"
                     style={{ fontSize: 'var(--text-base)' }}
                   >
                     {exh.description}

@@ -40,13 +40,13 @@ export function SideNav() {
       )}
     >
       <Link href="/" aria-label="Home" className="mb-10">
-        <LogoVideo webmSrc="/videos/logo.webm" mp4Src="/videos/logo.mp4" className="w-[130px]" />
+        <LogoVideo webmSrc="/videos/logo.webm" mp4Src="/videos/logo.mp4" className="w-[150px]" />
       </Link>
 
       <ul className="flex flex-col gap-4">
         {navLinks.map((link, index) => (
           <Fragment key={link.href}>
-            {index === 2 && <li className="h-3.5" aria-hidden="true" />}
+            {index === 3 && <li className="h-3.5" aria-hidden="true" />}
             <li>
               <Link
                 href={link.href}

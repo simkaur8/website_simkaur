@@ -38,6 +38,10 @@ export function VortexItem({
     })
   }
 
+  // For GIFs, generate a static fallback path
+  const isGif = image.endsWith('.gif')
+  const staticFallback = isGif ? image.replace('.gif', '-static.webp') : undefined
+
   const content = (
     <>
       <img
@@ -46,6 +50,17 @@ export function VortexItem({
         loading={ring <= 1 ? 'eager' : 'lazy'}
         decoding="async"
         style={imgStyle}
+        {...(staticFallback
+          ? {
+              onError: (e) => {
+                const img = e.currentTarget
+                if (!img.dataset.fallback) {
+                  img.dataset.fallback = '1'
+                  img.src = staticFallback
+                }
+              },
+            }
+          : {})}
       />
       {title && (
         <div className="g-overlay">

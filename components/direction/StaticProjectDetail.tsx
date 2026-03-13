@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { VideoPlayer } from '@/components/ui/VideoPlayer'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
@@ -10,10 +11,12 @@ interface StaticProjectDetailProps {
 }
 
 export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
+  const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
+
   return (
-    <article className="px-6 pb-16 pt-24 lg:px-12">
+    <article className="px-6 pb-20 pt-24 sm:px-10 lg:px-20">
       {/* Back link */}
-      <div className="mx-auto mb-8 max-w-5xl">
+      <div className="mx-auto mb-10 max-w-5xl">
         <Link
           href="/direction"
           className="text-[var(--text-muted)] transition-colors hover:text-[var(--text-primary)]"
@@ -25,73 +28,78 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
 
       {/* Title + meta */}
       <RevealOnScroll>
-        <div className="mx-auto mb-8 max-w-5xl">
+        <div className="mx-auto mb-12 max-w-5xl">
           <h1
-            className="mb-2 font-medium uppercase tracking-[0.05em]"
-            style={{ fontSize: 'clamp(1.953rem, 1.7rem + 1.25vw, 2.5rem)' }}
+            className="mb-2 font-medium uppercase tracking-[0.04em]"
+            style={{ fontSize: 'clamp(2.4rem, 2rem + 2vw, 4rem)' }}
           >
             {project.title}
           </h1>
-          <p className="text-[var(--text-sm)] uppercase tracking-[0.15em] text-[var(--text-muted)]">
+          <p
+            className="uppercase tracking-[0.15em] text-[var(--text-muted)]"
+            style={{ fontSize: 'var(--text-sm)' }}
+          >
             {project.meta}
           </p>
         </div>
       </RevealOnScroll>
 
-      {/* Video hero */}
+      {/* Video */}
       {project.video && (
         <RevealOnScroll>
-          <div className="mx-auto mb-12 max-w-5xl overflow-hidden">
+          <div className="mx-auto mb-16 max-w-5xl overflow-hidden">
             <VideoPlayer
               platform={project.video.platform}
               videoId={project.video.id}
+              hash={project.video.hash}
               aspect={project.video.aspect || '16 / 9'}
             />
           </div>
         </RevealOnScroll>
       )}
 
-      {/* Coming Soon hero (for projects without video) */}
-      {!project.video && project.comingSoon && (
+      {/* Synopsis */}
+      {project.synopsis && project.synopsis.length > 0 && (
         <RevealOnScroll>
-          <div className="mx-auto mb-12 max-w-5xl overflow-hidden">
-            <div
-              className="relative flex items-center justify-center bg-[var(--bg-secondary)]"
-              style={{ aspectRatio: '16 / 9' }}
+          <div className="mx-auto mb-14 max-w-5xl">
+            <h3
+              className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
+              style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
             >
-              <span
-                className="uppercase tracking-[0.3em] text-[var(--text-muted)]"
-                style={{ fontSize: 'var(--text-lg)' }}
-              >
-                Coming Soon
-              </span>
+              Synopsis
+            </h3>
+            <div
+              className="max-w-3xl space-y-5 leading-relaxed text-[var(--text-secondary)]"
+              style={{ fontSize: 'var(--text-base)' }}
+            >
+              {project.synopsis.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
             </div>
           </div>
         </RevealOnScroll>
       )}
 
-      {/* Gallery grid placeholder */}
-      {project.galleryCount && project.galleryCount > 0 && (
+      {/* Credits */}
+      {project.credits && project.credits.length > 0 && (
         <RevealOnScroll>
-          <div className="mx-auto mb-12 max-w-5xl">
-            <div
-              className="grid gap-2"
-              style={{
-                gridTemplateColumns: `repeat(${Math.min(project.galleryCount, 4)}, 1fr)`,
-              }}
+          <div className="mx-auto mb-16 max-w-5xl">
+            <h3
+              className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
+              style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
             >
-              {Array.from({ length: project.galleryCount }).map((_, i) => (
-                <div
-                  key={i}
-                  className="flex items-center justify-center bg-[var(--bg-secondary)]"
-                  style={{ aspectRatio: '4 / 3' }}
-                >
+              Credits
+            </h3>
+            <div className="max-w-3xl space-y-2" style={{ fontSize: 'var(--text-sm)' }}>
+              {project.credits.map((credit, i) => (
+                <div key={i} className="flex gap-3">
                   <span
-                    className="text-[var(--text-muted)] opacity-40"
-                    style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
+                    className="shrink-0 font-medium text-[var(--text-primary)]"
+                    style={{ minWidth: '220px' }}
                   >
-                    Still {i + 1}
+                    {credit.role}
                   </span>
+                  <span className="text-[var(--text-secondary)]">{credit.name}</span>
                 </div>
               ))}
             </div>
@@ -99,56 +107,124 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
         </RevealOnScroll>
       )}
 
-      {/* Two-column: Synopsis + Credits */}
-      {(project.synopsis || project.credits) && (
+      {/* Gallery */}
+      {project.galleryImages && project.galleryImages.length > 0 && (
         <RevealOnScroll>
-          <div className="mx-auto max-w-5xl grid gap-12 md:grid-cols-2">
-            {/* Synopsis */}
-            {project.synopsis && project.synopsis.length > 0 && (
-              <div>
-                <h3
-                  className="mb-4 uppercase tracking-[0.15em] text-[var(--text-muted)]"
-                  style={{ fontSize: 'var(--text-sm)' }}
-                >
-                  Synopsis
-                </h3>
-                <div
-                  className="space-y-4 leading-relaxed text-[var(--text-secondary)]"
-                  style={{ fontSize: 'var(--text-base)' }}
-                >
-                  {project.synopsis.map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
+          <div className="mx-auto mb-14 max-w-5xl">
+            <h3
+              className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
+              style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
+            >
+              Gallery
+            </h3>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {/* BTS Coming Soon tile */}
+              {project.btsThumbnail && (
+                <div className="relative overflow-hidden">
+                  <img
+                    src={project.btsThumbnail}
+                    alt={`${project.title} BTS`}
+                    loading="lazy"
+                    className="aspect-video w-full object-cover opacity-50"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span
+                      className="text-center font-medium uppercase tracking-[0.15em] text-white"
+                      style={{ fontSize: 'var(--text-sm)' }}
+                    >
+                      BTS Video
+                      <br />
+                      Coming Soon
+                    </span>
+                  </div>
                 </div>
-              </div>
-            )}
-
-            {/* Credits */}
-            {project.credits && project.credits.length > 0 && (
-              <div>
-                <h3
-                  className="mb-4 uppercase tracking-[0.15em] text-[var(--text-muted)]"
-                  style={{ fontSize: 'var(--text-sm)' }}
+              )}
+              {project.galleryImages.map((src, i) => (
+                <button
+                  key={i}
+                  onClick={() => setLightboxIdx(i)}
+                  className="overflow-hidden transition-opacity hover:opacity-80"
                 >
-                  Credits
-                </h3>
-                <div className="space-y-2" style={{ fontSize: 'var(--text-sm)' }}>
-                  {project.credits.map((credit, i) => (
-                    <div key={i} className="flex gap-4">
-                      <span
-                        className="shrink-0 text-[var(--text-muted)]"
-                        style={{ minWidth: '40%' }}
-                      >
-                        {credit.role}
-                      </span>
-                      <span className="text-[var(--text-secondary)]">{credit.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+                  <img
+                    src={src}
+                    alt={`${project.title} still ${i + 1}`}
+                    loading="lazy"
+                    className="aspect-video w-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
           </div>
         </RevealOnScroll>
+      )}
+
+      {/* Postcards / Vignettes */}
+      {project.postcardVideos && project.postcardVideos.length > 0 && (
+        <RevealOnScroll>
+          <div className="mx-auto mb-14 max-w-5xl">
+            <h3
+              className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
+              style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
+            >
+              Vignettes
+            </h3>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+              {project.postcardVideos.map((src, i) => (
+                <div key={i} className="overflow-hidden">
+                  <video
+                    src={src}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="aspect-[9/16] w-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </RevealOnScroll>
+      )}
+
+      {/* Lightbox */}
+      {lightboxIdx !== null && project.galleryImages && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+          onClick={() => setLightboxIdx(null)}
+        >
+          <button
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-4xl text-white/70 hover:text-white"
+            onClick={(e) => {
+              e.stopPropagation()
+              setLightboxIdx(
+                (lightboxIdx - 1 + project.galleryImages!.length) % project.galleryImages!.length
+              )
+            }}
+          >
+            &#8249;
+          </button>
+          <img
+            src={project.galleryImages[lightboxIdx]}
+            alt={`${project.title} still ${lightboxIdx + 1}`}
+            className="max-h-[85vh] max-w-[90vw] object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-4xl text-white/70 hover:text-white"
+            onClick={(e) => {
+              e.stopPropagation()
+              setLightboxIdx((lightboxIdx + 1) % project.galleryImages!.length)
+            }}
+          >
+            &#8250;
+          </button>
+          <button
+            className="absolute right-6 top-6 text-2xl text-white/70 hover:text-white"
+            onClick={() => setLightboxIdx(null)}
+          >
+            &times;
+          </button>
+        </div>
       )}
     </article>
   )
