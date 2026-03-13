@@ -306,11 +306,10 @@ export const staticProjects: StaticProject[] = [
     contactSheet: true,
     btsImages: [
       '/images/direction/velvet-skin/bts/pole6.webp',
+      '/images/direction/velvet-skin/bts/velvetskin32.webp',
       '/images/direction/velvet-skin/bts/pole32.webp',
       '/images/direction/velvet-skin/bts/pole11.webp',
       '/images/direction/velvet-skin/bts/02-000040.webp',
-      '/images/direction/velvet-skin/bts/velvetskin32.webp',
-      '/images/direction/velvet-skin/bts/000028.webp',
       '/images/direction/velvet-skin/bts/000031.webp',
       '/images/direction/velvet-skin/bts/000035.webp',
       '/images/direction/velvet-skin/bts/03-000029.webp',
