@@ -40,7 +40,7 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
         <FilterBar filters={filters} active={activeFilter} onChange={setActiveFilter} />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
           {filtered.map((project, idx) => (
             <motion.div
@@ -56,7 +56,7 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
                   onClick={() => setActiveIdx(idx)}
                   className="group block w-full overflow-hidden text-left"
                 >
-                  <div className="relative aspect-video overflow-hidden bg-[var(--bg-surface)]">
+                  <div className="relative aspect-[5/4] overflow-hidden bg-[var(--bg-surface)]">
                     {project.thumbnail ? (
                       <img
                         src={project.thumbnail}

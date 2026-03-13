@@ -58,55 +58,6 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
         </RevealOnScroll>
       )}
 
-      {/* Synopsis */}
-      {project.synopsis && project.synopsis.length > 0 && (
-        <RevealOnScroll>
-          <div className="mx-auto mb-14 max-w-5xl">
-            <h3
-              className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
-              style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
-            >
-              Synopsis
-            </h3>
-            <div
-              className="max-w-3xl space-y-5 leading-relaxed text-[var(--text-secondary)]"
-              style={{ fontSize: 'var(--text-base)' }}
-            >
-              {project.synopsis.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-            </div>
-          </div>
-        </RevealOnScroll>
-      )}
-
-      {/* Credits */}
-      {project.credits && project.credits.length > 0 && (
-        <RevealOnScroll>
-          <div className="mx-auto mb-16 max-w-5xl">
-            <h3
-              className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
-              style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
-            >
-              Credits
-            </h3>
-            <div className="max-w-3xl space-y-2" style={{ fontSize: 'var(--text-sm)' }}>
-              {project.credits.map((credit, i) => (
-                <div key={i} className="flex gap-3">
-                  <span
-                    className="shrink-0 font-medium text-[var(--text-primary)]"
-                    style={{ minWidth: '220px' }}
-                  >
-                    {credit.role}
-                  </span>
-                  <span className="text-[var(--text-secondary)]">{credit.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </RevealOnScroll>
-      )}
-
       {/* Gallery */}
       {project.galleryImages && project.galleryImages.length > 0 && (
         <RevealOnScroll>
@@ -152,6 +103,55 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                     className="aspect-video w-full object-cover"
                   />
                 </button>
+              ))}
+            </div>
+          </div>
+        </RevealOnScroll>
+      )}
+
+      {/* Synopsis */}
+      {project.synopsis && project.synopsis.length > 0 && (
+        <RevealOnScroll>
+          <div className="mx-auto mb-14 max-w-5xl">
+            <h3
+              className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
+              style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
+            >
+              Synopsis
+            </h3>
+            <div
+              className="max-w-3xl space-y-5 leading-relaxed text-[var(--text-secondary)]"
+              style={{ fontSize: 'var(--text-base)' }}
+            >
+              {project.synopsis.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+          </div>
+        </RevealOnScroll>
+      )}
+
+      {/* Credits */}
+      {project.credits && project.credits.length > 0 && (
+        <RevealOnScroll>
+          <div className="mx-auto mb-16 max-w-5xl">
+            <h3
+              className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
+              style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
+            >
+              Credits
+            </h3>
+            <div className="max-w-3xl space-y-2" style={{ fontSize: 'var(--text-sm)' }}>
+              {project.credits.map((credit, i) => (
+                <div key={i} className="flex gap-3">
+                  <span
+                    className="shrink-0 font-medium text-[var(--text-primary)]"
+                    style={{ minWidth: '220px' }}
+                  >
+                    {credit.role}
+                  </span>
+                  <span className="text-[var(--text-secondary)]">{credit.name}</span>
+                </div>
               ))}
             </div>
           </div>
