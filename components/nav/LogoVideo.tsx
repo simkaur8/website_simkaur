@@ -31,7 +31,7 @@ export function LogoVideo({ webmSrc, mp4Src, className, style }: LogoVideoProps)
       muted
       playsInline
       className={className}
-      style={style}
+      style={{ ...style, mixBlendMode: 'screen' }}
       src={src}
       aria-hidden="true"
     />

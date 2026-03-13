@@ -335,27 +335,34 @@ html {
   .vx-ring-1,
   .vx-ring-2,
   .vx-ring-3,
-  .vx-ring-4 {
+  .vx-ring-4,
+  .vx-ring-5 {
     display: none;
   }
   .vortex {
-    width: 100vw;
-    height: 100vh;
+    width: 92vw;
+    height: 92vw;
   }
   .vx-lg {
-    width: clamp(140px, 38vw, 190px);
+    width: clamp(120px, 32vw, 160px);
   }
   .vx-md {
-    width: clamp(115px, 30vw, 160px);
+    width: clamp(95px, 25vw, 130px);
   }
   .vx-sm {
-    width: clamp(85px, 22vw, 120px);
+    width: clamp(70px, 18vw, 100px);
+  }
+  .vx-xs {
+    width: clamp(50px, 14vw, 70px);
   }
   .vx-wide {
-    width: clamp(90px, 24vw, 130px);
+    width: clamp(75px, 20vw, 105px);
   }
   .vx-land {
-    width: clamp(130px, 34vw, 175px);
+    width: clamp(110px, 28vw, 145px);
+  }
+  .vx-land-sm {
+    width: clamp(85px, 22vw, 115px);
   }
 }
 @media (min-width: 600px) and (max-width: 899px) {
