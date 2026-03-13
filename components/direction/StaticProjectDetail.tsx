@@ -120,6 +120,14 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
       {/* Title + meta */}
       <RevealOnScroll>
         <div className="mb-12">
+          {!project.synopsis && (
+            <p
+              className="mb-3 uppercase tracking-[0.15em] text-[var(--text-muted)]"
+              style={{ fontSize: 'var(--text-sm)' }}
+            >
+              Creative Direction
+            </p>
+          )}
           <h1
             className="mb-2 font-medium uppercase tracking-[0.04em]"
             style={{ fontSize: 'clamp(2.4rem, 2rem + 2vw, 4rem)' }}
@@ -261,7 +269,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
           <div className="mb-14">
             {project.contactSheet ? (
               /* Contact sheet: tight grid, no spacing */
-              <div className="grid grid-cols-4 sm:grid-cols-7">
+              <div className="grid grid-cols-4">
                 {allGalleryItems.map((item, i) => (
                   <div key={i} className="overflow-hidden">
                     <img
@@ -356,10 +364,12 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
         </RevealOnScroll>
       )}
 
-      {/* Synopsis + Credits — side by side when both exist */}
+      {/* Synopsis + Credits */}
       {(project.synopsis?.length || project.credits?.length) && (
         <RevealOnScroll>
-          <div className="mb-16 grid grid-cols-1 gap-12 lg:grid-cols-2">
+          <div
+            className={`mb-16 ${project.synopsis ? 'grid grid-cols-1 gap-12 lg:grid-cols-2' : ''}`}
+          >
             {/* Synopsis */}
             {project.synopsis && project.synopsis.length > 0 && (
               <div>
@@ -389,9 +399,12 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                 >
                   Credits
                 </h3>
-                <div className="space-y-2" style={{ fontSize: 'var(--text-sm)' }}>
+                <div
+                  className={`space-y-2 ${project.credits.length > 10 ? 'columns-1 gap-x-12 sm:columns-2' : ''}`}
+                  style={{ fontSize: 'var(--text-sm)' }}
+                >
                   {project.credits.map((credit, i) => (
-                    <div key={i} className="flex gap-3">
+                    <div key={i} className="flex gap-3 break-inside-avoid">
                       <span
                         className="shrink-0 font-medium text-[var(--text-primary)]"
                         style={{ minWidth: '240px' }}
@@ -425,20 +438,16 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 {project.btsImages!.map((src, i) => (
-                  <div
-                    key={i}
-                    className="shrink-0"
-                    style={{ width: `${100 / Math.min(project.btsImages!.length, 5)}%` }}
-                  >
+                  <div key={i} className="shrink-0">
                     <button
                       onClick={() => setBtsLightboxIdx(i)}
-                      className="w-full overflow-hidden transition-opacity hover:opacity-80"
+                      className="overflow-hidden transition-opacity hover:opacity-80"
                     >
                       <img
                         src={src}
                         alt={`${project.title} BTS ${i + 1}`}
                         loading="lazy"
-                        className="aspect-[3/2] w-full object-cover"
+                        className="h-[280px] w-auto object-cover sm:h-[320px]"
                       />
                     </button>
                   </div>
