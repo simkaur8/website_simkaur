@@ -21,15 +21,15 @@ export function HeroSection({ logoWebmUrl, logoMp4Url, showreelUrl }: HeroSectio
       <div className="absolute inset-0 z-0">
         {showreelUrl ? (
           <video
+            src={showreelUrl}
             autoPlay
             muted
             loop
             playsInline
+            preload="auto"
             className="h-full w-full object-cover"
             style={{ filter: 'saturate(0.9) brightness(0.85)' }}
-          >
-            <source src={showreelUrl} type="video/mp4" />
-          </video>
+          />
         ) : (
           <div className="h-full w-full bg-[var(--bg-primary)]" />
         )}
