@@ -37,7 +37,7 @@ const vortexItems = [
     top: 30,
     size: 'vx-md',
     ring: 0,
-    href: '/direction/padani-for-elle-india',
+    href: '/direction/padani-elle-india',
     title: 'Padani for ELLE',
     tag: 'Fashion Film',
     image: `${V}/padani1.webp`,
