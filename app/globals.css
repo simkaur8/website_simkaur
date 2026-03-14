@@ -211,14 +211,14 @@ html {
   padding-bottom: 4rem;
   position: relative;
   overflow: visible;
-  -webkit-mask-image: radial-gradient(ellipse 94% 100% at 50% 50%, black 55%, transparent 100%);
-  mask-image: radial-gradient(ellipse 94% 100% at 50% 50%, black 55%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 92% at 50% 50%, black 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse 100% 92% at 50% 50%, black 55%, transparent 100%);
 }
 
 .vortex {
   position: relative;
-  width: min(85vw, 960px);
-  height: min(96vw, 1090px);
+  width: min(92vw, 1100px);
+  height: min(72vw, 820px);
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -340,8 +340,8 @@ html {
     display: none;
   }
   .vortex {
-    width: 92vw;
-    height: 105vw;
+    width: 95vw;
+    height: 85vw;
   }
   .vx-lg {
     width: clamp(120px, 32vw, 160px);
@@ -388,8 +388,8 @@ html {
 /* Large monitors — expand vortex */
 @media (min-width: 1600px) {
   .vortex {
-    width: min(78vw, 1200px);
-    height: min(89vw, 1370px);
+    width: min(85vw, 1400px);
+    height: min(65vw, 1000px);
   }
   .vx-ring-5 {
     display: none;
@@ -426,8 +426,8 @@ html {
 /* Ultrawide / 4K — even bigger, show ring 5 */
 @media (min-width: 1920px) {
   .vortex {
-    width: min(75vw, 1500px);
-    height: min(85vw, 1710px);
+    width: min(82vw, 1700px);
+    height: min(60vw, 1200px);
   }
   .vx-ring-5 {
     display: block;
@@ -464,7 +464,7 @@ html {
 /* Super ultrawide */
 @media (min-width: 2560px) {
   .vortex {
-    width: min(70vw, 1800px);
-    height: min(80vw, 2050px);
+    width: min(78vw, 2000px);
+    height: min(55vw, 1400px);
   }
 }

@@ -50,7 +50,8 @@ export function VortexItem({
         src={image}
         alt={title || ''}
         loading={ring <= 1 ? 'eager' : 'lazy'}
-        decoding="async"
+        decoding={ring <= 1 ? 'sync' : 'async'}
+        fetchPriority={ring === 0 ? 'high' : undefined}
         style={imgStyle}
         {...(staticFallback
           ? {
