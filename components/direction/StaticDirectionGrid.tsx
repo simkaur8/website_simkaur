@@ -64,12 +64,12 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
                   onClick={() => setActiveIdx(idx)}
                   className="group block w-full overflow-hidden text-left"
                 >
-                  <div className="relative aspect-[5/4] overflow-hidden bg-[var(--bg-surface)]">
+                  <div className="relative aspect-[5/4] overflow-hidden bg-[var(--bg-surface)] ring-0 ring-[#E8C547] transition-all duration-300 group-hover:ring-[1.5px]">
                     {project.thumbnail ? (
                       <img
                         src={project.thumbnail}
                         alt={project.title}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="h-full w-full object-cover"
                         loading="lazy"
                       />
                     ) : project.video ? (
@@ -112,18 +112,11 @@ function VideoThumbnail({ platform, videoId }: { platform: 'vimeo' | 'youtube'; 
     platform === 'youtube' ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : undefined
 
   if (thumbnailUrl) {
-    return (
-      <img
-        src={thumbnailUrl}
-        alt=""
-        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        loading="lazy"
-      />
-    )
+    return <img src={thumbnailUrl} alt="" className="h-full w-full object-cover" loading="lazy" />
   }
 
   return (
-    <div className="flex h-full w-full items-center justify-center bg-[var(--bg-elevated)] transition-colors duration-300 group-hover:bg-[var(--bg-surface)]">
+    <div className="flex h-full w-full items-center justify-center bg-[var(--bg-elevated)]">
       <PlayIcon />
     </div>
   )

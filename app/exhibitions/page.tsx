@@ -24,18 +24,6 @@ export const metadata: Metadata = {
 
 const exhibitions = [
   {
-    title: 'Transmedia Worldbuilding Residency',
-    subtitle:
-      '4A Centre for Contemporary Asian Art x Antariksha Studio. October 2025 \u2013 June 2026, Sydney.',
-    description:
-      'Currently undertaking the Transmedia Worldbuilding Residency at 4A Centre for Contemporary Asian Art. A six-month collaborative program exploring worldbuilding across game design, performance, sound and digital art. The residency includes mentored development, an intensive in-person workshop, and public showcases across Sydney, digital platforms, and Mumbai\u2019s Eyemyth Festival.',
-    link: {
-      text: 'More info at 4A \u2192',
-      href: 'https://4a.com.au/events/transmedia-worldbuilding-residency',
-    },
-    comingSoon: true,
-  },
-  {
     title: '\u2018Pravaah\u2019 Installation at Pari Art Gallery',
     subtitle:
       'Sound and moving image installation with found objects. 1 min 30 sec. Exhibited as part of Pari (ARI)\u2019s group exhibition Weeds Crack Concrete, 2025.',
@@ -47,6 +35,18 @@ const exhibitions = [
       { src: '/images/exhibitions/pravaah/pravaah-install.gif', alt: 'Pravaah Installation video' },
       { src: '/images/exhibitions/pravaah/installation-2.jpg', alt: 'Pravaah Installation detail' },
     ],
+  },
+  {
+    title: 'Transmedia Worldbuilding Residency',
+    subtitle:
+      '4A Centre for Contemporary Asian Art x Antariksha Studio. October 2025 \u2013 June 2026, Sydney.',
+    description:
+      'Currently undertaking the Transmedia Worldbuilding Residency at 4A Centre for Contemporary Asian Art. A six-month collaborative program exploring worldbuilding across game design, performance, sound and digital art. The residency includes mentored development, an intensive in-person workshop, and public showcases across Sydney, digital platforms, and Mumbai\u2019s Eyemyth Festival.',
+    link: {
+      text: 'More info at 4A \u2192',
+      href: 'https://4a.com.au/events/transmedia-worldbuilding-residency',
+    },
+    comingSoon: true,
   },
   {
     title: 'Homecoming',
@@ -94,19 +94,27 @@ export default function ExhibitionsPage() {
                 {/* Triptych grid */}
                 {'media' in exh && exh.media && (
                   <div
-                    className="mb-8 grid grid-cols-1 sm:grid-cols-3"
+                    className="mb-8 grid grid-cols-1 items-center sm:grid-cols-3"
                     style={{ gap: 'clamp(0.5rem, 1vw, 0.8rem)' }}
                   >
-                    {exh.media.map((item, i) => (
-                      <div key={i} className="aspect-[3/2] overflow-hidden">
-                        <img
-                          src={item.src}
-                          alt={item.alt || ''}
-                          className="h-full w-full object-cover"
-                          loading="lazy"
-                        />
-                      </div>
-                    ))}
+                    {exh.media.map((item, i) => {
+                      const isGif = item.src.endsWith('.gif')
+                      return (
+                        <div
+                          key={i}
+                          className={isGif ? 'overflow-hidden' : 'aspect-[3/4] overflow-hidden'}
+                        >
+                          <img
+                            src={item.src}
+                            alt={item.alt || ''}
+                            className={
+                              isGif ? 'h-full w-full object-contain' : 'h-full w-full object-cover'
+                            }
+                            loading="lazy"
+                          />
+                        </div>
+                      )
+                    })}
                   </div>
                 )}
 

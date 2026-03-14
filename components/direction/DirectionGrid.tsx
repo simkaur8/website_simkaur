@@ -45,12 +45,12 @@ export function DirectionGrid({ projects }: DirectionGridProps) {
                   href={`/direction/${project.slug?.current || ''}`}
                   className="group block overflow-hidden"
                 >
-                  <div className="aspect-video overflow-hidden bg-[var(--bg-surface)]">
+                  <div className="aspect-video overflow-hidden bg-[var(--bg-surface)] ring-0 ring-[#E8C547] transition-all duration-300 group-hover:ring-[1.5px]">
                     {project.thumbnail ? (
                       <img
                         src={urlFor(project.thumbnail).width(800).url()}
                         alt={project.thumbnail.alt || project.title}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="h-full w-full object-cover"
                         loading="lazy"
                       />
                     ) : (
