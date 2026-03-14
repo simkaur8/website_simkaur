@@ -15,6 +15,7 @@ interface VortexItemProps {
   imageStyle?: string
   zIndex?: number
   mobilePriority?: boolean
+  aspectOverride?: string
 }
 
 export function VortexItem({
@@ -30,6 +31,7 @@ export function VortexItem({
   imageStyle,
   zIndex,
   mobilePriority,
+  aspectOverride,
 }: VortexItemProps) {
   const ringClass = ring > 0 ? `vx-ring-${ring}` : ''
 
@@ -84,23 +86,23 @@ export function VortexItem({
     mobilePriority && 'vx-mobile-priority'
   )
 
+  const itemStyle: React.CSSProperties = {
+    left: `${left}%`,
+    top: `${top}%`,
+    ...(zIndex != null && { zIndex }),
+    ...(aspectOverride && { aspectRatio: aspectOverride }),
+  }
+
   if (href) {
     return (
-      <Link
-        href={href}
-        className={className}
-        style={{ left: `${left}%`, top: `${top}%`, ...(zIndex != null && { zIndex }) }}
-      >
+      <Link href={href} className={className} style={itemStyle}>
         {content}
       </Link>
     )
   }
 
   return (
-    <div
-      className={className}
-      style={{ left: `${left}%`, top: `${top}%`, ...(zIndex != null && { zIndex }) }}
-    >
+    <div className={className} style={itemStyle}>
       {content}
     </div>
   )

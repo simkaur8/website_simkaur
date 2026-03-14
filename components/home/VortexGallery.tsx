@@ -77,10 +77,12 @@ const vortexItems = [
     title: 'Velvet Skin',
     tag: 'Music Video',
     image: `${V}/velvet-skin.webp`,
+    aspectOverride: '4/3',
     mobilePriority: true,
     mobileLeft: 72,
     mobileTop: 52,
     mobileSize: 'vx-mob-lg',
+    mobileAspect: '4/3',
   },
   {
     id: 'still2',
@@ -102,9 +104,11 @@ const vortexItems = [
     size: 'vx-land',
     ring: 1,
     image: `${V}/itm4l.webp`,
+    aspectOverride: '4/3',
     mobileLeft: 22,
     mobileTop: 28,
     mobileSize: 'vx-mob-particle',
+    mobileAspect: '4/3',
   },
   {
     id: 'pam',
@@ -154,6 +158,7 @@ const vortexItems = [
     mobileLeft: 75,
     mobileTop: 78,
     mobileSize: 'vx-mob-dot',
+    mobileAspect: '4/3',
   },
   {
     id: 'cherry',
@@ -198,6 +203,7 @@ const vortexItems = [
     mobileLeft: 55,
     mobileTop: 82,
     mobileSize: 'vx-mob-particle',
+    mobileAspect: '16/10',
   },
 
   // ═══ RING 2 — Mid orbit ═══
@@ -522,6 +528,7 @@ export function VortexGallery() {
             left={isMobile && item.mobileLeft != null ? item.mobileLeft : item.left}
             top={isMobile && item.mobileTop != null ? item.mobileTop : item.top}
             size={isMobile && item.mobileSize ? item.mobileSize : item.size}
+            aspectOverride={isMobile && item.mobileAspect ? item.mobileAspect : item.aspectOverride}
           />
         ))}
       </div>
