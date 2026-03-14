@@ -260,6 +260,7 @@ const vortexItems = [
     size: 'vx-land-sm',
     ring: 2,
     image: `${V}/mehndi-hand.webp`,
+    mobilePriority: true,
   },
 
   // ═══ RING 3 — Outer orbit (only on 1200px+) ═══
