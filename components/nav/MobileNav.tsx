@@ -79,7 +79,7 @@ export function MobileNav() {
                   <Link
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className="text-[var(--text-2xl)] font-semibold text-[var(--text-primary)] transition-colors hover:text-[var(--accent)]"
+                    className="text-[var(--text-2xl)] font-normal text-[var(--text-primary)] transition-colors hover:text-[var(--accent)]"
                   >
                     {link.label}
                   </Link>

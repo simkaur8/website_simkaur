@@ -22,8 +22,7 @@ export const metadata: Metadata = {
     default: 'Sim Kaur | Creative Director',
     template: '%s | Sim Kaur',
   },
-  description:
-    'Portfolio of Sim Kaur — Creative Director, Fashion Film Director, and Music Video Director based in Sydney, Australia. Specialising in dance films, fashion films, and visual storytelling.',
+  description: 'Sim Kaur: Creative Director / Editor / Photographer',
   keywords: [
     'Sim Kaur',
     'creative director',
@@ -80,7 +79,7 @@ export default function RootLayout({
           <CustomCursor />
           <SideNav />
           <MobileNav />
-          <div className="fixed right-4 top-4 z-40 hidden lg:block">
+          <div className="fixed left-4 top-4 z-40 lg:left-auto lg:right-4">
             <ThemeToggle />
           </div>
           <main id="main-content" className="lg:pl-[var(--nav-w)]">

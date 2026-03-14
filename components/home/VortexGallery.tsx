@@ -18,6 +18,7 @@ const vortexItems = [
     tag: 'Dance Film',
     image: `${V}/crossfire-thumb.webp`,
     imageStyle: 'object-position:center top',
+    mobilePriority: true,
   },
   {
     id: 'swamp',
@@ -52,6 +53,7 @@ const vortexItems = [
     title: 'Jiggy Jaya x SFTM',
     tag: 'Fashion Film',
     image: `${V}/jiggy.webp`,
+    mobilePriority: true,
   },
   {
     id: 'velvet',
@@ -63,6 +65,7 @@ const vortexItems = [
     title: 'Velvet Skin',
     tag: 'Music Video',
     image: `${V}/velvet-skin.webp`,
+    mobilePriority: true,
   },
   {
     id: 'still2',
@@ -73,7 +76,7 @@ const vortexItems = [
     image: `${V}/padani2.webp`,
   },
 
-  // ═══ RING 1 — Inner orbit (hidden on phone) ═══
+  // ═══ RING 1 — Inner orbit (hidden on phone, except mobile-priority items) ═══
   {
     id: 'itm4l',
     left: 34,
@@ -93,6 +96,7 @@ const vortexItems = [
     tag: 'Dance Fashion Film',
     image: `${V}/pam-bali.gif`,
     zIndex: 6,
+    mobilePriority: true,
   },
   {
     id: 'oats',
@@ -151,7 +155,7 @@ const vortexItems = [
     image: `${V}/sabor-celestial.gif`,
   },
 
-  // ═══ RING 2 — Mid orbit (hidden below 900px) ═══
+  // ═══ RING 2 — Mid orbit (hidden below 900px, except mobile-priority items) ═══
   {
     id: 'twinkling',
     left: 42,
@@ -159,6 +163,7 @@ const vortexItems = [
     size: 'vx-land-sm',
     ring: 2,
     image: `${V}/twinkling.gif`,
+    mobilePriority: true,
   },
   {
     id: 'brown',

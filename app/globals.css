@@ -332,12 +332,18 @@ html {
 
 /* Ring visibility - responsive */
 @media (max-width: 599px) {
+  /* Hide non-priority items in rings 1+ */
   .vx-ring-1,
   .vx-ring-2,
   .vx-ring-3,
   .vx-ring-4,
   .vx-ring-5 {
     display: none;
+  }
+  /* But show mobile-priority items from any ring */
+  .vx-mobile-priority.vx-ring-1,
+  .vx-mobile-priority.vx-ring-2 {
+    display: block;
   }
   .vortex-wrap {
     padding-top: 1rem;
@@ -348,23 +354,26 @@ html {
   .vortex {
     width: 88vw;
   }
-  .vx-lg {
-    width: clamp(110px, 28vw, 150px);
+  /* Non-priority ring-0 items: make very small for shape */
+  .vx-item:not(.vx-mobile-priority) {
+    width: 30px !important;
+    opacity: 0.5;
   }
-  .vx-md {
-    width: clamp(85px, 22vw, 120px);
+  /* Priority items: visible and well-sized */
+  .vx-mobile-priority.vx-lg {
+    width: clamp(90px, 24vw, 130px);
   }
-  .vx-sm {
-    width: clamp(65px, 17vw, 90px);
+  .vx-mobile-priority.vx-land {
+    width: clamp(80px, 22vw, 115px);
   }
-  .vx-xs {
-    width: clamp(48px, 13vw, 65px);
+  .vx-mobile-priority.vx-land-sm {
+    width: clamp(70px, 18vw, 100px);
   }
-  .vx-land {
-    width: clamp(100px, 26vw, 135px);
+  .vx-mobile-priority.vx-sm {
+    width: clamp(60px, 16vw, 85px);
   }
-  .vx-land-sm {
-    width: clamp(80px, 20vw, 110px);
+  .vx-mobile-priority.vx-md {
+    width: clamp(70px, 18vw, 100px);
   }
 }
 @media (min-width: 600px) and (max-width: 899px) {

@@ -41,12 +41,13 @@ export function AboutWithDiary() {
             style={{ fontSize: 'var(--text-base)' }}
           >
             <p>
-              Sim Kaur is a Punjabi creative director, filmmaker, and photographer based in North
-              West Sydney. A graduate of Western Sydney University (B.C.I., Screen Media), her work
+              I&apos;m Sim Kaur, a creative director, filmmaker, and photographer based in North
+              West Sydney. A graduate of Western Sydney University (B.C.I., Screen Media), my work
               spans direction, editing, and photography, blending fashion and narrative through the
-              lens of her South Asian heritage. Inspired by nature, experimentation, and movement,
-              she has collaborated with clients including Westfield Australia, Elle India, ModiBodi,
-              Office Magazine, P.A.M., Song for the Mute, Refinery29, and Acclaim Magazine.
+              lens of a 24 year old, Punjabi girl obsessed with street dance culture, the performing
+              arts, screen installations, editing, putting together collages and bringing my visions
+              into the physical world. I&apos;ve collaborated with clients including Westfield
+              Australia, Elle India, ModiBodi, Office Magazine, Refinery29, and Acclaim Magazine.
             </p>
           </div>
 

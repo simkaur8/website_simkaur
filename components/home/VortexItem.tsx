@@ -14,6 +14,7 @@ interface VortexItemProps {
   under?: boolean
   imageStyle?: string
   zIndex?: number
+  mobilePriority?: boolean
 }
 
 export function VortexItem({
@@ -28,6 +29,7 @@ export function VortexItem({
   under,
   imageStyle,
   zIndex,
+  mobilePriority,
 }: VortexItemProps) {
   const ringClass = ring > 0 ? `vx-ring-${ring}` : ''
 
@@ -74,7 +76,13 @@ export function VortexItem({
     </>
   )
 
-  const className = cn('vx-item', size, ringClass, under && 'vx-under')
+  const className = cn(
+    'vx-item',
+    size,
+    ringClass,
+    under && 'vx-under',
+    mobilePriority && 'vx-mobile-priority'
+  )
 
   if (href) {
     return (
