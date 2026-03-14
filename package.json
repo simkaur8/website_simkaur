@@ -37,7 +37,6 @@
     "next-sitemap": "^4.2.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-player": "^3.4.0",
     "sanity": "^5.14.1",
     "tailwindcss-animate": "^1.0.7",
     "yet-another-react-lightbox": "^3.29.1"

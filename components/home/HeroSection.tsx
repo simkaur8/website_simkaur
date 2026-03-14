@@ -28,6 +28,7 @@ export function HeroSection({ logoWebmUrl, logoMp4Url, showreelUrl }: HeroSectio
             playsInline
             preload="metadata"
             poster="/videos/showreel-poster.webp"
+            aria-label="Showreel video"
             className="h-full w-full object-cover"
             style={{ filter: 'saturate(0.9) brightness(0.85)' }}
           />

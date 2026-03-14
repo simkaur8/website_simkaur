@@ -52,7 +52,7 @@ export function VortexItem({
     <>
       <img
         src={image}
-        alt={title || ''}
+        alt={title || 'Portfolio image'}
         loading={ring <= 1 ? 'eager' : 'lazy'}
         decoding={ring <= 1 ? 'sync' : 'async'}
         fetchPriority={ring === 0 ? 'high' : undefined}
