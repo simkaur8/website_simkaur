@@ -63,6 +63,7 @@ export default function RootLayout({
     <html lang="en" data-theme="light" suppressHydrationWarning className={generalSans.variable}>
       <head>
         <script
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}`,
           }}
