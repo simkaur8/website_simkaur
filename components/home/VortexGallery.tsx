@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useSyncExternalStore } from 'react'
 import { VortexItem } from './VortexItem'
 
 const V = '/images/vortex'
@@ -19,6 +19,9 @@ const vortexItems = [
     image: `${V}/crossfire-thumb.webp`,
     imageStyle: 'object-position:center top',
     mobilePriority: true,
+    mobileLeft: 48,
+    mobileTop: 42,
+    mobileSize: 'vx-mob-xl',
   },
   {
     id: 'swamp',
@@ -31,6 +34,9 @@ const vortexItems = [
     tag: 'Dance Film',
     image: `${V}/swamp.webp`,
     under: true,
+    mobileLeft: 62,
+    mobileTop: 68,
+    mobileSize: 'vx-mob-particle',
   },
   {
     id: 'elle',
@@ -42,6 +48,9 @@ const vortexItems = [
     title: 'Padani for ELLE',
     tag: 'Fashion Film',
     image: `${V}/padani1.webp`,
+    mobileLeft: 78,
+    mobileTop: 32,
+    mobileSize: 'vx-mob-particle',
   },
   {
     id: 'jiggy',
@@ -54,6 +63,9 @@ const vortexItems = [
     tag: 'Fashion Film',
     image: `${V}/jiggy.webp`,
     mobilePriority: true,
+    mobileLeft: 28,
+    mobileTop: 58,
+    mobileSize: 'vx-mob-md',
   },
   {
     id: 'velvet',
@@ -66,6 +78,9 @@ const vortexItems = [
     tag: 'Music Video',
     image: `${V}/velvet-skin.webp`,
     mobilePriority: true,
+    mobileLeft: 68,
+    mobileTop: 50,
+    mobileSize: 'vx-mob-lg',
   },
   {
     id: 'still2',
@@ -74,9 +89,12 @@ const vortexItems = [
     size: 'vx-xs',
     ring: 0,
     image: `${V}/padani2.webp`,
+    mobileLeft: 40,
+    mobileTop: 75,
+    mobileSize: 'vx-mob-particle',
   },
 
-  // ═══ RING 1 — Inner orbit (hidden on phone, except mobile-priority items) ═══
+  // ═══ RING 1 — Inner orbit ═══
   {
     id: 'itm4l',
     left: 34,
@@ -84,6 +102,9 @@ const vortexItems = [
     size: 'vx-land',
     ring: 1,
     image: `${V}/itm4l.webp`,
+    mobileLeft: 22,
+    mobileTop: 28,
+    mobileSize: 'vx-mob-particle',
   },
   {
     id: 'pam',
@@ -97,6 +118,9 @@ const vortexItems = [
     image: `${V}/pam-bali.gif`,
     zIndex: 6,
     mobilePriority: true,
+    mobileLeft: 32,
+    mobileTop: 28,
+    mobileSize: 'vx-mob-lg',
   },
   {
     id: 'oats',
@@ -105,6 +129,9 @@ const vortexItems = [
     size: 'vx-land-sm',
     ring: 1,
     image: `${V}/oats.webp`,
+    mobileLeft: 85,
+    mobileTop: 60,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'punjab-car',
@@ -113,6 +140,9 @@ const vortexItems = [
     size: 'vx-land',
     ring: 1,
     image: `${V}/punjab-car.webp`,
+    mobileLeft: 12,
+    mobileTop: 45,
+    mobileSize: 'vx-mob-particle',
   },
   {
     id: 'pravaah1',
@@ -121,6 +151,9 @@ const vortexItems = [
     size: 'vx-land-sm',
     ring: 1,
     image: `${V}/pravaah1.gif`,
+    mobileLeft: 75,
+    mobileTop: 78,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'cherry',
@@ -129,6 +162,9 @@ const vortexItems = [
     size: 'vx-sm',
     ring: 1,
     image: `${V}/cherry-chola.webp`,
+    mobileLeft: 15,
+    mobileTop: 68,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'eye1',
@@ -137,6 +173,9 @@ const vortexItems = [
     size: 'vx-tiny',
     ring: 1,
     image: `${V}/eye4.webp`,
+    mobileLeft: 88,
+    mobileTop: 42,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'pam-nick',
@@ -145,6 +184,9 @@ const vortexItems = [
     size: 'vx-xs',
     ring: 1,
     image: `${V}/pam-nick.webp`,
+    mobileLeft: 82,
+    mobileTop: 25,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'sabor',
@@ -153,9 +195,12 @@ const vortexItems = [
     size: 'vx-land',
     ring: 1,
     image: `${V}/sabor-celestial.gif`,
+    mobileLeft: 55,
+    mobileTop: 82,
+    mobileSize: 'vx-mob-particle',
   },
 
-  // ═══ RING 2 — Mid orbit (hidden below 900px, except mobile-priority items) ═══
+  // ═══ RING 2 — Mid orbit ═══
   {
     id: 'twinkling',
     left: 42,
@@ -164,6 +209,9 @@ const vortexItems = [
     ring: 2,
     image: `${V}/twinkling.gif`,
     mobilePriority: true,
+    mobileLeft: 60,
+    mobileTop: 22,
+    mobileSize: 'vx-mob-md',
   },
   {
     id: 'brown',
@@ -261,6 +309,9 @@ const vortexItems = [
     ring: 2,
     image: `${V}/mehndi-hand.webp`,
     mobilePriority: true,
+    mobileLeft: 18,
+    mobileTop: 80,
+    mobileSize: 'vx-mob-md',
   },
 
   // ═══ RING 3 — Outer orbit (only on 1200px+) ═══
@@ -409,6 +460,15 @@ const vortexItems = [
 export function VortexGallery() {
   const vortexRef = useRef<HTMLDivElement>(null)
 
+  const subscribe = useCallback((cb: () => void) => {
+    const mq = window.matchMedia('(max-width: 599px)')
+    mq.addEventListener('change', cb)
+    return () => mq.removeEventListener('change', cb)
+  }, [])
+  const getSnapshot = useCallback(() => window.matchMedia('(max-width: 599px)').matches, [])
+  const getServerSnapshot = useCallback(() => false, [])
+  const isMobile = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) return
@@ -439,6 +499,9 @@ export function VortexGallery() {
     return () => cancelAnimationFrame(rafId)
   }, [])
 
+  // On mobile, only render items that have mobile positions defined
+  const items = isMobile ? vortexItems.filter((item) => item.mobileLeft != null) : vortexItems
+
   return (
     <section
       className="vortex-wrap"
@@ -446,8 +509,14 @@ export function VortexGallery() {
       style={{ marginTop: '-15vh', position: 'relative', zIndex: 10 }}
     >
       <div className="vortex" ref={vortexRef}>
-        {vortexItems.map((item) => (
-          <VortexItem key={item.id} {...item} />
+        {items.map((item) => (
+          <VortexItem
+            key={item.id}
+            {...item}
+            left={isMobile && item.mobileLeft != null ? item.mobileLeft : item.left}
+            top={isMobile && item.mobileTop != null ? item.mobileTop : item.top}
+            size={isMobile && item.mobileSize ? item.mobileSize : item.size}
+          />
         ))}
       </div>
     </section>

@@ -332,48 +332,45 @@ html {
 
 /* Ring visibility - responsive */
 @media (max-width: 599px) {
-  /* Hide non-priority items in rings 1+ */
-  .vx-ring-1,
-  .vx-ring-2,
-  .vx-ring-3,
-  .vx-ring-4,
-  .vx-ring-5 {
-    display: none;
-  }
-  /* But show mobile-priority items from any ring */
-  .vx-mobile-priority.vx-ring-1,
-  .vx-mobile-priority.vx-ring-2 {
-    display: block;
-  }
   .vortex-wrap {
     padding-top: 1rem;
     padding-bottom: 2rem;
-    -webkit-mask-image: radial-gradient(ellipse 96% 96% at 50% 50%, black 45%, transparent 100%);
-    mask-image: radial-gradient(ellipse 96% 96% at 50% 50%, black 45%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 100% 92% at 50% 48%, black 40%, transparent 95%);
+    mask-image: radial-gradient(ellipse 100% 92% at 50% 48%, black 40%, transparent 95%);
   }
   .vortex {
-    width: 88vw;
+    width: 92vw;
   }
-  /* Non-priority ring-0 items: make very small for shape */
-  .vx-item:not(.vx-mobile-priority) {
-    width: 30px !important;
-    opacity: 0.5;
+
+  /* Mobile size classes — priority items */
+  .vx-mob-xl {
+    width: clamp(100px, 28vw, 140px);
+    aspect-ratio: 16/10;
+    z-index: 5;
   }
-  /* Priority items: visible and well-sized */
-  .vx-mobile-priority.vx-lg {
-    width: clamp(90px, 24vw, 130px);
+  .vx-mob-lg {
+    width: clamp(82px, 22vw, 115px);
+    aspect-ratio: 16/10;
+    z-index: 4;
   }
-  .vx-mobile-priority.vx-land {
-    width: clamp(80px, 22vw, 115px);
+  .vx-mob-md {
+    width: clamp(62px, 17vw, 90px);
+    aspect-ratio: 16/10;
+    z-index: 3;
   }
-  .vx-mobile-priority.vx-land-sm {
-    width: clamp(70px, 18vw, 100px);
+
+  /* Scattered particles — non-priority items for shape */
+  .vx-mob-particle {
+    width: clamp(28px, 8vw, 40px);
+    aspect-ratio: 3/4;
+    z-index: 1;
+    opacity: 0.6;
   }
-  .vx-mobile-priority.vx-sm {
-    width: clamp(60px, 16vw, 85px);
-  }
-  .vx-mobile-priority.vx-md {
-    width: clamp(70px, 18vw, 100px);
+  .vx-mob-dot {
+    width: clamp(14px, 4vw, 22px);
+    aspect-ratio: 1;
+    z-index: 0;
+    opacity: 0.4;
   }
 }
 @media (min-width: 600px) and (max-width: 899px) {
