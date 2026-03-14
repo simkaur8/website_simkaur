@@ -267,6 +267,15 @@ const vortexItems = [
     image: `${V}/reem-roshan.gif`,
   },
 
+  {
+    id: 'mehndi-hand',
+    left: 14,
+    top: 78,
+    size: 'vx-land-sm',
+    ring: 2,
+    image: `${V}/mehndi-hand.webp`,
+  },
+
   // ═══ RING 3 — Outer orbit (only on 1200px+) ═══
   {
     id: 'purg1',
