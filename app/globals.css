@@ -210,15 +210,15 @@ html {
   padding-top: 4rem;
   padding-bottom: 4rem;
   position: relative;
-  overflow: visible;
-  -webkit-mask-image: radial-gradient(ellipse 100% 92% at 50% 50%, black 55%, transparent 100%);
-  mask-image: radial-gradient(ellipse 100% 92% at 50% 50%, black 55%, transparent 100%);
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, black 50%, transparent 100%);
+  mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, black 50%, transparent 100%);
 }
 
 .vortex {
   position: relative;
   width: min(92vw, 1100px);
-  height: min(72vw, 820px);
+  aspect-ratio: 1;
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -269,12 +269,12 @@ html {
   z-index: 2;
 }
 .vx-xs {
-  width: clamp(50px, 7vw, 80px);
+  width: clamp(44px, 6vw, 70px);
   aspect-ratio: 2/3;
   z-index: 1;
 }
 .vx-tiny {
-  width: clamp(48px, 6vw, 75px);
+  width: clamp(38px, 5vw, 60px);
   aspect-ratio: 3/4;
   z-index: 1;
 }
@@ -339,30 +339,32 @@ html {
   .vx-ring-5 {
     display: none;
   }
+  .vortex-wrap {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    -webkit-mask-image: radial-gradient(ellipse 96% 96% at 50% 50%, black 45%, transparent 100%);
+    mask-image: radial-gradient(ellipse 96% 96% at 50% 50%, black 45%, transparent 100%);
+  }
   .vortex {
-    width: 95vw;
-    height: 85vw;
+    width: 88vw;
   }
   .vx-lg {
-    width: clamp(120px, 32vw, 160px);
+    width: clamp(110px, 28vw, 150px);
   }
   .vx-md {
-    width: clamp(95px, 25vw, 130px);
+    width: clamp(85px, 22vw, 120px);
   }
   .vx-sm {
-    width: clamp(70px, 18vw, 100px);
+    width: clamp(65px, 17vw, 90px);
   }
   .vx-xs {
-    width: clamp(50px, 14vw, 70px);
-  }
-  .vx-wide {
-    width: clamp(75px, 20vw, 105px);
+    width: clamp(48px, 13vw, 65px);
   }
   .vx-land {
-    width: clamp(110px, 28vw, 145px);
+    width: clamp(100px, 26vw, 135px);
   }
   .vx-land-sm {
-    width: clamp(85px, 22vw, 115px);
+    width: clamp(80px, 20vw, 110px);
   }
 }
 @media (min-width: 600px) and (max-width: 899px) {
@@ -389,7 +391,6 @@ html {
 @media (min-width: 1600px) {
   .vortex {
     width: min(85vw, 1400px);
-    height: min(65vw, 1000px);
   }
   .vx-ring-5 {
     display: none;
@@ -404,10 +405,10 @@ html {
     width: clamp(90px, 8vw, 140px);
   }
   .vx-xs {
-    width: clamp(70px, 6vw, 110px);
+    width: clamp(60px, 5vw, 95px);
   }
   .vx-tiny {
-    width: clamp(60px, 5vw, 95px);
+    width: clamp(50px, 4vw, 80px);
   }
   .vx-tall {
     width: clamp(100px, 9vw, 160px);
@@ -416,7 +417,7 @@ html {
     width: clamp(155px, 12vw, 220px);
   }
   .vx-land-sm {
-    width: clamp(120px, 10vw, 175px);
+    width: clamp(110px, 9vw, 160px);
   }
   .vx-wide {
     width: clamp(100px, 8vw, 150px);
@@ -427,7 +428,6 @@ html {
 @media (min-width: 1920px) {
   .vortex {
     width: min(82vw, 1700px);
-    height: min(60vw, 1200px);
   }
   .vx-ring-5 {
     display: block;
@@ -442,10 +442,10 @@ html {
     width: clamp(100px, 7vw, 160px);
   }
   .vx-xs {
-    width: clamp(80px, 5.5vw, 120px);
+    width: clamp(65px, 4.5vw, 100px);
   }
   .vx-tiny {
-    width: clamp(65px, 4.5vw, 100px);
+    width: clamp(55px, 3.5vw, 85px);
   }
   .vx-tall {
     width: clamp(110px, 8vw, 180px);
@@ -454,7 +454,7 @@ html {
     width: clamp(170px, 11vw, 250px);
   }
   .vx-land-sm {
-    width: clamp(135px, 9vw, 195px);
+    width: clamp(125px, 8vw, 180px);
   }
   .vx-wide {
     width: clamp(110px, 7vw, 165px);
@@ -465,6 +465,5 @@ html {
 @media (min-width: 2560px) {
   .vortex {
     width: min(78vw, 2000px);
-    height: min(55vw, 1400px);
   }
 }
