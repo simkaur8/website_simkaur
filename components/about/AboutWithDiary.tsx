@@ -10,8 +10,8 @@ const socialLinks = [
     label: 'Spotify',
     url: 'https://open.spotify.com/playlist/67qupizObYnZhGDmgVvNU8?si=4a3b691e67554153',
   },
-  { label: 'Letterboxd', url: '#' },
-  { label: 'Substack', url: '#' },
+  { label: 'Letterboxd', url: 'https://letterboxd.com/s1mkaur/' },
+  { label: 'Substack', url: 'https://substack.com/@s1mkaur' },
 ]
 
 export function AboutWithDiary() {

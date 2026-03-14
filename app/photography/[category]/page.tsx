@@ -6,12 +6,12 @@ import { notFound } from 'next/navigation'
 import type { PhotoCollection } from '@/sanity/lib/types'
 import type { Metadata } from 'next'
 
-const validCategories = ['fashion', 'portraits', 'life', 'events']
+const validCategories = ['fashion', 'portraits', 'life', 'event']
 const categoryLabels: Record<string, string> = {
   fashion: 'Fashion',
   portraits: 'Portraits',
   life: 'Life',
-  events: 'Events',
+  event: 'Event',
 }
 
 export const revalidate = 60
