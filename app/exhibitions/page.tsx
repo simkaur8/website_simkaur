@@ -98,7 +98,7 @@ export default function ExhibitionsPage() {
                     style={{ gap: 'clamp(0.5rem, 1vw, 0.8rem)' }}
                   >
                     {exh.media.map((item, i) => (
-                      <div key={i} className="aspect-[3/2] overflow-hidden">
+                      <div key={i} className="aspect-[5/4] overflow-hidden">
                         <img
                           src={item.src}
                           alt={item.alt || ''}
