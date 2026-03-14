@@ -14,6 +14,7 @@ interface Photo {
   role?: string
   description?: string
   year?: string
+  objectPosition?: string
 }
 
 const photos: Photo[] = [
@@ -125,7 +126,8 @@ const photos: Photo[] = [
     curated: true,
   },
 
-  // ═══ FASHION ADDITIONAL (order determines fashion-filter top rows) ═══
+  // ═══ FASHION ADDITIONAL (grouped by project) ═══
+  // — Snakes and Shanti
   {
     src: `${P}/fashion/snakes-shanti2.webp`,
     title: 'Snakes and Shanti',
@@ -133,7 +135,9 @@ const photos: Photo[] = [
     role: 'Direction, Videography, Photography',
     description: 'Featuring the Eye sarong. Starring Gia-Tinh, Hazel, and Aziza.',
     year: '2024',
+    objectPosition: 'top',
   },
+  // — Purgatory
   {
     src: `${P}/fashion/purgatory1.webp`,
     title: 'Purgatory',
@@ -143,20 +147,6 @@ const photos: Photo[] = [
     year: '2022',
   },
   {
-    src: `${P}/fashion/ref29-mtdruitt2.webp`,
-    title: 'Refinery29',
-    category: 'fashion',
-    role: 'Photography, Casting',
-    description:
-      "Street View: Mount Druitt.\nA street style documentary for Refinery29's series celebrating the multicultural creative community of Western Sydney. Profiling 21 individuals blending coveted streetwear, thrifted finds, and culturally significant pieces.",
-    year: '2023',
-  },
-  {
-    src: `${P}/fashion/akshaya-honours.webp`,
-    title: 'Akshaya Bhutkar Honours Collection',
-    category: 'fashion',
-  },
-  {
     src: `${P}/fashion/purgatory2.webp`,
     title: 'Purgatory',
     category: 'fashion',
@@ -164,22 +154,26 @@ const photos: Photo[] = [
     description: 'Starring Mia Kidis from Stone Street Agency.',
     year: '2022',
   },
+  // — Akshaya
   {
-    src: `${P}/fashion/ref29-parra2.webp`,
+    src: `${P}/fashion/akshaya-honours.webp`,
+    title: 'Akshaya Bhutkar Honours Collection',
+    category: 'fashion',
+  },
+  {
+    src: `${P}/fashion/akshaya-westfields.webp`,
+    title: 'Akshaya x Westfields',
+    category: 'fashion',
+  },
+  // — Refinery29
+  {
+    src: `${P}/fashion/ref29-mtdruitt2.webp`,
     title: 'Refinery29',
     category: 'fashion',
     role: 'Photography, Casting',
     description:
-      "Street View: Parramatta.\nA street style documentary for Refinery29's series capturing the fashion identity of Sydney's western cultural hub.",
-    year: '2022',
-  },
-  { src: `${P}/fashion/liaxs1.webp`, title: 'Lia x S', category: 'fashion' },
-  {
-    src: `${P}/fashion/oats1.webp`,
-    title: 'Oats the Label',
-    category: 'fashion',
-    role: 'Campaign Photography, Casting',
-    year: '2019',
+      "Street View: Mount Druitt.\nA street style documentary for Refinery29's series celebrating the multicultural creative community of Western Sydney. Profiling 21 individuals blending coveted streetwear, thrifted finds, and culturally significant pieces.",
+    year: '2023',
   },
   {
     src: `${P}/fashion/ref29-mtdruitt4.webp`,
@@ -191,22 +185,24 @@ const photos: Photo[] = [
     year: '2023',
   },
   {
-    src: `${P}/fashion/ref29-mtdruitt5.webp`,
-    title: 'Refinery29',
-    category: 'fashion',
-    role: 'Photography, Casting',
-    description:
-      "Street View: Mount Druitt.\nA street style documentary for Refinery29's series celebrating the multicultural creative community of Western Sydney.",
-    year: '2023',
-  },
-  {
-    src: `${P}/fashion/ref29-parra5.webp`,
+    src: `${P}/fashion/ref29-parra2.webp`,
     title: 'Refinery29',
     category: 'fashion',
     role: 'Photography, Casting',
     description:
       "Street View: Parramatta.\nA street style documentary for Refinery29's series capturing the fashion identity of Sydney's western cultural hub.",
     year: '2022',
+  },
+  // — Lia x S
+  { src: `${P}/fashion/liaxs1.webp`, title: 'Lia x S', category: 'fashion' },
+  { src: `${P}/fashion/liaxs2.webp`, title: 'Lia x S', category: 'fashion' },
+  // — Oats the Label
+  {
+    src: `${P}/fashion/oats1.webp`,
+    title: 'Oats the Label',
+    category: 'fashion',
+    role: 'Campaign Photography, Casting',
+    year: '2019',
   },
   {
     src: `${P}/fashion/oats2.webp`,
@@ -229,6 +225,7 @@ const photos: Photo[] = [
     role: 'Campaign Photography, Casting',
     year: '2019',
   },
+  // — FLUX
   {
     src: `${P}/fashion/flux2.webp`,
     title: 'FLUX',
@@ -250,12 +247,7 @@ const photos: Photo[] = [
     role: 'Campaign Photography',
     year: '2022',
   },
-  { src: `${P}/fashion/liaxs2.webp`, title: 'Lia x S', category: 'fashion' },
-  {
-    src: `${P}/fashion/akshaya-westfields.webp`,
-    title: 'Akshaya x Westfields',
-    category: 'fashion',
-  },
+  // — AAFW
   {
     src: `${P}/fashion/aafw2.webp`,
     title: 'AAFW Erik Yvon Show',
@@ -453,6 +445,9 @@ export function PhotographyGrid() {
                   alt={photo.title}
                   loading={i < 10 ? 'eager' : 'lazy'}
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  style={
+                    photo.objectPosition ? { objectPosition: photo.objectPosition } : undefined
+                  }
                 />
                 {/* Hover overlay with text */}
                 <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
