@@ -94,27 +94,19 @@ export default function ExhibitionsPage() {
                 {/* Triptych grid */}
                 {'media' in exh && exh.media && (
                   <div
-                    className="mb-8 grid grid-cols-1 items-center sm:grid-cols-3"
+                    className="mb-8 grid grid-cols-1 sm:grid-cols-3"
                     style={{ gap: 'clamp(0.5rem, 1vw, 0.8rem)' }}
                   >
-                    {exh.media.map((item, i) => {
-                      const isGif = item.src.endsWith('.gif')
-                      return (
-                        <div
-                          key={i}
-                          className={isGif ? 'overflow-hidden' : 'aspect-[3/4] overflow-hidden'}
-                        >
-                          <img
-                            src={item.src}
-                            alt={item.alt || ''}
-                            className={
-                              isGif ? 'h-full w-full object-contain' : 'h-full w-full object-cover'
-                            }
-                            loading="lazy"
-                          />
-                        </div>
-                      )
-                    })}
+                    {exh.media.map((item, i) => (
+                      <div key={i} className="aspect-[3/2] overflow-hidden">
+                        <img
+                          src={item.src}
+                          alt={item.alt || ''}
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                    ))}
                   </div>
                 )}
 

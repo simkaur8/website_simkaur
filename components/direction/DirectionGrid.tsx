@@ -45,7 +45,7 @@ export function DirectionGrid({ projects }: DirectionGridProps) {
                   href={`/direction/${project.slug?.current || ''}`}
                   className="group block overflow-hidden"
                 >
-                  <div className="aspect-video overflow-hidden bg-[var(--bg-surface)] ring-0 ring-[#E8C547] transition-all duration-300 group-hover:ring-[1.5px]">
+                  <div className="aspect-video overflow-hidden bg-[var(--bg-surface)] outline outline-0 outline-[#E8C547] transition-[outline-width] duration-300 group-hover:outline-[1.5px]">
                     {project.thumbnail ? (
                       <img
                         src={urlFor(project.thumbnail).width(800).url()}
