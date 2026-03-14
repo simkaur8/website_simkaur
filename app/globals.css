@@ -358,19 +358,22 @@ html {
     aspect-ratio: 16/10;
     z-index: 3;
   }
+  .vx-mob-md-tall {
+    width: clamp(52px, 14vw, 75px);
+    aspect-ratio: 3/4;
+    z-index: 3;
+  }
 
   /* Scattered particles — non-priority items for shape */
   .vx-mob-particle {
     width: clamp(28px, 8vw, 40px);
     aspect-ratio: 3/4;
     z-index: 1;
-    opacity: 0.6;
   }
   .vx-mob-dot {
     width: clamp(14px, 4vw, 22px);
     aspect-ratio: 1;
     z-index: 0;
-    opacity: 0.4;
   }
 }
 @media (min-width: 600px) and (max-width: 899px) {
