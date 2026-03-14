@@ -96,7 +96,7 @@ const vortexItems = [
     mobileSize: 'vx-mob-particle',
   },
 
-  // ═══ RING 1 — Inner orbit ═══
+  // ═══ RING 1 — Inner orbit (r ≈ 20-26 from center) ═══
   {
     id: 'itm4l',
     left: 34,
@@ -139,7 +139,7 @@ const vortexItems = [
   },
   {
     id: 'punjab-car',
-    left: 28,
+    left: 30,
     top: 62,
     size: 'vx-land',
     ring: 1,
@@ -162,7 +162,7 @@ const vortexItems = [
   },
   {
     id: 'cherry',
-    left: 28,
+    left: 30,
     top: 46,
     size: 'vx-sm',
     ring: 1,
@@ -173,8 +173,8 @@ const vortexItems = [
   },
   {
     id: 'eye1',
-    left: 74,
-    top: 36,
+    left: 73,
+    top: 38,
     size: 'vx-tiny',
     ring: 1,
     image: `${V}/eye4.webp`,
@@ -184,7 +184,7 @@ const vortexItems = [
   },
   {
     id: 'pam-nick',
-    left: 76,
+    left: 74,
     top: 48,
     size: 'vx-xs',
     ring: 1,
@@ -206,7 +206,7 @@ const vortexItems = [
     mobileAspect: '16/10',
   },
 
-  // ═══ RING 2 — Mid orbit ═══
+  // ═══ RING 2 — Mid orbit (r ≈ 28-35, pulled into circular path) ═══
   {
     id: 'twinkling',
     left: 42,
@@ -221,8 +221,8 @@ const vortexItems = [
   },
   {
     id: 'brown',
-    left: 84,
-    top: 64,
+    left: 78,
+    top: 62,
     size: 'vx-tall',
     ring: 2,
     image: `${V}/brown-suga.webp`,
@@ -232,8 +232,8 @@ const vortexItems = [
   },
   {
     id: 'shysol',
-    left: 14,
-    top: 54,
+    left: 20,
+    top: 52,
     size: 'vx-xs',
     ring: 2,
     image: `${V}/shysol.webp`,
@@ -243,23 +243,23 @@ const vortexItems = [
   },
   {
     id: 'donna',
-    left: 82,
-    top: 24,
+    left: 76,
+    top: 28,
     size: 'vx-md',
     ring: 2,
     image: `${V}/donna.webp`,
   },
   {
     id: 'paris-syd-gif',
-    left: 18,
-    top: 30,
+    left: 22,
+    top: 32,
     size: 'vx-land',
     ring: 2,
     image: `${V}/paris-syd.gif`,
   },
   {
     id: 'akshaya',
-    left: 88,
+    left: 82,
     top: 48,
     size: 'vx-xs',
     ring: 2,
@@ -267,8 +267,8 @@ const vortexItems = [
   },
   {
     id: 'install',
-    left: 12,
-    top: 72,
+    left: 20,
+    top: 68,
     size: 'vx-land',
     ring: 2,
     image: `${V}/install.webp`,
@@ -283,8 +283,8 @@ const vortexItems = [
   },
   {
     id: 'flux',
-    left: 10,
-    top: 38,
+    left: 18,
+    top: 40,
     size: 'vx-sm',
     ring: 2,
     image: `${V}/flux.webp`,
@@ -292,31 +292,31 @@ const vortexItems = [
   {
     id: 'punjab-blur',
     left: 56,
-    top: 80,
+    top: 78,
     size: 'vx-land-sm',
     ring: 2,
     image: `${V}/punjab-blur.webp`,
   },
   {
     id: 'nani-hands',
-    left: 86,
-    top: 56,
+    left: 80,
+    top: 55,
     size: 'vx-tiny',
     ring: 2,
     image: `${V}/nani-hands.webp`,
   },
   {
     id: 'reem-roshan',
-    left: 26,
-    top: 80,
+    left: 30,
+    top: 76,
     size: 'vx-land-sm',
     ring: 2,
     image: `${V}/reem-roshan.gif`,
   },
   {
     id: 'mehndi-hand',
-    left: 14,
-    top: 82,
+    left: 24,
+    top: 74,
     size: 'vx-land-sm',
     ring: 2,
     image: `${V}/mehndi-hand.webp`,
@@ -326,101 +326,101 @@ const vortexItems = [
     mobileSize: 'vx-mob-md',
   },
 
-  // ═══ RING 3 — Outer orbit (only on 1200px+) ═══
+  // ═══ RING 3 — Outer orbit (r ≈ 36-42, circular boundary) ═══
   {
     id: 'purg1',
-    left: 92,
-    top: 22,
+    left: 84,
+    top: 27,
     size: 'vx-tiny',
     ring: 3,
     image: `${V}/purgatory.webp`,
   },
   {
     id: 'snakes',
-    left: 38,
-    top: 86,
+    left: 40,
+    top: 84,
     size: 'vx-xs',
     ring: 3,
     image: `${V}/snakes.webp`,
   },
   {
     id: 'fragile',
-    left: 92,
-    top: 60,
+    left: 86,
+    top: 58,
     size: 'vx-tiny',
     ring: 3,
     image: `${V}/fragile.webp`,
   },
   {
     id: 'mia',
-    left: 6,
-    top: 62,
+    left: 12,
+    top: 58,
     size: 'vx-xs',
     ring: 3,
     image: `${V}/mia.webp`,
   },
   {
     id: 'elle-ngo',
-    left: 10,
-    top: 24,
+    left: 16,
+    top: 28,
     size: 'vx-sm',
     ring: 3,
     image: `${V}/elle-ngo.webp`,
   },
   {
     id: 'ref29',
-    left: 94,
-    top: 40,
+    left: 88,
+    top: 42,
     size: 'vx-xs',
     ring: 3,
     image: `${V}/ref29.webp`,
   },
   {
     id: 'aafw',
-    left: 88,
-    top: 80,
+    left: 80,
+    top: 74,
     size: 'vx-tiny',
     ring: 3,
     image: `${V}/aafw.webp`,
   },
   {
     id: 'yasmine',
-    left: 72,
-    top: 86,
+    left: 68,
+    top: 82,
     size: 'vx-xs',
     ring: 3,
     image: `${V}/yasmine.webp`,
   },
   {
     id: 'tiara',
-    left: 20,
-    top: 20,
+    left: 24,
+    top: 24,
     size: 'vx-land-sm',
     ring: 3,
     image: `${V}/tiara.webp`,
   },
 
-  // ═══ RING 4 — Extra content for large monitors (1600px+) ═══
+  // ═══ RING 4 — Large monitors (1600px+), circular edge ═══
   {
     id: 'nimrit',
-    left: 4,
-    top: 32,
+    left: 12,
+    top: 36,
     size: 'vx-sm',
     ring: 4,
     image: `${V}/nimrit.webp`,
   },
   {
     id: 'jack-garcia',
-    left: 6,
-    top: 76,
+    left: 14,
+    top: 72,
     size: 'vx-tiny',
     ring: 4,
     image: `${V}/jack-garcia.webp`,
   },
   {
     id: 'punjab',
-    left: 94,
-    top: 24,
+    left: 86,
+    top: 30,
     size: 'vx-tiny',
     ring: 4,
     image: `${V}/punjab.webp`,
@@ -428,41 +428,41 @@ const vortexItems = [
   {
     id: 'iph-sari',
     left: 54,
-    top: 20,
+    top: 14,
     size: 'vx-tiny',
     ring: 4,
     image: `${V}/iph-sari.webp`,
   },
 
-  // ═══ RING 5 — Ultrawide (1920px+) — small scattered edge pieces ═══
+  // ═══ RING 5 — Ultrawide (1920px+) — scattered along circular edge ═══
   {
     id: 'r5-wedding',
-    left: 96,
-    top: 44,
+    left: 90,
+    top: 46,
     size: 'vx-tiny',
     ring: 5,
     image: `${V}/wedding.webp`,
   },
   {
     id: 'r5-india',
-    left: 4,
-    top: 84,
+    left: 10,
+    top: 78,
     size: 'vx-sm',
     ring: 5,
     image: `${V}/india6.webp`,
   },
   {
     id: 'r5-sara',
-    left: 96,
-    top: 20,
+    left: 88,
+    top: 24,
     size: 'vx-tiny',
     ring: 5,
     image: `${V}/sara.webp`,
   },
   {
     id: 'r5-loyle',
-    left: 96,
-    top: 72,
+    left: 88,
+    top: 68,
     size: 'vx-xs',
     ring: 5,
     image: `${V}/loyle-carner.webp`,
@@ -487,7 +487,7 @@ export function VortexGallery() {
 
     let deg = 0
     let last = performance.now()
-    const speed = 360 / 180000 // One rotation per 180 seconds (slower)
+    const speed = 360 / 240000 // One rotation per 240 seconds
     let rafId: number
 
     function tick(now: number) {
