@@ -66,8 +66,14 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
                 >
                   <div
                     className="relative aspect-[5/4] overflow-hidden bg-[var(--bg-surface)]"
-                    style={{ border: '1.5px solid transparent', transition: 'border-color 0.3s' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#E8C547')}
+                    style={{
+                      border: '1.5px solid transparent',
+                      transition: 'border-color 0.3s',
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.borderColor =
+                        'color-mix(in srgb, var(--text-primary) 70%, transparent)')
+                    }
                     onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'transparent')}
                   >
                     {project.thumbnail ? (
