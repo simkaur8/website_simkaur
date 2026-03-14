@@ -257,16 +257,11 @@ const photos: Photo[] = [
   },
 
   // ═══ PORTRAITS ADDITIONAL ═══
-  // Row 2: Mia Dennis + Tiara Vella + Cherry Chola
+  // Row 2: Mia Dennis + Tiara Vella + Celina
   { src: `${P}/portraits/mia-dennis1.webp`, title: 'Mia Dennis', category: 'portraits' },
   { src: `${P}/portraits/mia-dennis2.webp`, title: 'Mia Dennis', category: 'portraits' },
-  {
-    src: `${P}/fashion/tiara-vella.webp`,
-    title: 'Tiara Vella',
-    category: 'portraits',
-  },
-  { src: `${P}/portraits/cherry-chola.webp`, title: 'Cherry Chola', category: 'portraits' },
-  // Row 3: Brown Suga Princess + Yasmine
+  { src: `${P}/portraits/celina.webp`, title: 'Celina', category: 'portraits' },
+  // Row 3: Brown Suga Princess
   {
     src: `${P}/portraits/brown-suga2.webp`,
     title: 'Brown Suga Princess',
@@ -279,9 +274,9 @@ const photos: Photo[] = [
   },
   { src: `${P}/portraits/yasmine.webp`, title: 'Yasmine for Pushmag', category: 'portraits' },
   // Additional portraits
+  { src: `${P}/portraits/cherry-chola.webp`, title: 'Cherry Chola', category: 'portraits' },
   { src: `${P}/portraits/min-wong.webp`, title: 'Min Wong', category: 'portraits' },
   { src: `${P}/portraits/kuta-beach.webp`, title: 'Kuta Beach', category: 'portraits' },
-  { src: `${P}/portraits/celina.webp`, title: 'Celina', category: 'portraits' },
   {
     src: `${P}/portraits/sara-gch.webp`,
     title: 'Sara for GCH Plant Dye Scarves',
@@ -293,34 +288,36 @@ const photos: Photo[] = [
   { src: `${P}/event/club5.webp`, title: 'Club Selects', category: 'portraits' },
 
   // ═══ EVENT ═══
-  // Row 1: Office AAFW + Club highlights
+  // Row 1: Pink bikini + Office AAFW + Club highlights
+  { src: `${P}/event/club13.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/office-aafw.webp`, title: 'Office Magazine AAFW', category: 'event' },
-  { src: `${P}/event/club15.webp`, title: 'Club Selects', category: 'event' },
-  { src: `${P}/event/club12.webp`, title: 'Club Selects', category: 'event' },
-  { src: `${P}/event/club-chrome.webp`, title: 'Club Chrome', category: 'event' },
-  // Row 2: Club + Genesis Owusu
+  { src: `${P}/event/club14.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/club8.webp`, title: 'Club Selects', category: 'event' },
+  // Row 2: Club + Genesis Owusu
+  { src: `${P}/event/club15.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/genesis-owusu.webp`, title: 'Genesis Owusu', category: 'event' },
   { src: `${P}/event/club11.webp`, title: 'Club Selects', category: 'event' },
-  { src: `${P}/event/club14.webp`, title: 'Club Selects', category: 'event' },
-  // Row 3: Diwali at Powerhouse (1 row only)
+  { src: `${P}/event/office-aafw3.webp`, title: 'Office Magazine AAFW', category: 'event' },
+  // Row 3: Diwali at Powerhouse (4 in 1 row)
   { src: `${P}/event/diwali83.webp`, title: 'Diwali at Powerhouse', category: 'event' },
   { src: `${P}/event/diwali-ph2.webp`, title: 'Diwali at Powerhouse Museum', category: 'event' },
   { src: `${P}/event/diwali11.webp`, title: 'Diwali at Powerhouse', category: 'event' },
   { src: `${P}/event/diwali63.webp`, title: 'Diwali at Powerhouse', category: 'event' },
-  // Row 4: More party + event
+  // Row 4: Ricky Nicole Wedding (4 in 1 row)
+  { src: `${P}/event/wedding87.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
+  { src: `${P}/event/wedding81.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
+  { src: `${P}/event/wedding83.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
+  { src: `${P}/event/wedding9.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
+  // Row 5: More party + event
   { src: `${P}/event/office-aafw6.webp`, title: 'Office Magazine AAFW', category: 'event' },
   { src: `${P}/event/planet-abundance.webp`, title: 'Planet Abundance', category: 'event' },
   { src: `${P}/event/office-aafw5.webp`, title: 'Office Magazine AAFW', category: 'event' },
   { src: `${P}/event/club6.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/club9.webp`, title: 'Club Selects', category: 'event' },
-  { src: `${P}/event/club13.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/office-aafw4.webp`, title: 'Office Magazine AAFW', category: 'event' },
-  // Row 5: Ricky Nicole Wedding
-  { src: `${P}/event/wedding87.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
-  { src: `${P}/event/wedding81.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
-  { src: `${P}/event/wedding83.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
-  { src: `${P}/event/wedding9.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
+  // Last rows: mesh back + tattoo couch
+  { src: `${P}/event/club12.webp`, title: 'Club Selects', category: 'event' },
+  { src: `${P}/event/club-chrome.webp`, title: 'Club Chrome', category: 'event' },
 
   // ═══ LIFE ADDITIONAL ═══
   { src: `${P}/life/paris-2025-3.webp`, title: 'Paris, 2025', category: 'life' },
