@@ -288,34 +288,34 @@ const photos: Photo[] = [
   { src: `${P}/event/club5.webp`, title: 'Club Selects', category: 'portraits' },
 
   // ═══ EVENT ═══
-  // Row 1: Pink bikini + Office AAFW + Club highlights
+  // Note: 1 curated event (office-aafw-great) comes first in filter, so 3 items here complete row 1
+  // Row 1 (cols 2-4, col 1 is curated): Pink bikini + Office AAFW + Club
   { src: `${P}/event/club13.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/office-aafw.webp`, title: 'Office Magazine AAFW', category: 'event' },
   { src: `${P}/event/club14.webp`, title: 'Club Selects', category: 'event' },
+  // Row 2: Club highlights
   { src: `${P}/event/club8.webp`, title: 'Club Selects', category: 'event' },
-  // Row 2: Club + Genesis Owusu
   { src: `${P}/event/club15.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/genesis-owusu.webp`, title: 'Genesis Owusu', category: 'event' },
   { src: `${P}/event/club11.webp`, title: 'Club Selects', category: 'event' },
-  { src: `${P}/event/office-aafw3.webp`, title: 'Office Magazine AAFW', category: 'event' },
-  // Row 3: Diwali at Powerhouse (4 in 1 row)
+  // Row 3: Diwali at Powerhouse (all 4 together)
   { src: `${P}/event/diwali83.webp`, title: 'Diwali at Powerhouse', category: 'event' },
   { src: `${P}/event/diwali-ph2.webp`, title: 'Diwali at Powerhouse Museum', category: 'event' },
   { src: `${P}/event/diwali11.webp`, title: 'Diwali at Powerhouse', category: 'event' },
   { src: `${P}/event/diwali63.webp`, title: 'Diwali at Powerhouse', category: 'event' },
-  // Row 4: Ricky Nicole Wedding (4 in 1 row)
+  // Row 4: Ricky Nicole Wedding (all 4 together)
   { src: `${P}/event/wedding87.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
   { src: `${P}/event/wedding81.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
   { src: `${P}/event/wedding83.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
   { src: `${P}/event/wedding9.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
-  // Row 5: More party + event
+  // Row 5+: Remaining
+  { src: `${P}/event/office-aafw3.webp`, title: 'Office Magazine AAFW', category: 'event' },
   { src: `${P}/event/office-aafw6.webp`, title: 'Office Magazine AAFW', category: 'event' },
   { src: `${P}/event/planet-abundance.webp`, title: 'Planet Abundance', category: 'event' },
   { src: `${P}/event/office-aafw5.webp`, title: 'Office Magazine AAFW', category: 'event' },
   { src: `${P}/event/club6.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/club9.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/office-aafw4.webp`, title: 'Office Magazine AAFW', category: 'event' },
-  // Last rows: mesh back + tattoo couch
   { src: `${P}/event/club12.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/club-chrome.webp`, title: 'Club Chrome', category: 'event' },
 
