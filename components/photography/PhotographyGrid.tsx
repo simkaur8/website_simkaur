@@ -20,6 +20,16 @@ interface Photo {
 const photos: Photo[] = [
   // ═══ CURATED ALL VIEW — Priority order ═══
   {
+    src: `${P}/fashion/pam-nick-sethi.webp`,
+    title: 'PAM x Nick Sethi',
+    category: 'fashion',
+    curated: true,
+    role: 'Direction, Cinematography & Edit',
+    description:
+      'Featuring Balinese street dancers Rory and Billy for Perks and Mini (P.A.M) x Nick Sethi collaboration. Shot at Kuta Beach Skatepark, Bali.',
+    year: '2024',
+  },
+  {
     src: `${P}/fashion/westfield-campaign.webp`,
     title: 'Westfield Australia Diwali Campaign',
     category: 'fashion',
@@ -37,16 +47,6 @@ const photos: Photo[] = [
     role: 'Campaign Photography',
     description: "I'm Dying Inside, TikTok content series directed by Arundati Thandur.",
     year: '2023',
-  },
-  {
-    src: `${P}/fashion/pam-nick-sethi.webp`,
-    title: 'PAM x Nick Sethi',
-    category: 'fashion',
-    curated: true,
-    role: 'Direction, Cinematography & Edit',
-    description:
-      'Featuring Balinese street dancers Rory and Billy for Perks and Mini (P.A.M) x Nick Sethi collaboration. Shot at Kuta Beach Skatepark, Bali.',
-    year: '2024',
   },
   {
     src: `${P}/fashion/donna-bertram.webp`,
@@ -247,14 +247,7 @@ const photos: Photo[] = [
     role: 'Campaign Photography',
     year: '2022',
   },
-  // — AAFW
-  {
-    src: `${P}/fashion/aafw2.webp`,
-    title: 'AAFW Erik Yvon Show',
-    category: 'fashion',
-    role: 'Photography',
-    year: '2023',
-  },
+  // (aafw2 polaroid collage removed)
 
   // ═══ PORTRAITS ADDITIONAL ═══
   // Row 2: Mia Dennis + Tiara Vella + Celina
