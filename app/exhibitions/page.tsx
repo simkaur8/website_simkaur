@@ -24,49 +24,6 @@ export const metadata: Metadata = {
 
 const exhibitions = [
   {
-    title: '\u2018Pravaah\u2019 Installation at Pari Art Gallery',
-    subtitle:
-      'Sound and moving image installation with found objects. 1 min 30 sec. Exhibited as part of Pari (ARI)\u2019s group exhibition Weeds Crack Concrete, 2025.',
-    description:
-      'Pravaah is a short experimental Bharatanatyam film featuring Anjana Chandran. The dance traces the cycle of life and death. Anjana takes on the form of the divine feminine, expressing love for sky, water, wind, rain, and a leaping deer, before moving through destruction and grief. From a single teardrop, new life is born and a flower blooms. The film is installed on a CRT monitor surrounded by personal objects: worn books, family photographs, incense, quiet offerings from a bedside table. This altar traces the line between the personal and the eternal, the sacred and the everyday.',
-    link: { text: 'Watch Pravaah on Vimeo \u2192', href: 'https://vimeo.com/1151462076' },
-    media: [
-      {
-        type: 'image' as const,
-        src: '/images/exhibitions/pravaah/installation-1.webp',
-        alt: 'Pravaah Installation',
-      },
-      { type: 'video' as const, src: '/images/exhibitions/pravaah/installation-video.mp4' },
-      {
-        type: 'image' as const,
-        src: '/images/exhibitions/pravaah/installation-2.jpg',
-        alt: 'Pravaah Installation detail',
-      },
-    ],
-  },
-  {
-    title: 'Homecoming',
-    subtitle:
-      'Collage installation using family photographs and found objects. Exhibited as part of Akshaya Bhutkar\u2019s group show at Studio Killa, Marrickville. 2025.',
-    media: [
-      {
-        type: 'image' as const,
-        src: '/images/exhibitions/homecoming/homecoming-1.webp',
-        alt: 'Homecoming installation',
-      },
-      {
-        type: 'image' as const,
-        src: '/images/exhibitions/homecoming/homecoming-2.jpg',
-        alt: 'Homecoming detail',
-      },
-      {
-        type: 'image' as const,
-        src: '/images/exhibitions/homecoming/homecoming-3.jpg',
-        alt: 'Homecoming detail',
-      },
-    ],
-  },
-  {
     title: 'Transmedia Worldbuilding Residency',
     subtitle:
       '4A Centre for Contemporary Asian Art x Antariksha Studio. October 2025 \u2013 June 2026, Sydney.',
@@ -77,6 +34,29 @@ const exhibitions = [
       href: 'https://4a.com.au/events/transmedia-worldbuilding-residency',
     },
     comingSoon: true,
+  },
+  {
+    title: '\u2018Pravaah\u2019 Installation at Pari Art Gallery',
+    subtitle:
+      'Sound and moving image installation with found objects. 1 min 30 sec. Exhibited as part of Pari (ARI)\u2019s group exhibition Weeds Crack Concrete, 2025.',
+    description:
+      'Pravaah is a short experimental Bharatanatyam film featuring Anjana Chandran. The dance traces the cycle of life and death. Anjana takes on the form of the divine feminine, expressing love for sky, water, wind, rain, and a leaping deer, before moving through destruction and grief. From a single teardrop, new life is born and a flower blooms. The film is installed on a CRT monitor surrounded by personal objects: worn books, family photographs, incense, quiet offerings from a bedside table. This altar traces the line between the personal and the eternal, the sacred and the everyday.',
+    link: { text: 'Watch Pravaah on Vimeo \u2192', href: 'https://vimeo.com/1151462076' },
+    media: [
+      { src: '/images/exhibitions/pravaah/installation-1.webp', alt: 'Pravaah Installation' },
+      { src: '/images/exhibitions/pravaah/pravaah-install.gif', alt: 'Pravaah Installation video' },
+      { src: '/images/exhibitions/pravaah/installation-2.jpg', alt: 'Pravaah Installation detail' },
+    ],
+  },
+  {
+    title: 'Homecoming',
+    subtitle:
+      'Collage installation using family photographs and found objects. Exhibited as part of Akshaya Bhutkar\u2019s group show at Studio Killa, Marrickville. 2025.',
+    media: [
+      { src: '/images/exhibitions/homecoming/homecoming-1.webp', alt: 'Homecoming installation' },
+      { src: '/images/exhibitions/homecoming/homecoming-vid.gif', alt: 'Homecoming detail' },
+      { src: '/images/exhibitions/homecoming/homecoming-3.jpg', alt: 'Homecoming detail' },
+    ],
   },
 ]
 
@@ -117,42 +97,16 @@ export default function ExhibitionsPage() {
                     className="mb-8 grid grid-cols-1 sm:grid-cols-3"
                     style={{ gap: 'clamp(0.5rem, 1vw, 0.8rem)' }}
                   >
-                    {exh.media.map((item, i) =>
-                      item.type === 'video' ? (
-                        <div key={i} className="aspect-[3/2] overflow-hidden">
-                          <video
-                            src={item.src}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="auto"
-                            className="h-full w-full object-cover"
-                          />
-                        </div>
-                      ) : (
-                        <div key={i} className="aspect-[3/2] overflow-hidden">
-                          <img
-                            src={item.src}
-                            alt={item.alt || ''}
-                            className="h-full w-full object-cover"
-                            loading="lazy"
-                          />
-                        </div>
-                      )
-                    )}
-                  </div>
-                )}
-
-                {/* Coming Soon placeholder */}
-                {'comingSoon' in exh && exh.comingSoon && (
-                  <div className="mb-8 flex aspect-[3/1] items-center justify-center border border-[var(--border)] sm:aspect-[4/1]">
-                    <span
-                      className="uppercase tracking-[0.15em] text-[var(--text-muted)]"
-                      style={{ fontSize: 'var(--text-sm)' }}
-                    >
-                      Images coming soon
-                    </span>
+                    {exh.media.map((item, i) => (
+                      <div key={i} className="aspect-[3/2] overflow-hidden">
+                        <img
+                          src={item.src}
+                          alt={item.alt || ''}
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                    ))}
                   </div>
                 )}
 
@@ -177,6 +131,16 @@ export default function ExhibitionsPage() {
                   >
                     {exh.link.text}
                   </a>
+                )}
+
+                {/* Coming Soon — italic text */}
+                {'comingSoon' in exh && exh.comingSoon && (
+                  <p
+                    className="mt-2 italic text-[var(--text-muted)]"
+                    style={{ fontSize: 'var(--text-base)' }}
+                  >
+                    Images coming soon
+                  </p>
                 )}
               </article>
             </RevealOnScroll>

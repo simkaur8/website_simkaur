@@ -211,8 +211,8 @@ html {
   padding-bottom: 4rem;
   position: relative;
   overflow: hidden;
-  -webkit-mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, black 50%, transparent 100%);
-  mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, black 50%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 105% 85% at 50% 48%, black 45%, transparent 95%);
+  mask-image: radial-gradient(ellipse 105% 85% at 50% 48%, black 45%, transparent 95%);
 }
 
 .vortex {

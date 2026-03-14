@@ -30,7 +30,7 @@ export function Footer({ email, footerCta, socialLinks }: FooterProps) {
           </span>
         ))}
       </div>
-      <p className="mt-2 text-[var(--text-sm)] text-[var(--text-muted)]">
+      <p className="mt-2 text-[var(--text-xs)] text-[var(--text-muted)]">
         Sim Kaur &copy; {year} Creative Director
       </p>
     </footer>
