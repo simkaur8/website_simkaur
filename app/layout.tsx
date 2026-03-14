@@ -6,6 +6,7 @@ import { CustomCursor } from '@/components/CustomCursor'
 import { SideNav } from '@/components/nav/SideNav'
 import { MobileNav } from '@/components/nav/MobileNav'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import { AestClock } from '@/components/AestClock'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
@@ -64,7 +65,7 @@ export default function RootLayout({
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}`,
+            __html: `try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t)}else{var h=new Date(new Date().toLocaleString('en-US',{timeZone:'Australia/Sydney'})).getHours();document.documentElement.setAttribute('data-theme',h>=6&&h<18?'light':'dark')}}catch(e){}`,
           }}
         />
       </head>
@@ -79,7 +80,8 @@ export default function RootLayout({
           <CustomCursor />
           <SideNav />
           <MobileNav />
-          <div className="fixed left-4 top-4 z-40 lg:left-auto lg:right-4">
+          <div className="fixed left-4 top-5 z-40 flex items-center gap-2 lg:left-auto lg:right-4">
+            <AestClock />
             <ThemeToggle />
           </div>
           <main id="main-content" className="lg:pl-[var(--nav-w)]">
