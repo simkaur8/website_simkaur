@@ -53,7 +53,7 @@ export interface PhotoCollection {
   _type: 'photoCollection'
   title: string
   slug: { current: string }
-  category: 'fashion' | 'portraits' | 'life' | 'events'
+  category: 'fashion' | 'portraits' | 'life' | 'event'
   coverImage: SanityImage & { alt: string }
   photos?: PhotoItem[]
   sortOrder: number

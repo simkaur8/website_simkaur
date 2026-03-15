@@ -27,7 +27,7 @@ export const photoCollection = defineType({
           { title: 'Fashion', value: 'fashion' },
           { title: 'Portraits', value: 'portraits' },
           { title: 'Life', value: 'life' },
-          { title: 'Events', value: 'events' },
+          { title: 'Event', value: 'event' },
         ],
       },
       validation: (Rule) => Rule.required(),
