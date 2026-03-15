@@ -40,7 +40,7 @@ export const staticProjects: StaticProject[] = [
     category: 'fashion-dance',
     year: 2026,
     description:
-      'Dance fashion film starring Aaliyah Paea & Rome Champion. Premiered at Palace Cinemas as part of JD IN MOTION.\n\nThis film is inspired by my obsession with watching battles between friends, siblings, partners, members of the same crew. Despite it being a competition, the love is so palpable.\n\nA small crew hypes a casual battle between the couple. Rome throws the first call, Aaliyah answers, each round an energetic exchange that escalates from playful competition, to charged battle, to confession. Their chemistry flips competition into conversation: receiving, reimagining, returning, then dancing together.\n\nPaying homage to Aaliyah & Rome\u2019s talent, their love, and the energy of dance battles + community here in Syd through fashion and film.\n\n2026, Sydney.',
+      'Dance fashion film starring Aaliyah Paea & Rome Champion. Premiered at Palace Cinemas as part of JD IN MOTION.\n\nThis film is inspired by my obsession with watching battles between friends, siblings, partners, members of the same crew. Despite it being a competition, the love is so palpable.\n\nA small crew hypes a casual battle between the couple. Rome throws the first call, Aaliyah answers, each round an energetic exchange that escalates from playful competition, to charged battle, to confession. Their chemistry flips competition into conversation: receiving, reimagining, returning, then dancing together.\n\nPaying homage to Aaliyah & Rome\u2019s talent, their love, and the energy of dance battles + community here in Syd through fashion and film.',
     synopsis: [
       'Dance fashion film starring Aaliyah Paea & Rome Champion. Premiered at Palace Cinemas as part of JD IN MOTION.',
       'This film is inspired by my obsession with watching battles between friends, siblings, partners, members of the same crew. Despite it being a competition, the love is so palpable.',
@@ -96,7 +96,7 @@ export const staticProjects: StaticProject[] = [
     category: 'fashion-dance',
     year: 2025,
     description:
-      'From Sri Lanka to Paris, model, stylist and podcaster Padani weaves her story into the fabric of the lungi, a garment she grew up with, worn by uncles in the rice fields and on the veranda.\n\n2025, Paris.',
+      'From Sri Lanka to Paris, model, stylist and podcaster Padani weaves her story into the fabric of the lungi, a garment she grew up with, worn by uncles in the rice fields and on the veranda.',
     synopsis: [
       'From Sri Lanka to Paris, model, stylist and podcaster Padani weaves her story into the fabric of the lungi, a garment she grew up with, worn by uncles in the rice fields and on the veranda.',
       'Now, in the bustling streets of Paris, she reimagines it exclusively for ELLE, with a mix of tradition and modern edge, pairing the Madras check with sharp blazers and effortlessly transforming it into tops and skirts. For her, the lungi is more than just clothing; it\u2019s a link to her past, a nod to her heritage, and a canvas for her personal evolution.',
@@ -136,7 +136,7 @@ export const staticProjects: StaticProject[] = [
     thumbnail: '/images/vortex/swamp.webp',
     category: 'fashion-dance',
     year: 2025,
-    description: 'Dance fashion film starring Amanda Va.\n\n2025, Sydney.',
+    description: 'Dance fashion film starring Amanda Va.',
     synopsis: ['Dance fashion film starring Amanda Va.'],
     credits: [
       { role: 'Movement', name: 'Amanda Va' },
@@ -162,7 +162,7 @@ export const staticProjects: StaticProject[] = [
     category: 'music-video',
     year: 2024,
     description:
-      'Music video for Dylan Atlantis, featuring Cat Strat.\n\nBest Music Video Runner Up, Western Sydney Film Festival.\n\n2024, Sydney.',
+      'Music video for Dylan Atlantis, featuring Cat Strat.\n\nBest Music Video Runner Up, Western Sydney Film Festival.',
     credits: [
       { role: 'Artist', name: 'Dylan Atlantis' },
       { role: 'Talent', name: 'Cat Strat' },
@@ -242,7 +242,7 @@ export const staticProjects: StaticProject[] = [
     category: 'fashion-dance',
     year: 2025,
     description:
-      'Dance fashion film starring Jiggy Jaya, in collaboration with Sydney label Song for the Mute.\n\n2025, Sydney.',
+      'Dance fashion film starring Jiggy Jaya, in collaboration with Sydney label Song for the Mute.',
     synopsis: [
       'Dance fashion film starring Jiggy Jaya, in collaboration with Sydney label Song for the Mute.',
       'Inspired by the chaos of a circus, the film captures Jaya wearing Song for the Mute\u2019s Jester-inspired collection, blending playful energy with sharp choreography.',
@@ -278,7 +278,7 @@ export const staticProjects: StaticProject[] = [
     category: 'fashion-dance',
     year: 2024,
     description:
-      'Dance fashion film starring Balinese street dancers Rory and Billy, in collaboration with fashion label Perks and Mini (P.A.M) x Nick Sethi.\n\n2024, Kuta Beach Skatepark, Bali.',
+      'Dance fashion film starring Balinese street dancers Rory and Billy, in collaboration with fashion label Perks and Mini (P.A.M) x Nick Sethi.',
     synopsis: [
       'Dance fashion film starring Balinese street dancers Rory and Billy, in collaboration with fashion label Perks and Mini (P.A.M) x Nick Sethi. Shot at Kuta Beach Skatepark, Bali.',
     ],
@@ -299,7 +299,7 @@ export const staticProjects: StaticProject[] = [
     category: 'fashion-dance',
     year: 2023,
     description:
-      'Short experimental Bharatanatyam dance film featuring Anjana Chandran. The dance traces the cycle of life and death. Shot on VHS.\n\nExhibited at Pari (ARI) Art Gallery, 2025.\n\n2023, Sydney.',
+      'Short experimental Bharatanatyam dance film featuring Anjana Chandran. The dance traces the cycle of life and death. Shot on VHS.\n\nExhibited at Pari (ARI) Art Gallery, 2025.',
     synopsis: [
       'Short experimental Bharatanatyam dance film featuring Anjana Chandran. The dance traces the cycle of life and death. Shot on VHS.',
       'Exhibited at Pari (ARI) Art Gallery, 2025.',
@@ -320,7 +320,7 @@ export const staticProjects: StaticProject[] = [
     category: 'fashion-dance',
     year: 2024,
     description:
-      'Starring Paris Crossley, a London-based movement artist and popper. Cinematography by Max Dona.\n\n2024, Sydney.',
+      'Starring Paris Crossley, a London-based movement artist and popper. Cinematography by Max Dona.',
     synopsis: [
       'Starring Paris Crossley, a London-based movement artist and popper. Cinematography by Max Dona.',
     ],
@@ -340,7 +340,7 @@ export const staticProjects: StaticProject[] = [
     thumbnail: '/images/vortex/shysol.webp',
     category: 'music-video',
     year: 2025,
-    description: 'Music video for JUPiTA.\n\n2025, Melbourne.',
+    description: 'Music video for JUPiTA.',
     synopsis: ['Music video for JUPiTA.'],
     credits: [
       { role: 'Direction & Edit', name: 'Simrat Kaur' },
@@ -360,7 +360,7 @@ export const staticProjects: StaticProject[] = [
     category: 'music-video',
     year: 2025,
     description:
-      'Music video for New Zealand musician, Church. A black & white, movement-based film starring Iolanthe.\n\n2025, Sydney.',
+      'Music video for New Zealand musician, Church. A black & white, movement-based film starring Iolanthe.',
     synopsis: [
       'Music video for New Zealand musician, Church. A black & white, movement-based film starring Iolanthe.',
     ],
@@ -385,7 +385,7 @@ export const staticProjects: StaticProject[] = [
     category: 'music-video',
     year: 2025,
     description:
-      'Music video for Cherry Chola. Shot across Sydney and Colombia on Mac Photobooth and digicam.\n\n2025, Sydney & Colombia.',
+      'Music video for Cherry Chola. Shot across Sydney and Colombia on Mac Photobooth and digicam.',
     synopsis: [
       'Music video for Cherry Chola. Shot across Sydney and Colombia on Mac Photobooth and digicam.',
     ],
@@ -402,7 +402,7 @@ export const staticProjects: StaticProject[] = [
     thumbnail: '/images/direction/thumbnails/pages.webp',
     category: 'music-video',
     year: 2024,
-    description: 'Music video for Thandi.\n\n2024.',
+    description: 'Music video for Thandi.',
     credits: [{ role: 'Direction', name: 'Simrat Kaur' }],
     video: { platform: 'youtube', id: 'CInFC1yk5t8', aspect: '4 / 3' },
     comingSoon: true,
