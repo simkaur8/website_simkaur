@@ -64,18 +64,7 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
                   onClick={() => setActiveIdx(idx)}
                   className="group block w-full overflow-hidden text-left"
                 >
-                  <div
-                    className="relative aspect-[5/4] overflow-hidden bg-[var(--bg-surface)]"
-                    style={{
-                      border: '1.5px solid transparent',
-                      transition: 'border-color 0.3s',
-                    }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.borderColor =
-                        'color-mix(in srgb, var(--text-primary) 70%, transparent)')
-                    }
-                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'transparent')}
-                  >
+                  <div className="relative aspect-[5/4] overflow-hidden bg-[var(--bg-surface)]">
                     {project.thumbnail ? (
                       <img
                         src={project.thumbnail}

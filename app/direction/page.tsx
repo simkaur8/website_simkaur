@@ -43,7 +43,7 @@ export default async function DirectionPage() {
           className="mb-3 text-center font-normal uppercase tracking-[0.08em]"
           style={{ fontSize: 'clamp(2.8rem, 2rem + 4vw, 5.5rem)', lineHeight: 1 }}
         >
-          Video Art Direction
+          Video
         </h1>
         <p
           className="mb-12 text-center tracking-[0.08em] text-[var(--text-muted)]"
