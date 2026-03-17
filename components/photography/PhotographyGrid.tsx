@@ -98,6 +98,36 @@ const photos: Photo[] = [
     curated: true,
     role: 'Campaign Photography, Casting',
     year: '2019',
+    objectPosition: 'center',
+  },
+  // — Oats the Label (grouped together)
+  {
+    src: `${P}/fashion/oats1.webp`,
+    title: 'Oats the Label',
+    category: 'fashion',
+    role: 'Campaign Photography, Casting',
+    year: '2019',
+  },
+  {
+    src: `${P}/fashion/oats-b1.webp`,
+    title: 'Oats the Label',
+    category: 'fashion',
+    role: 'Campaign Photography, Casting',
+    year: '2019',
+  },
+  {
+    src: `${P}/fashion/oats-b2.webp`,
+    title: 'Oats the Label',
+    category: 'fashion',
+    role: 'Campaign Photography, Casting',
+    year: '2019',
+  },
+  {
+    src: `${P}/fashion/oats2.webp`,
+    title: 'Oats the Label',
+    category: 'fashion',
+    role: 'Campaign Photography, Casting',
+    year: '2021',
   },
   { src: `${P}/portraits/elle-ngo.webp`, title: 'Elle Ngo', category: 'portraits', curated: true },
   {
@@ -196,45 +226,16 @@ const photos: Photo[] = [
   // — Lia x S
   { src: `${P}/fashion/liaxs1.webp`, title: 'Lia x S', category: 'fashion' },
   { src: `${P}/fashion/liaxs2.webp`, title: 'Lia x S', category: 'fashion' },
-  // — Oats the Label
-  {
-    src: `${P}/fashion/oats1.webp`,
-    title: 'Oats the Label',
-    category: 'fashion',
-    role: 'Campaign Photography, Casting',
-    year: '2019',
-  },
-  {
-    src: `${P}/fashion/oats2.webp`,
-    title: 'Oats the Label',
-    category: 'fashion',
-    role: 'Campaign Photography, Casting',
-    year: '2021',
-  },
-  {
-    src: `${P}/fashion/oats-b1.webp`,
-    title: 'Oats the Label',
-    category: 'fashion',
-    role: 'Campaign Photography, Casting',
-    year: '2019',
-  },
-  {
-    src: `${P}/fashion/oats-b2.webp`,
-    title: 'Oats the Label',
-    category: 'fashion',
-    role: 'Campaign Photography, Casting',
-    year: '2019',
-  },
   // — FLUX
   {
-    src: `${P}/fashion/flux2.webp`,
+    src: `${P}/fashion/flux-polaroid1.webp`,
     title: 'FLUX',
     category: 'fashion',
     role: 'Campaign Photography',
     year: '2022',
   },
   {
-    src: `${P}/fashion/flux-polaroid1.webp`,
+    src: `${P}/fashion/flux2.webp`,
     title: 'FLUX',
     category: 'fashion',
     role: 'Campaign Photography',
@@ -248,7 +249,6 @@ const photos: Photo[] = [
     year: '2022',
   },
   // (aafw2 polaroid collage removed)
-  { src: `${P}/fashion/nani-yuth.webp`, title: 'Nani for Yuth', category: 'fashion' },
 
   // ═══ PORTRAITS ADDITIONAL ═══
   // Row 2: Mia Dennis + Tiara Vella + Celina
@@ -359,8 +359,16 @@ export function PhotographyGrid() {
     setFilter(value)
   }, [])
 
-  const filtered =
-    filter === 'all' ? photos.filter((p) => p.curated) : photos.filter((p) => p.category === filter)
+  const filtered = (() => {
+    if (filter === 'all') return photos.filter((p) => p.curated)
+    const categoryPhotos = photos.filter((p) => p.category === filter)
+    // Swap first 3 fashion images so the grid visually changes from All view
+    if (filter === 'fashion' && categoryPhotos.length >= 3) {
+      const [a, b, c, ...rest] = categoryPhotos
+      return [b, c, a, ...rest]
+    }
+    return categoryPhotos
+  })()
 
   const openLightbox = useCallback((idx: number) => {
     setLightbox(idx)
