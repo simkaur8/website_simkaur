@@ -2,21 +2,11 @@
 
 import { useEffect, useState } from 'react'
 
-function getAestHour(): number {
-  const aest = new Date(new Date().toLocaleString('en-US', { timeZone: 'Australia/Sydney' }))
-  return aest.getHours()
-}
-
-function themeForTimeOfDay(): 'dark' | 'light' {
-  const hour = getAestHour()
-  return hour >= 6 && hour < 18 ? 'light' : 'dark'
-}
-
 function getInitialTheme(): 'dark' | 'light' {
-  if (typeof window === 'undefined') return 'light'
+  if (typeof window === 'undefined') return 'dark'
   const stored = localStorage.getItem('theme')
   if (stored === 'light' || stored === 'dark') return stored
-  return themeForTimeOfDay()
+  return 'dark'
 }
 
 export function ThemeToggle() {
@@ -25,20 +15,6 @@ export function ThemeToggle() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
   }, [theme])
-
-  // Auto-switch at dawn/dusk if user hasn't manually set a preference
-  useEffect(() => {
-    const checkTime = () => {
-      const stored = localStorage.getItem('theme')
-      if (!stored) {
-        const auto = themeForTimeOfDay()
-        setTheme(auto)
-        document.documentElement.setAttribute('data-theme', auto)
-      }
-    }
-    const interval = setInterval(checkTime, 60000) // check every minute
-    return () => clearInterval(interval)
-  }, [])
 
   function toggle() {
     const next = theme === 'dark' ? 'light' : 'dark'

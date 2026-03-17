@@ -218,7 +218,7 @@ html {
 .vortex {
   position: relative;
   width: min(92vw, 1100px);
-  aspect-ratio: 1;
+  aspect-ratio: 10/9;
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -340,6 +340,7 @@ html {
   }
   .vortex {
     width: 92vw;
+    aspect-ratio: 3/4;
   }
 
   /* Mobile size classes — priority items */

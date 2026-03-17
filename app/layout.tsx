@@ -6,7 +6,6 @@ import { CustomCursor } from '@/components/CustomCursor'
 import { SideNav } from '@/components/nav/SideNav'
 import { MobileNav } from '@/components/nav/MobileNav'
 import { ThemeToggle } from '@/components/ThemeToggle'
-import { AestClock } from '@/components/AestClock'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
@@ -60,13 +59,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" data-theme="light" suppressHydrationWarning className={generalSans.variable}>
+    <html lang="en" data-theme="dark" suppressHydrationWarning className={generalSans.variable}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t)}else{var h=new Date(new Date().toLocaleString('en-US',{timeZone:'Australia/Sydney'})).getHours();document.documentElement.setAttribute('data-theme',h>=6&&h<18?'light':'dark')}}catch(e){}`,
+            __html: `try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}`,
           }}
         />
       </head>
@@ -81,8 +80,7 @@ export default function RootLayout({
           <CustomCursor />
           <SideNav />
           <MobileNav />
-          <div className="fixed left-4 top-5 z-40 flex items-center gap-2 lg:left-auto lg:right-4">
-            <AestClock />
+          <div className="fixed left-4 top-5 z-40 lg:left-auto lg:right-4">
             <ThemeToggle />
           </div>
           <main id="main-content" className="lg:pl-[var(--nav-w)]">

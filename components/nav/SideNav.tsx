@@ -7,8 +7,8 @@ import { cn } from '@/lib/utils'
 import { LogoVideo } from './LogoVideo'
 
 const navLinks = [
-  { href: '/direction', label: 'Direction' },
-  { href: '/photography', label: 'Photography' },
+  { href: '/direction', label: 'Video' },
+  { href: '/photography', label: 'Photo' },
   { href: '/exhibitions', label: 'Exhibitions' },
   { href: '/about', label: 'About' },
 ]

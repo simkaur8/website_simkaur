@@ -24,32 +24,29 @@ const vortexItems = [
     mobileSize: 'vx-mob-xl',
   },
   {
-    id: 'swamp',
-    left: 42,
-    top: 54,
-    size: 'vx-sm',
-    ring: 0,
-    href: '/direction/swamp',
-    title: 'SWAMP',
-    tag: 'Dance Film',
-    image: `${V}/swamp.webp`,
-    under: true,
-    mobileLeft: 65,
-    mobileTop: 72,
-    mobileSize: 'vx-mob-particle',
-  },
-  {
     id: 'elle',
     left: 58,
     top: 38,
-    size: 'vx-md',
+    size: 'vx-land',
     ring: 0,
     href: '/direction/padani-elle-india',
     title: 'Padani for ELLE',
     tag: 'Fashion Film',
     image: `${V}/padani1.webp`,
-    mobileLeft: 82,
-    mobileTop: 35,
+    mobilePriority: true,
+    mobileLeft: 78,
+    mobileTop: 32,
+    mobileSize: 'vx-mob-md',
+  },
+  {
+    id: 'brown-suga-press',
+    left: 42,
+    top: 56,
+    size: 'vx-sm',
+    ring: 0,
+    image: `${V}/brown-suga-press.webp`,
+    mobileLeft: 65,
+    mobileTop: 72,
     mobileSize: 'vx-mob-particle',
   },
   {
@@ -154,7 +151,7 @@ const vortexItems = [
     top: 68,
     size: 'vx-land-sm',
     ring: 1,
-    image: `${V}/pravaah1.gif`,
+    image: `${V}/pravaah-thumb.webp`,
     mobileLeft: 75,
     mobileTop: 78,
     mobileSize: 'vx-mob-dot',
@@ -170,6 +167,17 @@ const vortexItems = [
     mobileLeft: 15,
     mobileTop: 68,
     mobileSize: 'vx-mob-dot',
+  },
+  {
+    id: 'cherry2',
+    left: 22,
+    top: 54,
+    size: 'vx-land-sm',
+    ring: 1,
+    image: `${V}/cherry-chola2.webp`,
+    mobileLeft: 10,
+    mobileTop: 55,
+    mobileSize: 'vx-mob-particle',
   },
   {
     id: 'eye1',
@@ -487,7 +495,7 @@ export function VortexGallery() {
 
     let deg = 0
     let last = performance.now()
-    const speed = 360 / 240000 // One rotation per 240 seconds
+    const speed = 360 / 320000 // One rotation per ~5.3 minutes
     let rafId: number
 
     function tick(now: number) {

@@ -277,6 +277,7 @@ export const staticProjects: StaticProject[] = [
     thumbnail: '/images/direction/thumbnails/pam-bali.webp',
     category: 'fashion-dance',
     year: 2024,
+    hideFromAll: true,
     description:
       'Dance fashion film starring Balinese street dancers Rory and Billy, in collaboration with fashion label Perks and Mini (P.A.M) x Nick Sethi.',
     synopsis: [
@@ -299,7 +300,7 @@ export const staticProjects: StaticProject[] = [
     category: 'fashion-dance',
     year: 2023,
     description:
-      'Short experimental Bharatanatyam dance film featuring Anjana Chandran. The dance traces the cycle of life and death. Shot on VHS.\n\nExhibited at Pari (ARI) Art Gallery, 2025.',
+      'Short experimental Bharatanatyam dance film featuring Anjana Chandran. The dance traces the cycle of life and death.\n\nThis was my final project for my fictional screen media class at Western Sydney University, where I majored in film.\n\nExhibited at Pari (ARI) Art Gallery, 2025.',
     synopsis: [
       'Short experimental Bharatanatyam dance film featuring Anjana Chandran. The dance traces the cycle of life and death. Shot on VHS.',
       'Exhibited at Pari (ARI) Art Gallery, 2025.',
@@ -320,7 +321,7 @@ export const staticProjects: StaticProject[] = [
     category: 'fashion-dance',
     year: 2024,
     description:
-      'Starring Paris Crossley, a London-based movement artist and popper. Cinematography by Max Dona.',
+      'Starring Paris Crossley, a London-based movement artist and popper. Shot entirely in one take. Cinematography by Max Dona.',
     synopsis: [
       'Starring Paris Crossley, a London-based movement artist and popper. Cinematography by Max Dona.',
     ],
@@ -374,7 +375,6 @@ export const staticProjects: StaticProject[] = [
     ],
     video: { platform: 'youtube', id: 'YFQ3muHQf_Y' },
     comingSoon: true,
-    hideFromAll: true,
   },
   {
     slug: 'sabor-celestial',
