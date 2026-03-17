@@ -49,8 +49,8 @@ export function AboutWithDiary() {
               collaborated with clients including Westfield Australia, Elle India, and Office
               Magazine.
             </p>
-            <p className="mt-4 italic">
-              She lives and creates on Darug Country, land that was never ceded.
+            <p className="mt-4">
+              <em>She lives and creates on Darug Country, land that was never ceded.</em>
             </p>
           </div>
 
