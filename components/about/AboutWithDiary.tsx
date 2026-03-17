@@ -66,20 +66,6 @@ export function AboutWithDiary() {
               </a>
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-4" style={{ fontSize: 'var(--text-sm)' }}>
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-
             {/* Easter egg — opens video diary */}
             <button
               onClick={() => setBoothOpen(true)}
@@ -92,6 +78,20 @@ export function AboutWithDiary() {
                 className="w-full rounded"
               />
             </button>
+
+            <div className="mt-4 flex flex-wrap gap-4" style={{ fontSize: 'var(--text-sm)' }}>
+              {socialLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
