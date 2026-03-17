@@ -248,6 +248,7 @@ const photos: Photo[] = [
     year: '2022',
   },
   // (aafw2 polaroid collage removed)
+  { src: `${P}/fashion/nani-yuth.webp`, title: 'Nani for Yuth', category: 'fashion' },
 
   // ═══ PORTRAITS ADDITIONAL ═══
   // Row 2: Mia Dennis + Tiara Vella + Celina
@@ -311,6 +312,7 @@ const photos: Photo[] = [
   { src: `${P}/event/office-aafw4.webp`, title: 'Office Magazine AAFW', category: 'event' },
   { src: `${P}/event/club12.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/club-chrome.webp`, title: 'Club Chrome', category: 'event' },
+  { src: `${P}/event/mias-birthday.webp`, title: "Mia's Birthday", category: 'event' },
 
   // ═══ LIFE ADDITIONAL ═══
   { src: `${P}/life/paris-2025-3.webp`, title: 'Paris, 2025', category: 'life' },
