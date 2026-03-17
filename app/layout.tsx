@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import { Providers } from './providers'
-import { CustomCursor } from '@/components/CustomCursor'
 import { SideNav } from '@/components/nav/SideNav'
 import { MobileNav } from '@/components/nav/MobileNav'
 import { ThemeToggle } from '@/components/ThemeToggle'
@@ -77,7 +76,6 @@ export default function RootLayout({
           Skip to content
         </a>
         <Providers>
-          <CustomCursor />
           <SideNav />
           <MobileNav />
           <div className="fixed left-4 top-5 z-40 lg:left-auto lg:right-4">

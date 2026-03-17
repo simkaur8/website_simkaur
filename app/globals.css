@@ -191,13 +191,6 @@ html {
   writing-mode: vertical-lr;
 }
 
-/* Hide default cursor when custom cursor is active */
-@media (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
-}
-
 /* ============================================
    VORTEX GALLERY
    ============================================ */
@@ -209,6 +202,7 @@ html {
   align-items: center;
   padding-top: 4rem;
   padding-bottom: 4rem;
+  margin-top: -15vh;
   position: relative;
   overflow: hidden;
   -webkit-mask-image: radial-gradient(circle 48% at 50% 48%, black 50%, transparent 92%);
@@ -333,14 +327,24 @@ html {
 /* Ring visibility - responsive */
 @media (max-width: 599px) {
   .vortex-wrap {
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-    -webkit-mask-image: radial-gradient(ellipse 100% 92% at 50% 48%, black 40%, transparent 95%);
-    mask-image: radial-gradient(ellipse 100% 92% at 50% 48%, black 40%, transparent 95%);
+    margin-top: 0;
+    padding-top: 2rem;
+    padding-bottom: 0;
+    /* Tornado / funnel mask — wide at bottom, narrow at top, with dispersing edges */
+    -webkit-mask-image:
+      radial-gradient(ellipse 90% 55% at 50% 75%, black 40%, transparent 90%),
+      radial-gradient(ellipse 60% 35% at 50% 35%, black 30%, transparent 85%),
+      radial-gradient(ellipse 30% 20% at 48% 10%, rgba(0, 0, 0, 0.5) 20%, transparent 80%);
+    mask-image:
+      radial-gradient(ellipse 90% 55% at 50% 75%, black 40%, transparent 90%),
+      radial-gradient(ellipse 60% 35% at 50% 35%, black 30%, transparent 85%),
+      radial-gradient(ellipse 30% 20% at 48% 10%, rgba(0, 0, 0, 0.5) 20%, transparent 80%);
+    -webkit-mask-composite: source-over;
+    mask-composite: add;
   }
   .vortex {
-    width: 92vw;
-    aspect-ratio: 3/4;
+    width: 100vw;
+    height: calc(100dvh - 5rem);
   }
 
   /* Mobile size classes — priority items */
