@@ -37,7 +37,7 @@ export function AboutWithDiary() {
         <div className="mt-10 flex flex-col justify-between sm:mt-0 sm:w-3/5 sm:pl-10">
           {/* Bio — centred vertically */}
           <div
-            className="flex flex-1 items-center leading-[1.8] text-[var(--text-secondary)]"
+            className="flex flex-1 flex-col justify-center leading-[1.8] text-[var(--text-secondary)]"
             style={{ fontSize: 'var(--text-base)' }}
           >
             <p>
@@ -54,18 +54,8 @@ export function AboutWithDiary() {
             </p>
           </div>
 
-          {/* Contact + Social links — pinned to bottom */}
+          {/* Links — pinned to bottom */}
           <div className="mt-6">
-            <div style={{ fontSize: 'var(--text-base)' }}>
-              <p className="text-[var(--text-secondary)]">Get in touch</p>
-              <a
-                href="mailto:simtheaquarius@gmail.com"
-                className="mt-1 inline-block text-[var(--text-primary)] hover:text-[var(--accent)]"
-              >
-                simtheaquarius@gmail.com
-              </a>
-            </div>
-
             {/* Easter egg — opens video diary */}
             <button
               onClick={() => setBoothOpen(true)}
