@@ -23,7 +23,7 @@
   --space-24: 6rem; /* 96px */
 
   /* Type Scale (Major Third 1.25, fluid via clamp()) */
-  --text-xs: clamp(0.65rem, 0.6rem + 0.2vw, 0.75rem);
+  --text-xs: clamp(0.7rem, 0.6rem + 0.2vw, 0.75rem);
   --text-sm: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
   --text-base: clamp(0.875rem, 0.8rem + 0.4vw, 1rem);
   --text-lg: clamp(1.05rem, 0.95rem + 0.5vw, 1.25rem);

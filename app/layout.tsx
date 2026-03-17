@@ -62,6 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="light" suppressHydrationWarning className={generalSans.variable}>
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{

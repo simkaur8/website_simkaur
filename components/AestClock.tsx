@@ -41,7 +41,7 @@ export function AestClock() {
 
   return (
     <span
-      className="font-sans text-[0.65rem] uppercase tracking-[0.15em] text-[var(--text-muted)] tabular-nums"
+      className="font-sans text-[0.7rem] uppercase tracking-[0.12em] text-[var(--text-muted)] tabular-nums"
       aria-label={`Current time: ${time}`}
     >
       {time}

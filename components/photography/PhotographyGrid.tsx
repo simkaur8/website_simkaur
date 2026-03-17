@@ -433,7 +433,7 @@ export function PhotographyGrid() {
                 <img
                   src={photo.src}
                   alt={photo.title}
-                  loading={i < 10 ? 'eager' : 'lazy'}
+                  loading={i < 6 ? 'eager' : 'lazy'}
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   style={
                     photo.objectPosition ? { objectPosition: photo.objectPosition } : undefined
@@ -465,7 +465,7 @@ export function PhotographyGrid() {
 
           {/* Left arrow */}
           <button
-            className="absolute left-3 top-1/2 z-30 -translate-y-1/2 p-4 text-3xl text-white/60 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-white sm:left-5 sm:text-4xl"
+            className="absolute left-1 top-1/2 z-30 -translate-y-1/2 p-3 text-2xl text-white/60 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-white sm:left-5 sm:p-4 sm:text-4xl"
             aria-label="Previous photo"
             onClick={(e) => {
               e.stopPropagation()
@@ -477,7 +477,7 @@ export function PhotographyGrid() {
 
           {/* Right arrow */}
           <button
-            className="absolute right-3 top-1/2 z-30 -translate-y-1/2 p-4 text-3xl text-white/60 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-white sm:right-5 sm:text-4xl"
+            className="absolute right-1 top-1/2 z-30 -translate-y-1/2 p-3 text-2xl text-white/60 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-white sm:right-5 sm:p-4 sm:text-4xl"
             aria-label="Next photo"
             onClick={(e) => {
               e.stopPropagation()
@@ -503,7 +503,7 @@ export function PhotographyGrid() {
           {filtered[lightbox].role || filtered[lightbox].description ? (
             /* Image left, text right — for photos with project info */
             <div
-              className="relative z-10 flex w-full flex-col items-center gap-6 overflow-y-auto px-12 sm:px-16 lg:flex-row lg:items-center lg:justify-center lg:gap-10 lg:px-20"
+              className="relative z-10 flex w-full flex-col items-center gap-6 overflow-y-auto px-6 sm:px-16 lg:flex-row lg:items-center lg:justify-center lg:gap-10 lg:px-20"
               style={{ maxHeight: '85vh' }}
               onClick={(e) => e.stopPropagation()}
             >

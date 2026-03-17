@@ -93,7 +93,7 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
           {/* Content — centered on page, responsive */}
           <motion.div
             key={project.slug}
-            className="relative z-10 flex w-full flex-col items-center gap-6 overflow-y-auto px-12 sm:px-16 lg:flex-row lg:items-center lg:justify-center lg:gap-10 lg:px-20"
+            className="relative z-10 flex w-full flex-col items-center gap-6 overflow-y-auto px-6 sm:px-16 lg:flex-row lg:items-center lg:justify-center lg:gap-10 lg:px-20"
             style={{ maxHeight: '85vh' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
