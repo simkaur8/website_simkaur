@@ -300,7 +300,7 @@ export const staticProjects: StaticProject[] = [
     category: 'fashion-dance',
     year: 2023,
     description:
-      'Short experimental Bharatanatyam dance film featuring Anjana Chandran. The dance traces the cycle of life and death.\n\nThis was my final project for my fictional screen media class at Western Sydney University, where I majored in film.\n\nExhibited at Pari (ARI) Art Gallery, 2025.',
+      'Short experimental Bharatanatyam dance film featuring Anjana Chandran. The dance traces the cycle of life and death.\n\nSim\u2019s final project for fictional screen media class at Western Sydney University.\n\nExhibited at Pari (ARI) Art Gallery, 2025.',
     synopsis: [
       'Short experimental Bharatanatyam dance film featuring Anjana Chandran. The dance traces the cycle of life and death. Shot on VHS.',
       'Exhibited at Pari (ARI) Art Gallery, 2025.',

@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { LogoVideo } from '@/components/nav/LogoVideo'
 
@@ -10,6 +11,52 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ logoWebmUrl, logoMp4Url, showreelUrl }: HeroSectionProps) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v) return
+
+    // React's muted JSX prop doesn't reliably set the DOM attribute on iOS Safari.
+    // Setting it directly on the element ensures the browser sees it before play().
+    v.muted = true
+    v.setAttribute('muted', '')
+    v.setAttribute('playsinline', '')
+    v.setAttribute('webkit-playsinline', '')
+
+    function tryPlay() {
+      if (!v || !v.paused) return // already playing
+      const p = v.play()
+      if (p) p.catch(() => {})
+    }
+
+    // Try immediately
+    tryPlay()
+
+    // Also try after metadata/canplay loads (iOS sometimes needs data first)
+    v.addEventListener('loadedmetadata', tryPlay, { once: true })
+    v.addEventListener('canplay', tryPlay, { once: true })
+
+    // Fallback: resume on first user interaction
+    const resume = () => {
+      tryPlay()
+      window.removeEventListener('touchstart', resume)
+      window.removeEventListener('click', resume)
+      window.removeEventListener('scroll', resume)
+    }
+    window.addEventListener('touchstart', resume, { once: true, passive: true })
+    window.addEventListener('click', resume, { once: true, passive: true })
+    window.addEventListener('scroll', resume, { once: true, passive: true })
+
+    return () => {
+      v.removeEventListener('loadedmetadata', tryPlay)
+      v.removeEventListener('canplay', tryPlay)
+      window.removeEventListener('touchstart', resume)
+      window.removeEventListener('click', resume)
+      window.removeEventListener('scroll', resume)
+    }
+  }, [])
+
   function scrollToGallery() {
     const gallery = document.getElementById('gallerySection')
     gallery?.scrollIntoView({ behavior: 'smooth' })
@@ -21,12 +68,13 @@ export function HeroSection({ logoWebmUrl, logoMp4Url, showreelUrl }: HeroSectio
       <div className="absolute inset-0 z-0">
         {showreelUrl ? (
           <video
+            ref={videoRef}
             src={showreelUrl}
             autoPlay
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
             poster="/videos/showreel-poster.webp"
             aria-label="Showreel video"
             className="h-full w-full object-cover"
