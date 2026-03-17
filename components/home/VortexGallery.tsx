@@ -169,17 +169,6 @@ const vortexItems = [
     mobileSize: 'vx-mob-dot',
   },
   {
-    id: 'cherry2',
-    left: 22,
-    top: 54,
-    size: 'vx-land-sm',
-    ring: 1,
-    image: `${V}/cherry-chola2.webp`,
-    mobileLeft: 10,
-    mobileTop: 55,
-    mobileSize: 'vx-mob-particle',
-  },
-  {
     id: 'eye1',
     left: 73,
     top: 38,
@@ -256,6 +245,9 @@ const vortexItems = [
     size: 'vx-md',
     ring: 2,
     image: `${V}/donna.webp`,
+    mobileLeft: 82,
+    mobileTop: 48,
+    mobileSize: 'vx-mob-particle',
   },
   {
     id: 'paris-syd-gif',
@@ -264,6 +256,10 @@ const vortexItems = [
     size: 'vx-land',
     ring: 2,
     image: `${V}/paris-syd.gif`,
+    mobileLeft: 8,
+    mobileTop: 30,
+    mobileSize: 'vx-mob-particle',
+    mobileAspect: '16/10',
   },
   {
     id: 'akshaya',
@@ -272,6 +268,9 @@ const vortexItems = [
     size: 'vx-xs',
     ring: 2,
     image: `${V}/akshaya.webp`,
+    mobileLeft: 90,
+    mobileTop: 52,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'install',
@@ -280,6 +279,10 @@ const vortexItems = [
     size: 'vx-land',
     ring: 2,
     image: `${V}/install.webp`,
+    mobileLeft: 18,
+    mobileTop: 82,
+    mobileSize: 'vx-mob-md',
+    mobileAspect: '16/10',
   },
   {
     id: 'club',
@@ -288,6 +291,9 @@ const vortexItems = [
     size: 'vx-tiny',
     ring: 2,
     image: `${V}/club13.webp`,
+    mobileLeft: 52,
+    mobileTop: 14,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'flux',
@@ -296,6 +302,9 @@ const vortexItems = [
     size: 'vx-sm',
     ring: 2,
     image: `${V}/flux.webp`,
+    mobileLeft: 6,
+    mobileTop: 48,
+    mobileSize: 'vx-mob-particle',
   },
   {
     id: 'punjab-blur',
@@ -304,6 +313,10 @@ const vortexItems = [
     size: 'vx-land-sm',
     ring: 2,
     image: `${V}/punjab-blur.webp`,
+    mobileLeft: 48,
+    mobileTop: 88,
+    mobileSize: 'vx-mob-particle',
+    mobileAspect: '16/10',
   },
   {
     id: 'nani-hands',
@@ -312,6 +325,9 @@ const vortexItems = [
     size: 'vx-tiny',
     ring: 2,
     image: `${V}/nani-hands.webp`,
+    mobileLeft: 92,
+    mobileTop: 38,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'reem-roshan',
@@ -320,6 +336,10 @@ const vortexItems = [
     size: 'vx-land-sm',
     ring: 2,
     image: `${V}/reem-roshan.gif`,
+    mobileLeft: 32,
+    mobileTop: 85,
+    mobileSize: 'vx-mob-particle',
+    mobileAspect: '16/10',
   },
   {
     id: 'mehndi-hand',
@@ -342,6 +362,9 @@ const vortexItems = [
     size: 'vx-tiny',
     ring: 3,
     image: `${V}/purgatory.webp`,
+    mobileLeft: 90,
+    mobileTop: 22,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'snakes',
@@ -350,6 +373,9 @@ const vortexItems = [
     size: 'vx-xs',
     ring: 3,
     image: `${V}/snakes.webp`,
+    mobileLeft: 38,
+    mobileTop: 92,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'fragile',
@@ -358,6 +384,9 @@ const vortexItems = [
     size: 'vx-tiny',
     ring: 3,
     image: `${V}/fragile.webp`,
+    mobileLeft: 94,
+    mobileTop: 55,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'mia',
@@ -366,6 +395,9 @@ const vortexItems = [
     size: 'vx-xs',
     ring: 3,
     image: `${V}/mia.webp`,
+    mobileLeft: 4,
+    mobileTop: 62,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'elle-ngo',
@@ -374,6 +406,9 @@ const vortexItems = [
     size: 'vx-sm',
     ring: 3,
     image: `${V}/elle-ngo.webp`,
+    mobileLeft: 8,
+    mobileTop: 22,
+    mobileSize: 'vx-mob-particle',
   },
   {
     id: 'ref29',
@@ -382,6 +417,9 @@ const vortexItems = [
     size: 'vx-xs',
     ring: 3,
     image: `${V}/ref29.webp`,
+    mobileLeft: 95,
+    mobileTop: 35,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'aafw',
@@ -390,6 +428,9 @@ const vortexItems = [
     size: 'vx-tiny',
     ring: 3,
     image: `${V}/aafw.webp`,
+    mobileLeft: 78,
+    mobileTop: 88,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'yasmine',
@@ -398,6 +439,9 @@ const vortexItems = [
     size: 'vx-xs',
     ring: 3,
     image: `${V}/yasmine.webp`,
+    mobileLeft: 65,
+    mobileTop: 90,
+    mobileSize: 'vx-mob-particle',
   },
   {
     id: 'tiara',
@@ -406,6 +450,10 @@ const vortexItems = [
     size: 'vx-land-sm',
     ring: 3,
     image: `${V}/tiara.webp`,
+    mobileLeft: 40,
+    mobileTop: 15,
+    mobileSize: 'vx-mob-particle',
+    mobileAspect: '16/10',
   },
 
   // ═══ RING 4 — Large monitors (1600px+), circular edge ═══
@@ -416,6 +464,9 @@ const vortexItems = [
     size: 'vx-sm',
     ring: 4,
     image: `${V}/nimrit.webp`,
+    mobileLeft: 5,
+    mobileTop: 15,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'jack-garcia',
@@ -424,6 +475,9 @@ const vortexItems = [
     size: 'vx-tiny',
     ring: 4,
     image: `${V}/jack-garcia.webp`,
+    mobileLeft: 6,
+    mobileTop: 75,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'punjab',
@@ -432,6 +486,9 @@ const vortexItems = [
     size: 'vx-tiny',
     ring: 4,
     image: `${V}/punjab.webp`,
+    mobileLeft: 88,
+    mobileTop: 15,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'iph-sari',
@@ -440,6 +497,9 @@ const vortexItems = [
     size: 'vx-tiny',
     ring: 4,
     image: `${V}/iph-sari.webp`,
+    mobileLeft: 72,
+    mobileTop: 10,
+    mobileSize: 'vx-mob-dot',
   },
 
   // ═══ RING 5 — Ultrawide (1920px+) — scattered along circular edge ═══
@@ -450,6 +510,9 @@ const vortexItems = [
     size: 'vx-tiny',
     ring: 5,
     image: `${V}/wedding.webp`,
+    mobileLeft: 93,
+    mobileTop: 45,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'r5-india',
@@ -458,6 +521,9 @@ const vortexItems = [
     size: 'vx-sm',
     ring: 5,
     image: `${V}/india6.webp`,
+    mobileLeft: 25,
+    mobileTop: 90,
+    mobileSize: 'vx-mob-particle',
   },
   {
     id: 'r5-sara',
@@ -466,6 +532,9 @@ const vortexItems = [
     size: 'vx-tiny',
     ring: 5,
     image: `${V}/sara.webp`,
+    mobileLeft: 80,
+    mobileTop: 12,
+    mobileSize: 'vx-mob-dot',
   },
   {
     id: 'r5-loyle',
@@ -474,6 +543,9 @@ const vortexItems = [
     size: 'vx-xs',
     ring: 5,
     image: `${V}/loyle-carner.webp`,
+    mobileLeft: 85,
+    mobileTop: 75,
+    mobileSize: 'vx-mob-dot',
   },
 ]
 
@@ -526,7 +598,8 @@ export function VortexGallery() {
     <section
       className="vortex-wrap"
       id="gallerySection"
-      style={{ marginTop: '-15vh', position: 'relative', zIndex: 10 }}
+      style={{ position: 'relative', zIndex: 10 }}
+      data-vortex-section
     >
       <div className="vortex" ref={vortexRef}>
         {items.map((item) => (
