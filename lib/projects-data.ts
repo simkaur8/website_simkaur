@@ -102,7 +102,8 @@ export const staticProjects: StaticProject[] = [
       'Now, in the bustling streets of Paris, she reimagines it exclusively for ELLE, with a mix of tradition and modern edge, pairing the Madras check with sharp blazers and effortlessly transforming it into tops and skirts. For her, the lungi is more than just clothing; it\u2019s a link to her past, a nod to her heritage, and a canvas for her personal evolution.',
     ],
     credits: [
-      { role: 'Direction, Cinematography & Edit', name: 'Simrat Kaur' },
+      { role: 'Direction', name: 'Sim Kaur' },
+      { role: 'Cinematography & Edit', name: 'Sim Kaur' },
       { role: 'Styling', name: 'Padani' },
       { role: 'VHS & Photography', name: 'Anabel Burrows' },
       { role: 'Makeup', name: 'Reina Kim' },
