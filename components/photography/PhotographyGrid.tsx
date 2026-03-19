@@ -317,8 +317,8 @@ const photos: Photo[] = [
   { src: `${P}/event/club17.webp`, title: 'Club Selects', category: 'event' },
 
   // ═══ LIFE ADDITIONAL ═══
-  { src: `${P}/life/paris-2025-3.webp`, title: 'Paris, 2025', category: 'life' },
-  { src: `${P}/life/paris-2025-4.webp`, title: 'Paris, 2025', category: 'life' },
+  { src: `${P}/life/3rd-eye9.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
+  { src: `${P}/life/3rd-eye18.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
   { src: `${P}/life/punjab-1.webp`, title: 'Punjab, 2024', category: 'life' },
   { src: `${P}/life/punjab-2.webp`, title: 'Punjab, 2024', category: 'life' },
   { src: `${P}/life/punjab-3.webp`, title: 'Punjab, 2024', category: 'life' },
@@ -329,7 +329,7 @@ const photos: Photo[] = [
   { src: `${P}/life/3rd-eye3.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
   { src: `${P}/life/3rd-eye5.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
   { src: `${P}/life/3rd-eye7.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/3rd-eye9.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
+  { src: `${P}/life/paris-2025-3.webp`, title: 'Paris, 2025', category: 'life' },
   { src: `${P}/life/3rd-eye14.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
   { src: `${P}/life/3rd-eye17.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
   { src: `${P}/life/india-2019-1.webp`, title: 'India, 2019', category: 'life' },
@@ -341,7 +341,7 @@ const photos: Photo[] = [
   { src: `${P}/life/3rd-eye10.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
   { src: `${P}/life/3rd-eye20.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
   { src: `${P}/life/3rd-eye11.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/3rd-eye18.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
+  { src: `${P}/life/paris-2025-4.webp`, title: 'Paris, 2025', category: 'life' },
   { src: `${P}/life/3rd-eye19.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
 ]
 
@@ -352,6 +352,11 @@ const filters = [
   { value: 'event', label: 'Event' },
   { value: 'life', label: 'Life' },
 ]
+
+const categoryDescriptions: Partial<Record<string, string>> = {
+  event:
+    'Shooting predominantly on 35mm film with select digital work. Available for club nights, community events, live performances, dance showcases, and promotional imagery.',
+}
 
 export function PhotographyGrid() {
   const [filter, setFilter] = useState('all')
@@ -433,6 +438,22 @@ export function PhotographyGrid() {
       <div className="mb-10 flex justify-center">
         <FilterBar filters={filters} active={filter} onChange={handleFilterChange} />
       </div>
+
+      {/* Category description */}
+      <AnimatePresence mode="wait">
+        {categoryDescriptions[filter] && (
+          <motion.p
+            key={filter}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3 }}
+            className="mx-auto mb-10 max-w-2xl text-center text-sm tracking-wide text-white/60"
+          >
+            {categoryDescriptions[filter]}
+          </motion.p>
+        )}
+      </AnimatePresence>
 
       {/* Photo grid — uniform vertical ratio */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-5 lg:grid-cols-4">
