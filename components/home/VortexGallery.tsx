@@ -626,8 +626,8 @@ export function VortexGallery() {
     return () => conn.removeEventListener('change', check)
   }, [])
 
-  // Compute spiral positions — tighter on mobile to fill the oval densely
-  const spiral = useMemo(() => computeSpiral(vortexItems.length, isMobile ? 25 : 42), [isMobile])
+  // Compute spiral positions — sqrt distribution = dense center, sparse edges
+  const spiral = useMemo(() => computeSpiral(vortexItems.length, isMobile ? 35 : 42), [isMobile])
 
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -684,7 +684,7 @@ export function VortexGallery() {
               image={imageSrc}
               left={pos.left}
               top={pos.top}
-              zIndex={pos.z}
+              zIndex={item.id === 'crossfire' ? 15 : item.id === 'elle' ? 12 : pos.z}
               size={isMobile && item.mobileSize ? item.mobileSize : item.size}
               aspectOverride={
                 isMobile && item.mobileAspect ? item.mobileAspect : item.aspectOverride
