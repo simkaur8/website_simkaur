@@ -16,6 +16,7 @@ interface VortexItemProps {
   zIndex?: number
   mobilePriority?: boolean
   aspectOverride?: string
+  scale?: number
 }
 
 export function VortexItem({
@@ -32,6 +33,7 @@ export function VortexItem({
   zIndex,
   mobilePriority,
   aspectOverride,
+  scale,
 }: VortexItemProps) {
   const ringClass = ring > 0 ? `vx-ring-${ring}` : ''
 
@@ -91,6 +93,7 @@ export function VortexItem({
     top: `${top}%`,
     ...(zIndex != null && { zIndex }),
     ...(aspectOverride && { aspectRatio: aspectOverride }),
+    ...(scale != null && scale !== 1 && { ['--vx-scale' as string]: scale }),
   }
 
   if (href) {

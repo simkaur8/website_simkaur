@@ -574,10 +574,10 @@ const GOLDEN_ANGLE = 137.508 * (Math.PI / 180)
  * Z-indices alternate to create a weaving/overlapping effect.
  */
 function computeSpiral(count: number, maxR: number) {
-  const positions: Array<{ left: number; top: number; z: number }> = []
+  const positions: Array<{ left: number; top: number; z: number; scale: number }> = []
   for (let i = 0; i < count; i++) {
     if (i === 0) {
-      positions.push({ left: 50, top: 50, z: 10 })
+      positions.push({ left: 50, top: 50, z: 10, scale: 1.0 })
       continue
     }
     const angle = i * GOLDEN_ANGLE
@@ -585,9 +585,13 @@ function computeSpiral(count: number, maxR: number) {
     const left = 50 + r * Math.cos(angle)
     const top = 50 + r * Math.sin(angle)
     // Weaving z-index: center items stay prominent, others alternate high/low
-    // Creates over/under overlap as images spiral inward
     const z = i < 6 ? (i % 2 === 0 ? 10 : 7) : i % 2 === 0 ? 5 : 1
-    positions.push({ left, top, z })
+    // Size variation: larger near center, smaller at edges, with jitter
+    const t = i / (count - 1)
+    const baseScale = 1.1 - 0.35 * Math.sqrt(t)
+    const jitter = ((i * 7 + 3) % 11) / 60 - 0.09
+    const scale = Math.max(0.6, Math.min(1.2, baseScale + jitter))
+    positions.push({ left, top, z, scale })
   }
   return positions
 }
@@ -689,6 +693,7 @@ export function VortexGallery() {
                 left={pos.left}
                 top={pos.top}
                 zIndex={item.id === 'crossfire' ? 15 : item.id === 'elle' ? 12 : pos.z}
+                scale={pos.scale}
                 size={isMobile && item.mobileSize ? item.mobileSize : item.size}
                 aspectOverride={
                   isMobile && item.mobileAspect ? item.mobileAspect : item.aspectOverride

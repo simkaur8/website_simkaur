@@ -229,7 +229,8 @@ html {
   position: absolute;
   overflow: hidden;
   cursor: pointer;
-  transform: translate(-50%, -50%) rotate(calc(-1 * var(--vx-angle, 0deg)));
+  transform: translate(-50%, -50%) rotate(calc(-1 * var(--vx-angle, 0deg)))
+    scale(var(--vx-scale, 1));
   will-change: transform;
   backface-visibility: hidden;
   transition: box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -241,7 +242,13 @@ html {
     0 4px 30px rgba(210, 120, 65, 0.5),
     0 10px 60px rgba(200, 95, 75, 0.35),
     0 20px 90px rgba(186, 72, 104, 0.2);
-  z-index: 20;
+}
+
+/* Desktop: bring hovered image to front for full viewing */
+@media (min-width: 600px) {
+  .vx-item:hover {
+    z-index: 30 !important;
+  }
 }
 
 .vx-item img {
@@ -341,12 +348,14 @@ html {
     /* 3D perspective — creates depth when the disc rotates */
     perspective: 700px;
     perspective-origin: 50% 45%;
+    -webkit-overflow-scrolling: touch;
   }
   .vortex {
     /* STATIC portrait oval frame — does NOT rotate */
-    width: min(92vw, calc((100dvh - 4rem) * 0.6));
+    width: 94vw;
     aspect-ratio: 3/5;
-    border-radius: 50%;
+    /* Subtle diamond/heart shape — slightly wider at top, pointed at bottom */
+    border-radius: 50% 50% 50% 50% / 44% 44% 38% 38%;
     overflow: hidden;
     /* 3D tilt for depth — frame stays fixed, spiral moves inside */
     transform: rotateX(8deg);
