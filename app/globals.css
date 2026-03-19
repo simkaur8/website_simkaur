@@ -213,10 +213,16 @@ html {
   position: relative;
   width: min(92vw, 1100px);
   aspect-ratio: 10/9;
+  contain: layout style;
+}
+
+/* Inner rotating container — spins inside the static frame */
+.vortex-spiral {
+  position: absolute;
+  inset: 0;
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
-  contain: layout style;
 }
 
 .vx-item {
@@ -337,38 +343,49 @@ html {
     perspective-origin: 50% 45%;
   }
   .vortex {
-    /* Big portrait oval — fills most of the phone screen */
+    /* STATIC portrait oval frame — does NOT rotate */
     width: min(92vw, calc((100dvh - 4rem) * 0.6));
     aspect-ratio: 3/5;
     border-radius: 50%;
     overflow: hidden;
-    /* Slight tilt into screen for vortex depth feel */
+    /* 3D tilt for depth — frame stays fixed, spiral moves inside */
+    transform: rotateX(8deg);
     transform-style: preserve-3d;
+  }
+  .vortex-spiral {
+    /* Square container sized to oval width (minor axis) */
+    /* Centered inside the oval — natural negative space at top/bottom */
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    aspect-ratio: 1;
+    /* JS applies: translate(-50%, -50%) rotate(deg) */
   }
 
   /* Mobile size classes — wide range for visual hierarchy */
   .vx-mob-xl {
-    width: clamp(150px, 42vw, 200px);
+    width: clamp(125px, 34vw, 165px);
     aspect-ratio: 16/10;
     z-index: 5;
   }
   .vx-mob-lg {
-    width: clamp(110px, 30vw, 150px);
+    width: clamp(100px, 28vw, 140px);
     aspect-ratio: 16/10;
     z-index: 4;
   }
   .vx-mob-md {
-    width: clamp(75px, 21vw, 105px);
+    width: clamp(70px, 20vw, 100px);
     aspect-ratio: 16/10;
     z-index: 3;
   }
   .vx-mob-md-tall {
-    width: clamp(62px, 18vw, 88px);
+    width: clamp(58px, 17vw, 82px);
     aspect-ratio: 3/4;
     z-index: 3;
   }
   .vx-mob-particle {
-    width: clamp(34px, 10vw, 50px);
+    width: clamp(32px, 9vw, 46px);
     aspect-ratio: 3/4;
     z-index: 1;
   }

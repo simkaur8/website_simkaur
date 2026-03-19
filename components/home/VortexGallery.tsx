@@ -627,7 +627,8 @@ export function VortexGallery() {
   }, [])
 
   // Compute spiral positions — sqrt distribution = dense center, sparse edges
-  const spiral = useMemo(() => computeSpiral(vortexItems.length, isMobile ? 35 : 42), [isMobile])
+  // Mobile: maxR 45 fills the square well, oval clips naturally at top/bottom
+  const spiral = useMemo(() => computeSpiral(vortexItems.length, isMobile ? 45 : 42), [isMobile])
 
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -646,8 +647,10 @@ export function VortexGallery() {
       if (deg >= 360) deg -= 360
 
       if (vortexRef.current) {
+        // Mobile: spiral is a centered square inside the static oval frame
+        // Desktop: spiral fills the container (inset: 0)
         vortexRef.current.style.transform = mobile
-          ? `rotateX(8deg) rotate(${deg}deg)`
+          ? `translate(-50%, -50%) rotate(${deg}deg)`
           : `rotate(${deg}deg)`
         vortexRef.current.style.setProperty('--vx-angle', `${deg}deg`)
       }
@@ -670,28 +673,30 @@ export function VortexGallery() {
       style={{ position: 'relative', zIndex: 10 }}
       data-vortex-section
     >
-      <div className="vortex" ref={vortexRef}>
-        {vortexItems.map((item, i) => {
-          const pos = spiral[i]
-          const imageSrc =
-            slowConnection && item.image.endsWith('.gif')
-              ? item.image.replace('.gif', '-static.webp')
-              : item.image
-          return (
-            <VortexItem
-              key={item.id}
-              {...item}
-              image={imageSrc}
-              left={pos.left}
-              top={pos.top}
-              zIndex={item.id === 'crossfire' ? 15 : item.id === 'elle' ? 12 : pos.z}
-              size={isMobile && item.mobileSize ? item.mobileSize : item.size}
-              aspectOverride={
-                isMobile && item.mobileAspect ? item.mobileAspect : item.aspectOverride
-              }
-            />
-          )
-        })}
+      <div className="vortex">
+        <div className="vortex-spiral" ref={vortexRef}>
+          {vortexItems.map((item, i) => {
+            const pos = spiral[i]
+            const imageSrc =
+              slowConnection && item.image.endsWith('.gif')
+                ? item.image.replace('.gif', '-static.webp')
+                : item.image
+            return (
+              <VortexItem
+                key={item.id}
+                {...item}
+                image={imageSrc}
+                left={pos.left}
+                top={pos.top}
+                zIndex={item.id === 'crossfire' ? 15 : item.id === 'elle' ? 12 : pos.z}
+                size={isMobile && item.mobileSize ? item.mobileSize : item.size}
+                aspectOverride={
+                  isMobile && item.mobileAspect ? item.mobileAspect : item.aspectOverride
+                }
+              />
+            )
+          })}
+        </div>
       </div>
     </section>
   )
