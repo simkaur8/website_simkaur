@@ -410,7 +410,10 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                   style={{ fontSize: 'var(--text-sm)' }}
                 >
                   {project.credits.map((credit, i) => (
-                    <div key={i} className="flex gap-2 sm:gap-3 break-inside-avoid">
+                    <div
+                      key={i}
+                      className="flex flex-col sm:flex-row gap-0.5 sm:gap-3 break-inside-avoid"
+                    >
                       <span
                         className="shrink-0 font-medium text-[var(--text-primary)]"
                         style={{ minWidth: 'min(120px, 35vw)' }}

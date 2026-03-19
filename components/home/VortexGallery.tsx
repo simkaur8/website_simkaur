@@ -41,7 +41,8 @@ const vortexItems = [
     mobilePriority: true,
     mobileLeft: 64,
     mobileTop: 30,
-    mobileSize: 'vx-mob-md',
+    mobileSize: 'vx-mob-md-tall',
+    mobileAspect: '3/4',
   },
   {
     id: 'brown-suga-press',

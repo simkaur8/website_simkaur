@@ -374,7 +374,7 @@ html {
 
   /* Mobile size classes — wide range for visual hierarchy */
   .vx-mob-xl {
-    width: clamp(125px, 34vw, 165px);
+    width: clamp(110px, 30vw, 148px);
     aspect-ratio: 16/10;
     z-index: 5;
   }
