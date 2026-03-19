@@ -283,10 +283,10 @@ const photos: Photo[] = [
 
   // ═══ EVENT ═══
   // Note: 1 curated event (office-aafw-great) comes first in filter, so 3 items here complete row 1
-  // Row 1 (cols 2-4, col 1 is curated): Pink bikini + Office AAFW + Club
-  { src: `${P}/event/club13.webp`, title: 'Club Selects', category: 'event' },
+  // Row 1 (cols 2-4, col 1 is curated): Planet Abundance + Office AAFW + Club
+  { src: `${P}/event/planet-abundance.webp`, title: 'Planet Abundance', category: 'event' },
   { src: `${P}/event/office-aafw.webp`, title: 'Office Magazine AAFW', category: 'event' },
-  { src: `${P}/event/club14.webp`, title: 'Club Selects', category: 'event' },
+  { src: `${P}/event/club5.webp`, title: 'Club Selects', category: 'event' },
   // Row 2: Club highlights
   { src: `${P}/event/club8.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/club15.webp`, title: 'Club Selects', category: 'event' },
@@ -305,7 +305,7 @@ const photos: Photo[] = [
   // Row 5+: Remaining
   { src: `${P}/event/office-aafw3.webp`, title: 'Office Magazine AAFW', category: 'event' },
   { src: `${P}/event/office-aafw6.webp`, title: 'Office Magazine AAFW', category: 'event' },
-  { src: `${P}/event/planet-abundance.webp`, title: 'Planet Abundance', category: 'event' },
+  { src: `${P}/event/club13.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/office-aafw5.webp`, title: 'Office Magazine AAFW', category: 'event' },
   { src: `${P}/event/club6.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/club9.webp`, title: 'Club Selects', category: 'event' },
