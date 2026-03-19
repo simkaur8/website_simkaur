@@ -108,7 +108,7 @@ export function HeroSection({ logoWebmUrl, logoMp4Url, showreelUrl }: HeroSectio
           className="font-medium uppercase tracking-[0.18em]"
           style={{ fontSize: 'var(--text-base)', color: '#ffffff' }}
         >
-          Art Direction
+          Creative Direction
         </p>
       </motion.div>
 
@@ -124,11 +124,11 @@ export function HeroSection({ logoWebmUrl, logoMp4Url, showreelUrl }: HeroSectio
       >
         <span
           className="tracking-[0.2em] lowercase"
-          style={{ fontSize: 'var(--text-xs)', color: 'rgb(210, 120, 65)' }}
+          style={{ fontSize: 'var(--text-xs)', color: 'rgba(255, 255, 255, 0.55)' }}
         >
           scroll
         </span>
-        <span className="text-lg" style={{ color: 'rgb(210, 120, 65)' }}>
+        <span className="text-lg" style={{ color: 'rgba(255, 255, 255, 0.55)' }}>
           &#8964;
         </span>
       </motion.button>

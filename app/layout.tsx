@@ -78,7 +78,7 @@ export default function RootLayout({
         <Providers>
           <SideNav />
           <MobileNav />
-          <div className="fixed left-4 top-5 z-40 lg:left-auto lg:right-4">
+          <div className="fixed left-4 top-5 z-40 rounded-full bg-[var(--bg-primary)]/60 backdrop-blur-sm lg:left-auto lg:right-4">
             <ThemeToggle />
           </div>
           <main id="main-content" className="lg:pl-[var(--nav-w)]">

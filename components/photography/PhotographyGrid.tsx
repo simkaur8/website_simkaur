@@ -313,6 +313,8 @@ const photos: Photo[] = [
   { src: `${P}/event/club12.webp`, title: 'Club Selects', category: 'event' },
   { src: `${P}/event/club-chrome.webp`, title: 'Club Chrome', category: 'event' },
   { src: `${P}/event/mias-birthday.webp`, title: "Mia's Birthday", category: 'event' },
+  { src: `${P}/event/club16.webp`, title: 'Club Selects', category: 'event' },
+  { src: `${P}/event/club17.webp`, title: 'Club Selects', category: 'event' },
 
   // ═══ LIFE ADDITIONAL ═══
   { src: `${P}/life/paris-2025-3.webp`, title: 'Paris, 2025', category: 'life' },
@@ -334,6 +336,13 @@ const photos: Photo[] = [
   { src: `${P}/life/india-2019-3.webp`, title: 'India, 2019', category: 'life' },
   { src: `${P}/life/india-2019-4.webp`, title: 'India, 2019', category: 'life' },
   { src: `${P}/life/india-2019-5.webp`, title: 'India, 2019', category: 'life' },
+  { src: `${P}/life/3rd-eye8.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
+  { src: `${P}/life/3rd-eye22.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
+  { src: `${P}/life/3rd-eye10.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
+  { src: `${P}/life/3rd-eye20.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
+  { src: `${P}/life/3rd-eye11.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
+  { src: `${P}/life/3rd-eye18.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
+  { src: `${P}/life/3rd-eye19.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
 ]
 
 const filters = [

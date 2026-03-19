@@ -51,12 +51,12 @@ export function FilterBar({
 
   return (
     <nav
-      className={cn('flex items-center gap-2 flex-wrap', className)}
+      className={cn('flex items-center justify-center gap-1 sm:gap-2 flex-nowrap', className)}
       role="navigation"
       aria-label="Filter"
     >
       {filters.map((filter, index) => (
-        <span key={filter.value} className="flex items-center gap-2">
+        <span key={filter.value} className="flex items-center gap-1 sm:gap-2">
           {index > 0 && (
             <span className="text-[var(--text-muted)] select-none" aria-hidden="true">
               /
@@ -65,9 +65,9 @@ export function FilterBar({
           <button
             type="button"
             onClick={() => onChange(filter.value)}
-            style={{ fontSize: 'clamp(0.65rem, 0.6rem + 0.2vw, 0.75rem)' }}
+            style={{ fontSize: 'clamp(0.6rem, 0.55rem + 0.2vw, 0.75rem)' }}
             className={cn(
-              'uppercase tracking-[0.12em] transition-colors duration-200 rounded-[4px] px-[1.1em] py-[0.5em] border',
+              'uppercase tracking-[0.1em] sm:tracking-[0.12em] transition-colors duration-200 rounded-[4px] px-[0.7em] sm:px-[1.1em] py-[0.5em] border whitespace-nowrap',
               filter.value === active
                 ? 'border-[var(--text-primary)] text-[var(--text-primary)] font-medium'
                 : 'border-transparent text-[var(--text-muted)] hover:border-[var(--border)] hover:text-[var(--text-primary)]'

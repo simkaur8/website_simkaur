@@ -328,57 +328,49 @@ html {
 @media (max-width: 599px) {
   .vortex-wrap {
     margin-top: 0;
-    padding-top: 2rem;
-    padding-bottom: 0;
-    /* Tornado / funnel mask — wide at bottom, narrow at top, with dispersing edges */
-    -webkit-mask-image:
-      radial-gradient(ellipse 90% 55% at 50% 75%, black 40%, transparent 90%),
-      radial-gradient(ellipse 60% 35% at 50% 35%, black 30%, transparent 85%),
-      radial-gradient(ellipse 30% 20% at 48% 10%, rgba(0, 0, 0, 0.5) 20%, transparent 80%);
-    mask-image:
-      radial-gradient(ellipse 90% 55% at 50% 75%, black 40%, transparent 90%),
-      radial-gradient(ellipse 60% 35% at 50% 35%, black 30%, transparent 85%),
-      radial-gradient(ellipse 30% 20% at 48% 10%, rgba(0, 0, 0, 0.5) 20%, transparent 80%);
-    -webkit-mask-composite: source-over;
-    mask-composite: add;
+    padding: 0;
+    height: calc(100dvh - 3rem);
+    -webkit-mask-image: none;
+    mask-image: none;
+    /* 3D perspective — creates depth when the disc rotates */
+    perspective: 700px;
+    perspective-origin: 50% 45%;
   }
   .vortex {
-    width: 100vw;
-    height: calc(100dvh - 5rem);
+    /* Tall oval (vase shape) — spiral layout fills the ellipse naturally */
+    width: min(82vw, calc((100dvh - 6rem) * 0.58));
+    aspect-ratio: 3/5;
+    border-radius: 50%;
+    overflow: hidden;
+    /* Slight tilt into screen for vortex depth feel */
+    transform-style: preserve-3d;
   }
 
-  /* Mobile size classes — priority items */
+  /* Mobile size classes — scaled up for density & more range */
   .vx-mob-xl {
-    width: clamp(100px, 28vw, 140px);
+    width: clamp(145px, 40vw, 190px);
     aspect-ratio: 16/10;
     z-index: 5;
   }
   .vx-mob-lg {
-    width: clamp(82px, 22vw, 115px);
+    width: clamp(115px, 32vw, 160px);
     aspect-ratio: 16/10;
     z-index: 4;
   }
   .vx-mob-md {
-    width: clamp(62px, 17vw, 90px);
+    width: clamp(85px, 24vw, 115px);
     aspect-ratio: 16/10;
     z-index: 3;
   }
   .vx-mob-md-tall {
-    width: clamp(52px, 14vw, 75px);
+    width: clamp(70px, 20vw, 95px);
     aspect-ratio: 3/4;
     z-index: 3;
   }
-
-  /* Scattered particles — non-priority items for shape */
   .vx-mob-particle {
-    width: clamp(28px, 8vw, 40px);
+    width: clamp(45px, 13vw, 62px);
     aspect-ratio: 3/4;
     z-index: 1;
-  }
-  .vx-mob-dot {
-    width: clamp(14px, 4vw, 22px);
-    aspect-ratio: 1;
-    z-index: 0;
   }
 }
 @media (min-width: 600px) and (max-width: 899px) {

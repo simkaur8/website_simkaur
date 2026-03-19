@@ -42,7 +42,7 @@ export function MobileNav() {
       <button
         onClick={() => setIsOpen(true)}
         aria-label="Open menu"
-        className="fixed right-4 top-4 z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
+        className="fixed right-4 top-4 z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full bg-[var(--bg-primary)]/60 backdrop-blur-sm lg:hidden"
       >
         <span className="h-0.5 w-6 bg-[var(--text-primary)] transition-transform" />
         <span className="h-0.5 w-6 bg-[var(--text-primary)] transition-transform" />

@@ -60,7 +60,7 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
               e.stopPropagation()
               onPrev()
             }}
-            className="absolute left-3 top-1/2 z-30 -translate-y-1/2 p-4 text-3xl text-white/60 transition-colors hover:text-white sm:left-5 sm:text-4xl"
+            className="absolute left-1 top-1/2 z-30 -translate-y-1/2 p-3 text-4xl text-white/70 transition-colors hover:text-white sm:left-4 sm:p-4 sm:text-5xl"
             aria-label="Previous project"
           >
             &#8249;
@@ -72,7 +72,7 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
               e.stopPropagation()
               onNext()
             }}
-            className="absolute right-3 top-1/2 z-30 -translate-y-1/2 p-4 text-3xl text-white/60 transition-colors hover:text-white sm:right-5 sm:text-4xl"
+            className="absolute right-1 top-1/2 z-30 -translate-y-1/2 p-3 text-4xl text-white/70 transition-colors hover:text-white sm:right-4 sm:p-4 sm:text-5xl"
             aria-label="Next project"
           >
             &#8250;
@@ -84,7 +84,7 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
               e.stopPropagation()
               onClose()
             }}
-            className="absolute right-4 top-4 z-30 p-2 text-xl text-white/60 transition-colors hover:text-white sm:right-6 sm:top-6 sm:text-2xl"
+            className="absolute right-3 top-3 z-30 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-lg text-white/90 transition-colors hover:bg-black/80 hover:text-white sm:right-5 sm:top-5 sm:h-10 sm:w-10 sm:text-xl"
             aria-label="Close"
           >
             &times;
@@ -93,7 +93,7 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
           {/* Content — centered on page, responsive */}
           <motion.div
             key={project.slug}
-            className="relative z-10 flex w-full flex-col items-center gap-6 overflow-y-auto px-6 sm:px-16 lg:flex-row lg:items-center lg:justify-center lg:gap-10 lg:px-20"
+            className="relative z-10 flex w-full flex-col items-center gap-6 overflow-y-auto px-10 sm:px-16 lg:flex-row lg:items-center lg:justify-center lg:gap-10 lg:px-20"
             style={{ maxHeight: '85vh' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

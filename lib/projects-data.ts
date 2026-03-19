@@ -162,7 +162,7 @@ export const staticProjects: StaticProject[] = [
     category: 'music-video',
     year: 2024,
     description:
-      'Music video for Dylan Atlantis, featuring Cat Strat.\n\nBest Music Video Runner Up, Western Sydney Film Festival.',
+      'Music video for Dylan Atlantis, featuring Cat Strat. Edited by Zion Garcia.\n\nBest Music Video Runner Up, Western Sydney Film Festival.',
     credits: [
       { role: 'Artist', name: 'Dylan Atlantis' },
       { role: 'Talent', name: 'Cat Strat' },
