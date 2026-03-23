@@ -108,7 +108,7 @@ export function HeroSection({ logoWebmUrl, logoMp4Url, showreelUrl }: HeroSectio
           className="font-medium uppercase tracking-[0.18em]"
           style={{ fontSize: 'var(--text-base)', color: '#ffffff' }}
         >
-          Photo &amp; Film
+          Creative Direction: Video / Photo
         </p>
       </motion.div>
 
