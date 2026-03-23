@@ -39,7 +39,7 @@ describe('ContactFormSubmission – integration', () => {
 
     // After submission, mockState.succeeded is true — re-render to reflect new state
     rerender(<ContactForm />)
-    expect(screen.getByText(/thanks for reaching out/i)).toBeInTheDocument()
-    expect(screen.getByText(/get back to you soon/i)).toBeInTheDocument()
+    expect(screen.getByText(/message sent/i)).toBeInTheDocument()
+    expect(screen.getByText(/get back 2 u soon/i)).toBeInTheDocument()
   })
 })

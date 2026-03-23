@@ -6,7 +6,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'About Sim Kaur — Creative Director, Filmmaker, and Photographer based in Sydney, Australia. Directing fashion films, dance films, and music videos for brands and artists.',
+    'About Sim Kaur: Creative Director, Filmmaker, and Photographer based in Sydney, Australia. Directing fashion films, dance films, and music videos for brands and artists.',
   keywords: [
     'about Sim Kaur',
     'creative director bio',
@@ -16,9 +16,9 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: '/about' },
   openGraph: {
-    title: 'About Sim Kaur — Creative Director, Sydney',
+    title: 'About Sim Kaur: Creative Director, Sydney',
     description:
-      'About Sim Kaur — Creative Director, Filmmaker, and Photographer based in Sydney, Australia. Directing fashion films, dance films, and music videos for brands and artists.',
+      'About Sim Kaur: Creative Director, Filmmaker, and Photographer based in Sydney, Australia. Directing fashion films, dance films, and music videos for brands and artists.',
     url: 'https://simkaur.art/about',
   },
 }
@@ -29,7 +29,7 @@ export default function AboutPage() {
       <PersonJsonLd />
       <AboutWithDiary />
       <Footer
-        email="simtheaquarius@gmail.com"
+        email="sim@simkaur.art"
         socialLinks={[
           { platform: 'Instagram', url: 'https://www.instagram.com/s1mkaur/' },
           { platform: 'Vimeo', url: 'https://vimeo.com/user197917349' },

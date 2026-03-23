@@ -15,7 +15,7 @@
 ## Pages
 
 - [Home](https://simkaur.art/): Showreel and portfolio overview
-- [Direction](https://simkaur.art/direction): Film direction portfolio — fashion films, dance films, music videos
+- [Direction](https://simkaur.art/direction): Film direction portfolio, fashion films, dance films, music videos
 - [Photography](https://simkaur.art/photography): Fashion and editorial photography
 - [Exhibitions](https://simkaur.art/exhibitions): Gallery exhibitions and video art installations
 - [About](https://simkaur.art/about): Biography and background
@@ -37,4 +37,4 @@
 
 ## Contact
 
-- Email: simtheaquarius@gmail.com
+- Email: sim@simkaur.art

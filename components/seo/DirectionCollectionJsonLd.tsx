@@ -4,9 +4,9 @@ export function DirectionCollectionJsonLd() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Direction — Sim Kaur',
+    name: 'Direction: Sim Kaur',
     description:
-      'Film direction portfolio by Sim Kaur — fashion films, dance films, and music videos.',
+      'Film direction portfolio by Sim Kaur: fashion films, dance films, and music videos.',
     url: 'https://simkaur.art/direction',
     author: {
       '@type': 'Person',

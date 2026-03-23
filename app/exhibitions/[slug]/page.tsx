@@ -59,7 +59,7 @@ export default async function ExhibitionDetailPage({
         </div>
       </article>
       <Footer
-        email="simtheaquarius@gmail.com"
+        email="sim@simkaur.art"
         footerCta="Get in touch"
         socialLinks={[
           { platform: 'Instagram', url: 'https://www.instagram.com/s1mkaur/' },

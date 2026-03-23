@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FilterBar } from '@/components/ui/FilterBar'
 
@@ -53,6 +54,7 @@ const photos: Photo[] = [
     title: 'Donna Bertram',
     category: 'portraits',
     curated: true,
+    description: 'Portrait of Donna Bertram.',
   },
   {
     src: `${P}/portraits/loyle-carner.webp`,
@@ -68,6 +70,7 @@ const photos: Photo[] = [
     title: 'Office Magazine AAFW',
     category: 'event',
     curated: true,
+    description: 'Event coverage for Office Magazine at Australian Aboriginal Fashion Week.',
   },
   {
     src: `${P}/fashion/aafw1.webp`,
@@ -75,6 +78,7 @@ const photos: Photo[] = [
     category: 'fashion',
     curated: true,
     role: 'Photography',
+    description: 'Backstage and runway at the Erik Yvon show, Australian Aboriginal Fashion Week.',
     year: '2023',
   },
   {
@@ -82,6 +86,8 @@ const photos: Photo[] = [
     title: 'Colombia, Sri Lanka, Bali, 2024',
     category: 'life',
     curated: true,
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
   },
   {
     src: `${P}/fashion/flux1.webp`,
@@ -129,31 +135,48 @@ const photos: Photo[] = [
     role: 'Campaign Photography, Casting',
     year: '2021',
   },
-  { src: `${P}/portraits/elle-ngo.webp`, title: 'Elle Ngo', category: 'portraits', curated: true },
+  {
+    src: `${P}/portraits/elle-ngo.webp`,
+    title: 'Elle Ngo',
+    category: 'portraits',
+    curated: true,
+    description: 'Portrait of Elle Ngo.',
+  },
   {
     src: `${P}/portraits/jack-garcia.webp`,
     title: 'Jack Garcia',
     category: 'portraits',
     curated: true,
+    description: 'Portrait of Jack Garcia.',
   },
-  { src: `${P}/life/india-2019-2.webp`, title: 'India, 2019', category: 'life', curated: true },
+  {
+    src: `${P}/life/india-2019-2.webp`,
+    title: 'India, 2019',
+    category: 'life',
+    curated: true,
+    description: 'Travel photography from India.',
+    year: '2019',
+  },
   {
     src: `${P}/fashion/tiara-vella.webp`,
     title: 'Tiara Vella',
     category: 'portraits',
     curated: true,
+    description: 'Portrait of Tiara Vella.',
   },
   {
     src: `${P}/fashion/culture-machine.webp`,
     title: 'Culture Machine',
     category: 'fashion',
     curated: true,
+    description: 'Editorial for Culture Machine.',
   },
   {
     src: `${P}/portraits/brown-suga1.webp`,
     title: 'Brown Suga Princess',
     category: 'portraits',
     curated: true,
+    description: 'Portrait of Brown Suga Princess.',
   },
 
   // ═══ FASHION ADDITIONAL (grouped by project) ═══
@@ -189,11 +212,13 @@ const photos: Photo[] = [
     src: `${P}/fashion/akshaya-honours.webp`,
     title: 'Akshaya Bhutkar Honours Collection',
     category: 'fashion',
+    description: 'Lookbook for Akshaya Bhutkar\u2019s honours fashion collection.',
   },
   {
     src: `${P}/fashion/akshaya-westfields.webp`,
     title: 'Akshaya x Westfields',
     category: 'fashion',
+    description: 'Campaign shoot for Akshaya Bhutkar x Westfield collaboration.',
   },
   // — Refinery29
   {
@@ -224,8 +249,18 @@ const photos: Photo[] = [
     year: '2022',
   },
   // — Lia x S
-  { src: `${P}/fashion/liaxs1.webp`, title: 'Lia x S', category: 'fashion' },
-  { src: `${P}/fashion/liaxs2.webp`, title: 'Lia x S', category: 'fashion' },
+  {
+    src: `${P}/fashion/liaxs1.webp`,
+    title: 'Lia x S',
+    category: 'fashion',
+    description: 'Editorial for Lia x S.',
+  },
+  {
+    src: `${P}/fashion/liaxs2.webp`,
+    title: 'Lia x S',
+    category: 'fashion',
+    description: 'Editorial for Lia x S.',
+  },
   // — FLUX
   {
     src: `${P}/fashion/flux-polaroid1.webp`,
@@ -251,98 +286,447 @@ const photos: Photo[] = [
   // (aafw2 polaroid collage removed)
 
   // ═══ PORTRAITS ADDITIONAL ═══
-  // Row 2: Mia Dennis + Tiara Vella + Celina
-  { src: `${P}/portraits/mia-dennis1.webp`, title: 'Mia Dennis', category: 'portraits' },
-  { src: `${P}/portraits/mia-dennis2.webp`, title: 'Mia Dennis', category: 'portraits' },
-  { src: `${P}/portraits/celina.webp`, title: 'Celina', category: 'portraits' },
-  // Row 3: Brown Suga Princess
+  {
+    src: `${P}/portraits/mia-dennis1.webp`,
+    title: 'Mia Dennis',
+    category: 'portraits',
+    description: 'Portrait of Mia Dennis.',
+  },
+  {
+    src: `${P}/portraits/mia-dennis2.webp`,
+    title: 'Mia Dennis',
+    category: 'portraits',
+    description: 'Portrait of Mia Dennis.',
+  },
+  {
+    src: `${P}/portraits/celina.webp`,
+    title: 'Celina',
+    category: 'portraits',
+    description: 'Portrait of Celina.',
+  },
   {
     src: `${P}/portraits/brown-suga2.webp`,
     title: 'Brown Suga Princess',
     category: 'portraits',
+    description: 'Portrait of Brown Suga Princess.',
   },
   {
     src: `${P}/portraits/brown-suga3.webp`,
     title: 'Brown Suga Princess',
     category: 'portraits',
+    description: 'Portrait of Brown Suga Princess.',
   },
-  { src: `${P}/portraits/yasmine.webp`, title: 'Yasmine for Pushmag', category: 'portraits' },
-  // Additional portraits
-  { src: `${P}/portraits/cherry-chola.webp`, title: 'Cherry Chola', category: 'portraits' },
-  { src: `${P}/portraits/min-wong.webp`, title: 'Min Wong', category: 'portraits' },
-  { src: `${P}/portraits/kuta-beach.webp`, title: 'Kuta Beach', category: 'portraits' },
+  {
+    src: `${P}/portraits/yasmine.webp`,
+    title: 'Yasmine for Pushmag',
+    category: 'portraits',
+    description: 'Portrait of Yasmine, shot for Pushmag.',
+  },
+  {
+    src: `${P}/portraits/cherry-chola.webp`,
+    title: 'Cherry Chola',
+    category: 'portraits',
+    description: 'Portrait of Cherry Chola.',
+  },
+  {
+    src: `${P}/portraits/min-wong.webp`,
+    title: 'Min Wong',
+    category: 'portraits',
+    description: 'Portrait of Min Wong.',
+  },
+  {
+    src: `${P}/portraits/kuta-beach.webp`,
+    title: 'Kuta Beach',
+    category: 'portraits',
+    description: 'Portrait shot at Kuta Beach, Bali.',
+  },
   {
     src: `${P}/portraits/sara-gch.webp`,
     title: 'Sara for GCH Plant Dye Scarves',
     category: 'portraits',
+    description: 'Portrait of Sara for GCH Plant Dye Scarves.',
   },
-  { src: `${P}/portraits/thandi.webp`, title: 'Thandi', category: 'portraits' },
-  { src: `${P}/portraits/ruger.webp`, title: 'Ruger for Acclaim Magazine', category: 'portraits' },
-  { src: `${P}/event/fragile-minds.webp`, title: 'Fragile Minds', category: 'portraits' },
-  { src: `${P}/event/club5.webp`, title: 'Club Selects', category: 'portraits' },
+  {
+    src: `${P}/portraits/thandi.webp`,
+    title: 'Thandi',
+    category: 'portraits',
+    description: 'Portrait of Thandi.',
+  },
+  {
+    src: `${P}/portraits/ruger.webp`,
+    title: 'Ruger for Acclaim Magazine',
+    category: 'portraits',
+    description: 'Portrait of Ruger, shot for Acclaim Magazine.',
+  },
+  {
+    src: `${P}/event/fragile-minds.webp`,
+    title: 'Fragile Minds',
+    category: 'portraits',
+    description: 'Fragile Minds event portrait.',
+  },
+  {
+    src: `${P}/event/club5.webp`,
+    title: 'Club Selects',
+    category: 'portraits',
+    description: 'Club night portrait.',
+  },
 
   // ═══ EVENT ═══
   // Note: 1 curated event (office-aafw-great) comes first in filter, so 3 items here complete row 1
   // Row 1 (cols 2-4, col 1 is curated): Planet Abundance + Office AAFW + Club
-  { src: `${P}/event/planet-abundance.webp`, title: 'Planet Abundance', category: 'event' },
-  { src: `${P}/event/office-aafw.webp`, title: 'Office Magazine AAFW', category: 'event' },
-  { src: `${P}/event/club5.webp`, title: 'Club Selects', category: 'event' },
-  // Row 2: Club highlights
-  { src: `${P}/event/club8.webp`, title: 'Club Selects', category: 'event' },
-  { src: `${P}/event/club15.webp`, title: 'Club Selects', category: 'event' },
-  { src: `${P}/event/genesis-owusu.webp`, title: 'Genesis Owusu', category: 'event' },
-  { src: `${P}/event/club11.webp`, title: 'Club Selects', category: 'event' },
-  // Row 3: Diwali at Powerhouse (all 4 together)
-  { src: `${P}/event/diwali83.webp`, title: 'Diwali at Powerhouse', category: 'event' },
-  { src: `${P}/event/diwali-ph2.webp`, title: 'Diwali at Powerhouse Museum', category: 'event' },
-  { src: `${P}/event/diwali11.webp`, title: 'Diwali at Powerhouse', category: 'event' },
-  { src: `${P}/event/diwali63.webp`, title: 'Diwali at Powerhouse', category: 'event' },
-  // Row 4: Ricky Nicole Wedding (all 4 together)
-  { src: `${P}/event/wedding87.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
-  { src: `${P}/event/wedding81.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
-  { src: `${P}/event/wedding83.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
-  { src: `${P}/event/wedding9.webp`, title: 'Ricky Nicole Wedding', category: 'event' },
-  // Row 5+: Remaining
-  { src: `${P}/event/office-aafw3.webp`, title: 'Office Magazine AAFW', category: 'event' },
-  { src: `${P}/event/office-aafw6.webp`, title: 'Office Magazine AAFW', category: 'event' },
-  { src: `${P}/event/club13.webp`, title: 'Club Selects', category: 'event' },
-  { src: `${P}/event/office-aafw5.webp`, title: 'Office Magazine AAFW', category: 'event' },
-  { src: `${P}/event/club6.webp`, title: 'Club Selects', category: 'event' },
-  { src: `${P}/event/club9.webp`, title: 'Club Selects', category: 'event' },
-  { src: `${P}/event/office-aafw4.webp`, title: 'Office Magazine AAFW', category: 'event' },
-  { src: `${P}/event/club12.webp`, title: 'Club Selects', category: 'event' },
-  { src: `${P}/event/club-chrome.webp`, title: 'Club Chrome', category: 'event' },
-  { src: `${P}/event/mias-birthday.webp`, title: "Mia's Birthday", category: 'event' },
-  { src: `${P}/event/club16.webp`, title: 'Club Selects', category: 'event' },
-  { src: `${P}/event/club17.webp`, title: 'Club Selects', category: 'event' },
+  {
+    src: `${P}/event/planet-abundance.webp`,
+    title: 'Planet Abundance',
+    category: 'event',
+    description: 'Event coverage at Planet Abundance.',
+  },
+  {
+    src: `${P}/event/office-aafw.webp`,
+    title: 'Office Magazine AAFW',
+    category: 'event',
+    description: 'Event coverage for Office Magazine at AAFW.',
+  },
+  {
+    src: `${P}/event/club5.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  // Club highlights
+  {
+    src: `${P}/event/club8.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  {
+    src: `${P}/event/club15.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  {
+    src: `${P}/event/genesis-owusu.webp`,
+    title: 'Genesis Owusu',
+    category: 'event',
+    description: 'Genesis Owusu at the ARIA Awards after-party with Ourness.',
+  },
+  {
+    src: `${P}/event/club11.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  // Diwali at Powerhouse (all 4 together)
+  {
+    src: `${P}/event/diwali83.webp`,
+    title: 'Diwali at Powerhouse',
+    category: 'event',
+    role: 'Event Photography',
+    description:
+      'Commissioned by Powerhouse Museum for the official Diwali program at Powerhouse Castle Hill, October 2025. Delivered in collaboration with the Consulate General of India, Sydney and the Swami Vivekananda Cultural Centre.',
+    year: '2025',
+  },
+  {
+    src: `${P}/event/diwali-ph2.webp`,
+    title: 'Diwali at Powerhouse',
+    category: 'event',
+    description: 'Diwali celebrations at Powerhouse Museum Castle Hill.',
+  },
+  {
+    src: `${P}/event/diwali11.webp`,
+    title: 'Diwali at Powerhouse',
+    category: 'event',
+    description: 'Diwali celebrations at Powerhouse Museum Castle Hill.',
+  },
+  {
+    src: `${P}/event/diwali63.webp`,
+    title: 'Diwali at Powerhouse',
+    category: 'event',
+    description: 'Diwali celebrations at Powerhouse Museum Castle Hill.',
+  },
+  // Remaining event + editorial
+  {
+    src: `${P}/event/office-aafw3.webp`,
+    title: 'Office Magazine AAFW',
+    category: 'event',
+    description: 'Event coverage for Office Magazine at AAFW.',
+  },
+  {
+    src: `${P}/event/office-aafw6.webp`,
+    title: 'Office Magazine AAFW',
+    category: 'event',
+    description: 'Event coverage for Office Magazine at AAFW.',
+  },
+  {
+    src: `${P}/event/club13.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  {
+    src: `${P}/event/office-aafw5.webp`,
+    title: 'Office Magazine AAFW',
+    category: 'event',
+    description: 'Event coverage for Office Magazine at AAFW.',
+  },
+  {
+    src: `${P}/event/club6.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  {
+    src: `${P}/event/club9.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  {
+    src: `${P}/event/office-aafw4.webp`,
+    title: 'Office Magazine AAFW',
+    category: 'event',
+    description: 'Event coverage for Office Magazine at AAFW.',
+  },
+  {
+    src: `${P}/event/club12.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  {
+    src: `${P}/event/club-chrome.webp`,
+    title: 'Club Chrome',
+    category: 'event',
+    description: 'Club Chrome event photography.',
+  },
+  {
+    src: `${P}/event/mias-birthday.webp`,
+    title: "Mia's Birthday",
+    category: 'event',
+    description: 'Birthday celebration for Mia.',
+  },
+  {
+    src: `${P}/event/club16.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  {
+    src: `${P}/event/club17.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  // Wedding (bottom rows)
+  {
+    src: `${P}/event/wedding87.webp`,
+    title: 'Ricky Nicole Wedding',
+    category: 'event',
+    description: 'Wedding photography for Ricky and Nicole.',
+  },
+  {
+    src: `${P}/event/wedding81.webp`,
+    title: 'Ricky Nicole Wedding',
+    category: 'event',
+    description: 'Wedding photography for Ricky and Nicole.',
+  },
+  {
+    src: `${P}/event/wedding83.webp`,
+    title: 'Ricky Nicole Wedding',
+    category: 'event',
+    description: 'Wedding photography for Ricky and Nicole.',
+  },
+  {
+    src: `${P}/event/wedding9.webp`,
+    title: 'Ricky Nicole Wedding',
+    category: 'event',
+    description: 'Wedding photography for Ricky and Nicole.',
+  },
 
   // ═══ LIFE ADDITIONAL ═══
-  { src: `${P}/life/3rd-eye9.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/3rd-eye18.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/punjab-1.webp`, title: 'Punjab, 2024', category: 'life' },
-  { src: `${P}/life/punjab-2.webp`, title: 'Punjab, 2024', category: 'life' },
-  { src: `${P}/life/punjab-3.webp`, title: 'Punjab, 2024', category: 'life' },
-  { src: `${P}/life/punjab-4.webp`, title: 'Punjab, 2024', category: 'life' },
-  { src: `${P}/life/punjab-5.webp`, title: 'Punjab, 2024', category: 'life' },
-  { src: `${P}/life/punjab-6.webp`, title: 'Punjab, 2024', category: 'life' },
-  { src: `${P}/life/3rd-eye1.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/3rd-eye3.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/3rd-eye5.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/3rd-eye7.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/paris-2025-3.webp`, title: 'Paris, 2025', category: 'life' },
-  { src: `${P}/life/3rd-eye14.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/3rd-eye17.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/india-2019-1.webp`, title: 'India, 2019', category: 'life' },
-  { src: `${P}/life/india-2019-3.webp`, title: 'India, 2019', category: 'life' },
-  { src: `${P}/life/india-2019-4.webp`, title: 'India, 2019', category: 'life' },
-  { src: `${P}/life/india-2019-5.webp`, title: 'India, 2019', category: 'life' },
-  { src: `${P}/life/3rd-eye8.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/3rd-eye22.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/3rd-eye10.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/3rd-eye20.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/3rd-eye11.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
-  { src: `${P}/life/paris-2025-4.webp`, title: 'Paris, 2025', category: 'life' },
-  { src: `${P}/life/3rd-eye19.webp`, title: 'Colombia, Sri Lanka, Bali, 2024', category: 'life' },
+  {
+    src: `${P}/life/3rd-eye9.webp`,
+    title: 'Colombia, Sri Lanka, Bali, 2024',
+    category: 'life',
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/3rd-eye18.webp`,
+    title: 'Colombia, Sri Lanka, Bali, 2024',
+    category: 'life',
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/punjab-1.webp`,
+    title: 'Punjab, 2024',
+    category: 'life',
+    description: 'Scenes from Punjab, India.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/punjab-2.webp`,
+    title: 'Punjab, 2024',
+    category: 'life',
+    description: 'Scenes from Punjab, India.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/punjab-3.webp`,
+    title: 'Punjab, 2024',
+    category: 'life',
+    description: 'Scenes from Punjab, India.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/punjab-4.webp`,
+    title: 'Punjab, 2024',
+    category: 'life',
+    description: 'Scenes from Punjab, India.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/punjab-5.webp`,
+    title: 'Punjab, 2024',
+    category: 'life',
+    description: 'Scenes from Punjab, India.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/punjab-6.webp`,
+    title: 'Punjab, 2024',
+    category: 'life',
+    description: 'Scenes from Punjab, India.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/3rd-eye1.webp`,
+    title: 'Colombia, Sri Lanka, Bali, 2024',
+    category: 'life',
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/3rd-eye3.webp`,
+    title: 'Colombia, Sri Lanka, Bali, 2024',
+    category: 'life',
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/3rd-eye5.webp`,
+    title: 'Colombia, Sri Lanka, Bali, 2024',
+    category: 'life',
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/3rd-eye7.webp`,
+    title: 'Colombia, Sri Lanka, Bali, 2024',
+    category: 'life',
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/paris-2025-3.webp`,
+    title: 'Paris, 2025',
+    category: 'life',
+    description: 'Street photography from Paris.',
+    year: '2025',
+  },
+  {
+    src: `${P}/life/3rd-eye14.webp`,
+    title: 'Colombia, Sri Lanka, Bali, 2024',
+    category: 'life',
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/3rd-eye17.webp`,
+    title: 'Colombia, Sri Lanka, Bali, 2024',
+    category: 'life',
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/india-2019-1.webp`,
+    title: 'India, 2019',
+    category: 'life',
+    description: 'Travel photography from India.',
+    year: '2019',
+  },
+  {
+    src: `${P}/life/india-2019-3.webp`,
+    title: 'India, 2019',
+    category: 'life',
+    description: 'Travel photography from India.',
+    year: '2019',
+  },
+  {
+    src: `${P}/life/india-2019-4.webp`,
+    title: 'India, 2019',
+    category: 'life',
+    description: 'Travel photography from India.',
+    year: '2019',
+  },
+  {
+    src: `${P}/life/india-2019-5.webp`,
+    title: 'India, 2019',
+    category: 'life',
+    description: 'Travel photography from India.',
+    year: '2019',
+  },
+  {
+    src: `${P}/life/3rd-eye8.webp`,
+    title: 'Colombia, Sri Lanka, Bali, 2024',
+    category: 'life',
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/3rd-eye22.webp`,
+    title: 'Colombia, Sri Lanka, Bali, 2024',
+    category: 'life',
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/3rd-eye10.webp`,
+    title: 'Colombia, Sri Lanka, Bali, 2024',
+    category: 'life',
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/3rd-eye20.webp`,
+    title: 'Colombia, Sri Lanka, Bali, 2024',
+    category: 'life',
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/3rd-eye11.webp`,
+    title: 'Colombia, Sri Lanka, Bali, 2024',
+    category: 'life',
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
+  },
+  {
+    src: `${P}/life/paris-2025-4.webp`,
+    title: 'Paris, 2025',
+    category: 'life',
+    description: 'Street photography from Paris.',
+    year: '2025',
+  },
+  {
+    src: `${P}/life/3rd-eye19.webp`,
+    title: 'Colombia, Sri Lanka, Bali, 2024',
+    category: 'life',
+    description: 'Travel photography from Colombia, Sri Lanka, and Bali.',
+    year: '2024',
+  },
 ]
 
 const filters = [
@@ -359,19 +743,34 @@ const categoryDescriptions: Partial<Record<string, string>> = {
 }
 
 export function PhotographyGrid() {
-  const [filter, setFilter] = useState('all')
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const filterParam = searchParams.get('filter')
+  const filter = filterParam && filters.some((f) => f.value === filterParam) ? filterParam : 'all'
   const [lightbox, setLightbox] = useState<number | null>(null)
   const lightboxOpenRef = useRef(false)
 
   // Reset lightbox when filter changes to prevent out-of-bounds access
-  const handleFilterChange = useCallback((value: string) => {
-    if (lightboxOpenRef.current) {
-      lightboxOpenRef.current = false
-      window.history.back()
-    }
-    setLightbox(null)
-    setFilter(value)
-  }, [])
+  const handleFilterChange = useCallback(
+    (value: string) => {
+      if (lightboxOpenRef.current) {
+        lightboxOpenRef.current = false
+        window.history.back()
+      }
+      setLightbox(null)
+      const params = new URLSearchParams(searchParams.toString())
+      if (value === 'all') {
+        params.delete('filter')
+      } else {
+        params.set('filter', value)
+      }
+      const qs = params.toString()
+      router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false })
+    },
+    [searchParams, router, pathname]
+  )
 
   const filtered = (() => {
     if (filter === 'all') return photos.filter((p) => p.curated)
@@ -543,18 +942,17 @@ export function PhotographyGrid() {
           {filtered[lightbox].role || filtered[lightbox].description ? (
             /* Image left, text right — for photos with project info */
             <div
-              className="relative z-10 flex w-full flex-col items-center gap-6 overflow-y-auto px-6 sm:px-16 lg:flex-row lg:items-center lg:justify-center lg:gap-10 lg:px-20"
+              className="pointer-events-none relative z-10 flex w-full flex-col items-center gap-6 overflow-y-auto px-6 sm:px-16 lg:flex-row lg:items-center lg:justify-center lg:gap-10 lg:px-20"
               style={{ maxHeight: '85vh' }}
-              onClick={(e) => e.stopPropagation()}
             >
-              <div className="w-full shrink-0 lg:max-w-[55vw] xl:max-w-[50vw]">
+              <div className="pointer-events-auto w-full shrink-0 lg:max-w-[55vw] xl:max-w-[50vw]">
                 <img
                   src={filtered[lightbox].src}
                   alt={filtered[lightbox].title}
                   className="max-h-[80vh] w-full object-contain"
                 />
               </div>
-              <div className="flex max-w-md flex-col gap-4 py-2 text-white lg:max-w-sm xl:max-w-md">
+              <div className="pointer-events-auto flex max-w-md flex-col gap-4 py-2 text-white lg:max-w-sm xl:max-w-md">
                 <h2
                   className="font-medium uppercase tracking-[0.04em]"
                   style={{ fontSize: 'clamp(1.4rem, 1.2rem + 1vw, 2rem)' }}
@@ -594,10 +992,7 @@ export function PhotographyGrid() {
             </div>
           ) : (
             /* Centred image only — no text panel */
-            <div
-              className="relative z-10 flex items-center justify-center"
-              onClick={(e) => e.stopPropagation()}
-            >
+            <div className="pointer-events-none relative z-10 flex items-center justify-center">
               <img
                 src={filtered[lightbox].src}
                 alt={filtered[lightbox].title}

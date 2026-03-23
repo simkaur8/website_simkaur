@@ -4,7 +4,7 @@ import { Footer } from '@/components/Footer'
 
 describe('Footer', () => {
   const defaultProps = {
-    email: 'simtheaquarius@gmail.com',
+    email: 'sim@simkaur.art',
     footerCta: 'contact me :-)',
     socialLinks: [
       { platform: 'Instagram', url: 'https://www.instagram.com/s1mkaur/' },
@@ -19,8 +19,8 @@ describe('Footer', () => {
 
   it('renders email link', () => {
     render(<Footer {...defaultProps} />)
-    const emailLink = screen.getByText('simtheaquarius@gmail.com')
-    expect(emailLink).toHaveAttribute('href', 'mailto:simtheaquarius@gmail.com')
+    const emailLink = screen.getByText('sim@simkaur.art')
+    expect(emailLink).toHaveAttribute('href', 'mailto:sim@simkaur.art')
   })
 
   it('renders social links with target blank', () => {

@@ -6,13 +6,13 @@ import { WebsiteJsonLd } from '@/components/seo/WebsiteJsonLd'
 import { PersonJsonLd } from '@/components/seo/PersonJsonLd'
 
 export const metadata: Metadata = {
-  title: 'Sim Kaur | Creative Director',
+  title: 'Sim Kaur | Photo & Film',
   description:
-    'Sim Kaur — Creative Director, Fashion Film Director, and Music Video Director based in Sydney. Watch the showreel and explore fashion films, dance films, and music videos.',
+    'Sim Kaur: Photo and Film. Fashion Film Director, Music Video Director, and Photographer based in Sydney. Watch the showreel and explore fashion films, dance films, and music videos.',
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'Sim Kaur: Creative Director / Editor / Photographer',
-    description: 'Sim Kaur: Creative Director / Editor / Photographer',
+    title: 'Sim Kaur | Photo & Film',
+    description: 'Sim Kaur | Photo & Film',
     url: 'https://simkaur.art',
   },
 }
@@ -29,7 +29,7 @@ export default function HomePage() {
       />
       <VortexGallery />
       <Footer
-        email="simtheaquarius@gmail.com"
+        email="sim@simkaur.art"
         footerCta="Get in touch"
         socialLinks={[
           { platform: 'Instagram', url: 'https://www.instagram.com/s1mkaur/' },

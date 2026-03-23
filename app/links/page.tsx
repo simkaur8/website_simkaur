@@ -16,7 +16,7 @@ const fallbackLinks = [
   { label: 'Website', url: 'https://simkaur.art' },
   { label: 'Instagram', url: 'https://www.instagram.com/s1mkaur/' },
   { label: 'Vimeo', url: 'https://vimeo.com/user197917349' },
-  { label: 'Email', url: 'mailto:simtheaquarius@gmail.com' },
+  { label: 'Email', url: 'mailto:sim@simkaur.art' },
 ]
 
 export default async function LinksPage() {

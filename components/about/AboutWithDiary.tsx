@@ -59,10 +59,10 @@ export function AboutWithDiary() {
             <div style={{ fontSize: 'var(--text-base)' }}>
               <p className="text-[var(--text-secondary)]">Get in touch</p>
               <a
-                href="mailto:simtheaquarius@gmail.com"
+                href="mailto:sim@simkaur.art"
                 className="mt-1 inline-block text-[var(--text-primary)] hover:text-[var(--accent)]"
               >
-                simtheaquarius@gmail.com
+                sim@simkaur.art
               </a>
             </div>
 

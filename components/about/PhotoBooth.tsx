@@ -26,7 +26,7 @@ const diaryClips: DiaryClip[] = [
   },
   {
     id: 'girlhood',
-    label: 'Girlhood — HSC Major Work 2018',
+    label: 'Girlhood, HSC Major Work 2018',
     type: 'youtube',
     src: 'p2EMqBIaSpY',
     thumb: 'https://img.youtube.com/vi/p2EMqBIaSpY/hqdefault.jpg',

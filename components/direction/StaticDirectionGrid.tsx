@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FilterBar } from '@/components/ui/FilterBar'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
@@ -18,14 +19,30 @@ interface StaticDirectionGridProps {
 }
 
 export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
-  const [activeFilter, setActiveFilter] = useState('all')
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const filterParam = searchParams.get('filter')
+  const activeFilter =
+    filterParam && filters.some((f) => f.value === filterParam) ? filterParam : 'all'
   const [activeIdx, setActiveIdx] = useState<number | null>(null)
 
   // Reset overlay when filter changes to prevent stale index
-  const handleFilterChange = useCallback((value: string) => {
-    setActiveIdx(null)
-    setActiveFilter(value)
-  }, [])
+  const handleFilterChange = useCallback(
+    (value: string) => {
+      setActiveIdx(null)
+      const params = new URLSearchParams(searchParams.toString())
+      if (value === 'all') {
+        params.delete('filter')
+      } else {
+        params.set('filter', value)
+      }
+      const qs = params.toString()
+      router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false })
+    },
+    [searchParams, router, pathname]
+  )
 
   const filtered =
     activeFilter === 'all'

@@ -504,7 +504,7 @@ async function uploadSiteSettings() {
     _id: 'siteSettings',
     _type: 'siteSettings',
     bio: pt('Sim Kaur is a Punjabi creative director, filmmaker, and photographer based in Sydney.'),
-    email: 'simtheaquarius@gmail.com',
+    email: 'sim@simkaur.art',
     socialLinks: [
       { _type: 'object', _key: 'ig', platform: 'Instagram', url: 'https://www.instagram.com/s1mkaur/' },
       { _type: 'object', _key: 'vim', platform: 'Vimeo', url: 'https://vimeo.com/user197917349' },

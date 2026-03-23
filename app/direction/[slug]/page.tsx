@@ -29,14 +29,14 @@ export async function generateMetadata({
   const project: Project | null = await client.fetch(projectBySlugQuery, { slug }).catch(() => null)
   if (project) {
     const genre = project.category === 'fashion-dance' ? 'Fashion & Dance Film' : 'Music Video'
-    const desc = `${project.title} — ${genre} directed by Sim Kaur. Sydney-based creative director.`
+    const desc = `${project.title}, ${genre} directed by Sim Kaur. Sydney-based creative director.`
     return {
       title: project.title,
       description: desc,
       keywords: [project.title, genre.toLowerCase(), 'Sim Kaur', 'direction', 'Sydney'],
       alternates: { canonical: `/direction/${slug}` },
       openGraph: {
-        title: `${project.title} — ${genre} | Sim Kaur`,
+        title: `${project.title}: ${genre} | Sim Kaur`,
         description: desc,
         url: `https://simkaur.art/direction/${slug}`,
         type: 'article',
@@ -49,14 +49,14 @@ export async function generateMetadata({
   if (staticProject) {
     const genre =
       staticProject.category === 'fashion-dance' ? 'Fashion & Dance Film' : 'Music Video'
-    const desc = `${staticProject.title} — ${genre} directed by Sim Kaur. ${staticProject.description.split('\n')[0]}`
+    const desc = `${staticProject.title}, ${genre} directed by Sim Kaur. ${staticProject.description.split('\n')[0]}`
     return {
       title: staticProject.title,
       description: desc,
       keywords: [staticProject.title, genre.toLowerCase(), 'Sim Kaur', 'direction', 'Sydney'],
       alternates: { canonical: `/direction/${slug}` },
       openGraph: {
-        title: `${staticProject.title} — ${genre} | Sim Kaur`,
+        title: `${staticProject.title}: ${genre} | Sim Kaur`,
         description: desc,
         url: `https://simkaur.art/direction/${slug}`,
         type: 'article',
@@ -78,7 +78,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     <>
       <StaticProjectDetail project={staticProject} />
       <Footer
-        email="simtheaquarius@gmail.com"
+        email="sim@simkaur.art"
         footerCta="Get in touch"
         socialLinks={[
           { platform: 'Instagram', url: 'https://www.instagram.com/s1mkaur/' },

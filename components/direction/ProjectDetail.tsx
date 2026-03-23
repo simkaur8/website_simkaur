@@ -43,7 +43,7 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
           </h1>
           <p className="text-[var(--text-sm)] uppercase tracking-[0.2em] text-[var(--text-muted)]">
             {project.category === 'fashion-dance' ? 'Fashion & Dance' : 'Music Video'}
-            {project.year ? ` — ${project.year}` : ''}
+            {project.year ? `, ${project.year}` : ''}
           </p>
         </div>
       </RevealOnScroll>

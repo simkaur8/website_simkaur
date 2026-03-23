@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { Footer } from '@/components/Footer'
 import { PhotographyGrid } from '@/components/photography/PhotographyGrid'
 import type { Metadata } from 'next'
@@ -5,7 +6,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Photography',
   description:
-    'Photography by Sim Kaur — fashion photography, editorial portraits, and event documentation. Sydney-based photographer and creative director.',
+    'Photography by Sim Kaur: fashion photography, editorial portraits, and event documentation. Sydney-based photographer and creative director.',
   keywords: [
     'fashion photography Sydney',
     'editorial photographer',
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Photography | Sim Kaur',
     description:
-      'Photography by Sim Kaur — fashion photography, editorial portraits, and event documentation. Sydney-based photographer and creative director.',
+      'Photography by Sim Kaur: fashion photography, editorial portraits, and event documentation. Sydney-based photographer and creative director.',
     url: 'https://simkaur.art/photography',
   },
 }
@@ -34,10 +35,12 @@ export default async function PhotographyPage() {
         >
           Photography
         </h1>
-        <PhotographyGrid />
+        <Suspense>
+          <PhotographyGrid />
+        </Suspense>
       </div>
       <Footer
-        email="simtheaquarius@gmail.com"
+        email="sim@simkaur.art"
         footerCta="Get in touch"
         socialLinks={[
           { platform: 'Instagram', url: 'https://www.instagram.com/s1mkaur/' },

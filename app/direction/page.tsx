@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { client } from '@/sanity/lib/client'
 import { allProjectsQuery } from '@/sanity/lib/queries'
 import { DirectionGrid } from '@/components/direction/DirectionGrid'
@@ -11,7 +12,7 @@ import { DirectionCollectionJsonLd } from '@/components/seo/DirectionCollectionJ
 export const metadata: Metadata = {
   title: 'Direction',
   description:
-    'Film direction portfolio by Sim Kaur — fashion films, dance films, and music videos. Sydney-based creative director working with brands, artists, and labels.',
+    'Film direction portfolio by Sim Kaur: fashion films, dance films, and music videos. Sydney-based creative director working with brands, artists, and labels.',
   keywords: [
     'fashion film direction',
     'music video direction',
@@ -23,9 +24,9 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: '/direction' },
   openGraph: {
-    title: 'Direction — Fashion Films & Music Videos | Sim Kaur',
+    title: 'Direction: Fashion Films & Music Videos | Sim Kaur',
     description:
-      'Film direction portfolio by Sim Kaur — fashion films, dance films, and music videos. Sydney-based creative director working with brands, artists, and labels.',
+      'Film direction portfolio by Sim Kaur: fashion films, dance films, and music videos. Sydney-based creative director working with brands, artists, and labels.',
     url: 'https://simkaur.art/direction',
   },
 }
@@ -51,10 +52,12 @@ export default async function DirectionPage() {
         >
           Directed &amp; edited by Sim Kaur
         </p>
-        <StaticDirectionGrid projects={staticProjects} />
+        <Suspense>
+          <StaticDirectionGrid projects={staticProjects} />
+        </Suspense>
       </div>
       <Footer
-        email="simtheaquarius@gmail.com"
+        email="sim@simkaur.art"
         footerCta="Get in touch"
         socialLinks={[
           { platform: 'Instagram', url: 'https://www.instagram.com/s1mkaur/' },
