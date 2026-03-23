@@ -14,6 +14,7 @@ interface Photo {
   curated?: boolean
   role?: string
   description?: string
+  descriptionHtml?: string
   year?: string
   objectPosition?: string
 }
@@ -134,6 +135,20 @@ const photos: Photo[] = [
     category: 'fashion',
     role: 'Campaign Photography, Casting',
     year: '2021',
+  },
+  {
+    src: `${P}/fashion/oats-basjia1.webp`,
+    title: 'Basjia for Oats the Label',
+    category: 'fashion',
+    role: 'Campaign Photography',
+    description: 'Basjia for Oats the Label.',
+  },
+  {
+    src: `${P}/fashion/oats-basjia2.webp`,
+    title: 'Basjia for Oats the Label',
+    category: 'fashion',
+    role: 'Campaign Photography',
+    description: 'Basjia for Oats the Label.',
   },
   {
     src: `${P}/portraits/elle-ngo.webp`,
@@ -290,7 +305,8 @@ const photos: Photo[] = [
     src: `${P}/portraits/aretha-brown.webp`,
     title: 'Aretha Brown',
     category: 'portraits',
-    description: 'Aretha Brown painting a mural at The Bearded Tit, 2023.',
+    descriptionHtml:
+      '<a href="https://arethabrown.bigcartel.com/" target="_blank" rel="noopener noreferrer">Aretha Brown</a> painting a mural at The Bearded Tit, 2023.',
   },
   {
     src: `${P}/portraits/foushee-acclaim.webp`,
@@ -419,6 +435,12 @@ const photos: Photo[] = [
   // Row 1 (cols 2-4, col 1 is curated): Planet Abundance + Office AAFW + Club
   {
     src: `${P}/event/planet-abundance.webp`,
+    title: 'Planet Abundance',
+    category: 'event',
+    description: 'Event coverage at Planet Abundance.',
+  },
+  {
+    src: `${P}/event/planet-abundance2.webp`,
     title: 'Planet Abundance',
     category: 'event',
     description: 'Event coverage at Planet Abundance.',
@@ -560,6 +582,59 @@ const photos: Photo[] = [
     title: 'Club Selects',
     category: 'event',
     description: 'Club night photography on 35mm film.',
+  },
+  // Tamanna the Label
+  {
+    src: `${P}/event/tamanna-label1.webp`,
+    title: 'Tamanna the Label',
+    category: 'event',
+    description: 'Tamanna the Label "Come As You Are" event.',
+  },
+  {
+    src: `${P}/event/tamanna-label2.webp`,
+    title: 'Tamanna the Label',
+    category: 'event',
+    description: 'Tamanna the Label "Come As You Are" event.',
+  },
+  // Swanky Array
+  {
+    src: `${P}/event/swanky-array.webp`,
+    title: 'Swanky Array',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  // Blacktown Arts dance battle
+  {
+    src: `${P}/event/blacktown-arts-battle.webp`,
+    title: 'Blacktown Arts Dance Battle',
+    category: 'event',
+    description: 'Dance battle at Blacktown Arts Centre.',
+  },
+  {
+    src: `${P}/event/blacktown-arts2.webp`,
+    title: 'Blacktown Arts Dance Battle',
+    category: 'event',
+    description: 'Dance battle at Blacktown Arts Centre.',
+  },
+  {
+    src: `${P}/event/blacktown-arts3.webp`,
+    title: 'Blacktown Arts Dance Battle',
+    category: 'event',
+    description: 'Dance battle at Blacktown Arts Centre.',
+  },
+  {
+    src: `${P}/event/blacktown-arts-djs.webp`,
+    title: 'Blacktown Arts',
+    category: 'event',
+    description: 'DJs at Blacktown Arts Centre.',
+  },
+  // Ayebatonye
+  {
+    src: `${P}/event/ayebatonye.webp`,
+    title: 'Ayebatonye',
+    category: 'event',
+    descriptionHtml:
+      '<a href="https://www.instagram.com/ayebatonye__/" target="_blank" rel="noopener noreferrer">Ayebatonye</a> at an ARIA Awards after-party.',
   },
   // Wedding (bottom rows)
   {
@@ -982,7 +1057,9 @@ export function PhotographyGrid() {
           </button>
 
           {/* Content */}
-          {filtered[lightbox].role || filtered[lightbox].description ? (
+          {filtered[lightbox].role ||
+          filtered[lightbox].description ||
+          filtered[lightbox].descriptionHtml ? (
             /* Image left, text right — for photos with project info */
             <div
               className="pointer-events-none relative z-10 flex w-full flex-col items-center gap-6 overflow-y-auto px-6 sm:px-16 lg:flex-row lg:items-center lg:justify-center lg:gap-10 lg:px-20"
@@ -1018,7 +1095,13 @@ export function PhotographyGrid() {
                     {filtered[lightbox].role}
                   </p>
                 )}
-                {filtered[lightbox].description && (
+                {filtered[lightbox].descriptionHtml ? (
+                  <div
+                    className="space-y-3 leading-relaxed text-white/90 [&_a]:underline [&_a]:decoration-white/40 [&_a:hover]:decoration-white"
+                    style={{ fontSize: 'var(--text-sm, 0.875rem)' }}
+                    dangerouslySetInnerHTML={{ __html: filtered[lightbox].descriptionHtml }}
+                  />
+                ) : filtered[lightbox].description ? (
                   <div
                     className="space-y-3 leading-relaxed text-white/90"
                     style={{ fontSize: 'var(--text-sm, 0.875rem)' }}
@@ -1030,7 +1113,7 @@ export function PhotographyGrid() {
                         <p key={i}>{line}</p>
                       ))}
                   </div>
-                )}
+                ) : null}
               </div>
             </div>
           ) : (
