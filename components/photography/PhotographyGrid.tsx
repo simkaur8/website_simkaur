@@ -290,8 +290,44 @@ const photos: Photo[] = [
     src: `${P}/portraits/aretha-brown.webp`,
     title: 'Aretha Brown',
     category: 'portraits',
-    description:
-      'Aretha Brown painting a mural at The Bearded Tit. Aretha is an accomplished visual artist whose bold, graphic work spans murals, illustration, and painting.',
+    description: 'Aretha Brown painting a mural at The Bearded Tit, 2023.',
+  },
+  {
+    src: `${P}/portraits/foushee-acclaim.webp`,
+    title: 'Foushee for Acclaim Magazine',
+    category: 'portraits',
+    role: 'Photography',
+    description: 'Polaroid portraits of Foushee, shot for Acclaim Magazine.',
+  },
+  {
+    src: `${P}/portraits/anabel.webp`,
+    title: 'Anabel',
+    category: 'portraits',
+    description: 'Portrait in the Swiss Alps.',
+  },
+  {
+    src: `${P}/portraits/nimrit-kaur.webp`,
+    title: 'Nimrit Kaur',
+    category: 'portraits',
+    description: 'Portrait of Nimrit Kaur.',
+  },
+  {
+    src: `${P}/portraits/club-selects4.webp`,
+    title: 'Club Selects',
+    category: 'portraits',
+    description: 'Club night portrait.',
+  },
+  {
+    src: `${P}/portraits/cherry-chola2.webp`,
+    title: 'Cherry Chola',
+    category: 'portraits',
+    description: 'Portrait of Cherry Chola.',
+  },
+  {
+    src: `${P}/portraits/club-selects3.webp`,
+    title: 'Club Selects',
+    category: 'portraits',
+    description: 'Mirror reflection, club night on 35mm film.',
   },
   {
     src: `${P}/portraits/mia-dennis1.webp`,
