@@ -287,6 +287,13 @@ const photos: Photo[] = [
 
   // ═══ PORTRAITS ADDITIONAL ═══
   {
+    src: `${P}/portraits/aretha-brown.webp`,
+    title: 'Aretha Brown',
+    category: 'portraits',
+    description:
+      'Aretha Brown painting a mural at The Bearded Tit. Aretha is an accomplished visual artist whose bold, graphic work spans murals, illustration, and painting.',
+  },
+  {
     src: `${P}/portraits/mia-dennis1.webp`,
     title: 'Mia Dennis',
     category: 'portraits',
