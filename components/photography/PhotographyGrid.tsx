@@ -63,23 +63,26 @@ const photos: Photo[] = [
     category: 'portraits',
     curated: true,
     role: 'Photography',
-    description: 'Photographed for Acclaim Magazine.',
+    descriptionHtml:
+      'Photographed for <a href="https://acclaimmag.com/music/loyle-carners-magnum-opus/" target="_blank" rel="noopener noreferrer">Acclaim Magazine</a>.',
     year: '2023',
   },
   {
     src: `${P}/event/office-aafw-great.webp`,
-    title: 'Office Magazine AAFW',
+    title: 'Office Magazine Afterpay Australian Fashion Week',
     category: 'event',
     curated: true,
-    description: 'Event coverage for Office Magazine at Australian Aboriginal Fashion Week.',
+    description:
+      'Event coverage for Office Magazine for the Afterpay Australian Fashion Week afterparty, 2024.',
+    year: '2024',
   },
   {
     src: `${P}/fashion/aafw1.webp`,
-    title: 'AAFW Erik Yvon Show',
+    title: 'Afterpay Australian Fashion Week Erik Yvon Show',
     category: 'fashion',
     curated: true,
     role: 'Photography',
-    description: 'Backstage and runway at the Erik Yvon show, Australian Aboriginal Fashion Week.',
+    description: 'Backstage and runway at the Erik Yvon show, Afterpay Australian Fashion Week.',
     year: '2023',
   },
   {
@@ -96,6 +99,7 @@ const photos: Photo[] = [
     category: 'fashion',
     curated: true,
     role: 'Campaign Photography',
+    description: 'Independent fashion brand featuring the Hypnotica handbags.',
     year: '2022',
   },
   {
@@ -191,7 +195,8 @@ const photos: Photo[] = [
     title: 'Brown Suga Princess',
     category: 'portraits',
     curated: true,
-    description: 'Portrait of Brown Suga Princess.',
+    descriptionHtml:
+      'Portrait of <a href="https://www.instagram.com/brown.suga.princess/" target="_blank" rel="noopener noreferrer">Ria</a>.',
   },
 
   // ═══ FASHION ADDITIONAL (grouped by project) ═══
@@ -211,7 +216,7 @@ const photos: Photo[] = [
     title: 'Purgatory',
     category: 'fashion',
     role: 'Fashion Photography, Casting',
-    description: 'Starring Mia Kidis from Stone Street Agency.',
+    description: 'Starring Mia Kidis from Stone Street Agency. VHS stills.',
     year: '2022',
   },
   {
@@ -219,7 +224,7 @@ const photos: Photo[] = [
     title: 'Purgatory',
     category: 'fashion',
     role: 'Fashion Photography, Casting',
-    description: 'Starring Mia Kidis from Stone Street Agency.',
+    description: 'Starring Mia Kidis from Stone Street Agency. VHS stills.',
     year: '2022',
   },
   // — Akshaya
@@ -263,18 +268,18 @@ const photos: Photo[] = [
       "Street View: Parramatta.\nA street style documentary for Refinery29's series capturing the fashion identity of Sydney's western cultural hub.",
     year: '2022',
   },
-  // — Lia x S
+  // — LIAXS
   {
     src: `${P}/fashion/liaxs1.webp`,
-    title: 'Lia x S',
+    title: 'LIAXS',
     category: 'fashion',
-    description: 'Editorial for Lia x S.',
+    description: 'Editorial for LIAXS. Independent fashion brand.',
   },
   {
     src: `${P}/fashion/liaxs2.webp`,
-    title: 'Lia x S',
+    title: 'LIAXS',
     category: 'fashion',
-    description: 'Editorial for Lia x S.',
+    description: 'Editorial for LIAXS. Independent fashion brand.',
   },
   // — FLUX
   {
@@ -282,6 +287,7 @@ const photos: Photo[] = [
     title: 'FLUX',
     category: 'fashion',
     role: 'Campaign Photography',
+    description: 'Independent fashion brand featuring the Hypnotica handbags.',
     year: '2022',
   },
   {
@@ -289,6 +295,7 @@ const photos: Photo[] = [
     title: 'FLUX',
     category: 'fashion',
     role: 'Campaign Photography',
+    description: 'Independent fashion brand featuring the Hypnotica handbags.',
     year: '2022',
   },
   {
@@ -296,6 +303,7 @@ const photos: Photo[] = [
     title: 'FLUX',
     category: 'fashion',
     role: 'Campaign Photography',
+    description: 'Independent fashion brand featuring the Hypnotica handbags.',
     year: '2022',
   },
   // (aafw2 polaroid collage removed)
@@ -313,19 +321,22 @@ const photos: Photo[] = [
     title: 'Foushee for Acclaim Magazine',
     category: 'portraits',
     role: 'Photography',
-    description: 'Polaroid portraits of Foushee, shot for Acclaim Magazine.',
+    descriptionHtml:
+      'Polaroid portraits of Foushee, shot for <a href="https://acclaimmag.com/music/foushee-on-unpacking-her-feminine-rage/" target="_blank" rel="noopener noreferrer">Acclaim Magazine</a>.',
   },
   {
     src: `${P}/portraits/anabel.webp`,
-    title: 'Anabel',
+    title: 'Anabel Burrows',
     category: 'portraits',
-    description: 'Portrait in the Swiss Alps.',
+    descriptionHtml:
+      'Portrait of <a href="https://www.instagram.com/anabelburrows/" target="_blank" rel="noopener noreferrer">Anabel Burrows</a>.',
   },
   {
     src: `${P}/portraits/nimrit-kaur.webp`,
     title: 'Nimrit Kaur',
     category: 'portraits',
-    description: 'Portrait of Nimrit Kaur.',
+    descriptionHtml:
+      'Portrait of my sister, <a href="https://www.instagram.com/yoloswagnim/" target="_blank" rel="noopener noreferrer">Nimrit Kaur</a>.',
   },
   {
     src: `${P}/portraits/club-selects4.webp`,
@@ -337,25 +348,27 @@ const photos: Photo[] = [
     src: `${P}/portraits/cherry-chola2.webp`,
     title: 'Cherry Chola',
     category: 'portraits',
-    description: 'Portrait of Cherry Chola.',
+    description: 'Mirror reflection, club night on 35mm film.',
   },
   {
     src: `${P}/portraits/club-selects3.webp`,
     title: 'Club Selects',
     category: 'portraits',
-    description: 'Mirror reflection, club night on 35mm film.',
+    description: 'Club night portrait.',
   },
   {
     src: `${P}/portraits/mia-dennis1.webp`,
     title: 'Mia Dennis',
     category: 'portraits',
-    description: 'Portrait of Mia Dennis.',
+    descriptionHtml:
+      'Portrait of <a href="https://www.instagram.com/succubusmami/" target="_blank" rel="noopener noreferrer">Mia Dennis</a>.',
   },
   {
     src: `${P}/portraits/mia-dennis2.webp`,
     title: 'Mia Dennis',
     category: 'portraits',
-    description: 'Portrait of Mia Dennis.',
+    descriptionHtml:
+      'Portrait of <a href="https://www.instagram.com/succubusmami/" target="_blank" rel="noopener noreferrer">Mia Dennis</a>.',
   },
   {
     src: `${P}/portraits/celina.webp`,
@@ -367,19 +380,22 @@ const photos: Photo[] = [
     src: `${P}/portraits/brown-suga2.webp`,
     title: 'Brown Suga Princess',
     category: 'portraits',
-    description: 'Portrait of Brown Suga Princess.',
+    descriptionHtml:
+      'Portrait of <a href="https://www.instagram.com/brown.suga.princess/" target="_blank" rel="noopener noreferrer">Ria</a>.',
   },
   {
     src: `${P}/portraits/brown-suga3.webp`,
     title: 'Brown Suga Princess',
     category: 'portraits',
-    description: 'Portrait of Brown Suga Princess.',
+    descriptionHtml:
+      'Portrait of <a href="https://www.instagram.com/brown.suga.princess/" target="_blank" rel="noopener noreferrer">Ria</a>.',
   },
   {
     src: `${P}/portraits/yasmine.webp`,
     title: 'Yasmine for Pushmag',
     category: 'portraits',
-    description: 'Portrait of Yasmine, shot for Pushmag.',
+    descriptionHtml:
+      'Portrait of Yasmine Keong (makeup artist). Photographed for <a href="https://www.pushmagsydney.com/" target="_blank" rel="noopener noreferrer">Pushmag</a>\u2019s 6th issue.',
   },
   {
     src: `${P}/portraits/cherry-chola.webp`,
@@ -391,7 +407,8 @@ const photos: Photo[] = [
     src: `${P}/portraits/min-wong.webp`,
     title: 'Min Wong',
     category: 'portraits',
-    description: 'Portrait of Min Wong.',
+    descriptionHtml:
+      'Portrait of <a href="https://www.minwong.com/about" target="_blank" rel="noopener noreferrer">Min Wong</a>, renowned Australian sculpture and installation artist.',
   },
   {
     src: `${P}/portraits/kuta-beach.webp`,
@@ -409,13 +426,15 @@ const photos: Photo[] = [
     src: `${P}/portraits/thandi.webp`,
     title: 'Thandi',
     category: 'portraits',
-    description: 'Portrait of Thandi.',
+    descriptionHtml:
+      'Press photography of <a href="https://www.instagram.com/thqndi/" target="_blank" rel="noopener noreferrer">Thandi</a> for an upcoming song release.',
   },
   {
     src: `${P}/portraits/ruger.webp`,
     title: 'Ruger for Acclaim Magazine',
     category: 'portraits',
-    description: 'Portrait of Ruger, shot for Acclaim Magazine.',
+    descriptionHtml:
+      'Portrait of <a href="https://acclaimmag.com/music/ruger-and-the-second-wave-of-afrobeats/" target="_blank" rel="noopener noreferrer">Ruger</a>, shot for Acclaim Magazine.',
   },
   {
     src: `${P}/event/fragile-minds.webp`,
@@ -432,7 +451,7 @@ const photos: Photo[] = [
 
   // ═══ EVENT ═══
   // Note: 1 curated event (office-aafw-great) comes first in filter, so 3 items here complete row 1
-  // Row 1 (cols 2-4, col 1 is curated): Planet Abundance + Office AAFW + Club
+  // Row 1 (cols 2-4, col 1 is curated): Planet Abundance + Office AAFW afterparty + Club
   {
     src: `${P}/event/planet-abundance.webp`,
     title: 'Planet Abundance',
@@ -447,15 +466,16 @@ const photos: Photo[] = [
   },
   {
     src: `${P}/event/office-aafw.webp`,
-    title: 'Office Magazine AAFW',
+    title: 'Office Magazine Afterpay Australian Fashion Week',
     category: 'event',
-    description: 'Event coverage for Office Magazine at AAFW.',
+    description:
+      'Event coverage for Office Magazine for the Afterpay Australian Fashion Week afterparty, 2024.',
   },
   {
     src: `${P}/event/club5.webp`,
     title: 'Club Selects',
     category: 'event',
-    description: 'Club night photography on 35mm film.',
+    description: 'Club night in Bali, Indonesia.',
   },
   // Club highlights
   {
@@ -496,32 +516,43 @@ const photos: Photo[] = [
     src: `${P}/event/diwali-ph2.webp`,
     title: 'Diwali at Powerhouse',
     category: 'event',
-    description: 'Diwali celebrations at Powerhouse Museum Castle Hill.',
+    role: 'Event Photography',
+    description:
+      'Commissioned by Powerhouse Museum for the official Diwali program at Powerhouse Castle Hill, October 2025. Delivered in collaboration with the Consulate General of India, Sydney and the Swami Vivekananda Cultural Centre.',
+    year: '2025',
   },
   {
     src: `${P}/event/diwali11.webp`,
     title: 'Diwali at Powerhouse',
     category: 'event',
-    description: 'Diwali celebrations at Powerhouse Museum Castle Hill.',
+    role: 'Event Photography',
+    description:
+      'Commissioned by Powerhouse Museum for the official Diwali program at Powerhouse Castle Hill, October 2025. Delivered in collaboration with the Consulate General of India, Sydney and the Swami Vivekananda Cultural Centre.',
+    year: '2025',
   },
   {
     src: `${P}/event/diwali63.webp`,
     title: 'Diwali at Powerhouse',
     category: 'event',
-    description: 'Diwali celebrations at Powerhouse Museum Castle Hill.',
+    role: 'Event Photography',
+    description:
+      'Commissioned by Powerhouse Museum for the official Diwali program at Powerhouse Castle Hill, October 2025. Delivered in collaboration with the Consulate General of India, Sydney and the Swami Vivekananda Cultural Centre.',
+    year: '2025',
   },
-  // Remaining event + editorial
+  // Row 4 remaining
   {
     src: `${P}/event/office-aafw3.webp`,
-    title: 'Office Magazine AAFW',
+    title: 'Office Magazine Afterpay Australian Fashion Week',
     category: 'event',
-    description: 'Event coverage for Office Magazine at AAFW.',
+    description:
+      'Event coverage for Office Magazine for the Afterpay Australian Fashion Week afterparty, 2024.',
   },
   {
     src: `${P}/event/office-aafw6.webp`,
-    title: 'Office Magazine AAFW',
+    title: 'Office Magazine Afterpay Australian Fashion Week',
     category: 'event',
-    description: 'Event coverage for Office Magazine at AAFW.',
+    description:
+      'Event coverage for Office Magazine for the Afterpay Australian Fashion Week afterparty, 2024.',
   },
   {
     src: `${P}/event/club13.webp`,
@@ -529,81 +560,7 @@ const photos: Photo[] = [
     category: 'event',
     description: 'Club night photography on 35mm film.',
   },
-  {
-    src: `${P}/event/office-aafw5.webp`,
-    title: 'Office Magazine AAFW',
-    category: 'event',
-    description: 'Event coverage for Office Magazine at AAFW.',
-  },
-  {
-    src: `${P}/event/club6.webp`,
-    title: 'Club Selects',
-    category: 'event',
-    description: 'Club night photography on 35mm film.',
-  },
-  {
-    src: `${P}/event/club9.webp`,
-    title: 'Club Selects',
-    category: 'event',
-    description: 'Club night photography on 35mm film.',
-  },
-  {
-    src: `${P}/event/office-aafw4.webp`,
-    title: 'Office Magazine AAFW',
-    category: 'event',
-    description: 'Event coverage for Office Magazine at AAFW.',
-  },
-  {
-    src: `${P}/event/club12.webp`,
-    title: 'Club Selects',
-    category: 'event',
-    description: 'Club night photography on 35mm film.',
-  },
-  {
-    src: `${P}/event/club-chrome.webp`,
-    title: 'Club Chrome',
-    category: 'event',
-    description: 'Club Chrome event photography.',
-  },
-  {
-    src: `${P}/event/mias-birthday.webp`,
-    title: "Mia's Birthday",
-    category: 'event',
-    description: 'Birthday celebration for Mia.',
-  },
-  {
-    src: `${P}/event/club16.webp`,
-    title: 'Club Selects',
-    category: 'event',
-    description: 'Club night photography on 35mm film.',
-  },
-  {
-    src: `${P}/event/club17.webp`,
-    title: 'Club Selects',
-    category: 'event',
-    description: 'Club night photography on 35mm film.',
-  },
-  // Tamanna the Label
-  {
-    src: `${P}/event/tamanna-label1.webp`,
-    title: 'Tamanna the Label',
-    category: 'event',
-    description: 'Tamanna the Label "Come As You Are" event.',
-  },
-  {
-    src: `${P}/event/tamanna-label2.webp`,
-    title: 'Tamanna the Label',
-    category: 'event',
-    description: 'Tamanna the Label "Come As You Are" event.',
-  },
-  // Swanky Array
-  {
-    src: `${P}/event/swanky-array.webp`,
-    title: 'Swanky Array',
-    category: 'event',
-    description: 'Club night photography on 35mm film.',
-  },
-  // Blacktown Arts dance battle
+  // Row 5: Blacktown Arts dance battle
   {
     src: `${P}/event/blacktown-arts-battle.webp`,
     title: 'Blacktown Arts Dance Battle',
@@ -628,15 +585,88 @@ const photos: Photo[] = [
     category: 'event',
     description: 'DJs at Blacktown Arts Centre.',
   },
-  // Ayebatonye
+  // Row 6
   {
-    src: `${P}/event/ayebatonye.webp`,
-    title: 'Ayebatonye',
+    src: `${P}/event/office-aafw5.webp`,
+    title: 'Office Magazine Afterpay Australian Fashion Week',
+    category: 'event',
+    description:
+      'Event coverage for Office Magazine for the Afterpay Australian Fashion Week afterparty, 2024.',
+  },
+  {
+    src: `${P}/event/club6.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  {
+    src: `${P}/event/club9.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  {
+    src: `${P}/event/office-aafw4.webp`,
+    title: 'Office Magazine Afterpay Australian Fashion Week',
+    category: 'event',
+    description:
+      'Event coverage for Office Magazine for the Afterpay Australian Fashion Week afterparty, 2024.',
+  },
+  // Row 7
+  {
+    src: `${P}/event/club12.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  {
+    src: `${P}/event/club-chrome.webp`,
+    title: 'Club Chrome',
+    category: 'event',
+    description: 'Club Chrome event photography.',
+  },
+  {
+    src: `${P}/event/mias-birthday.webp`,
+    title: "Mia's Birthday",
+    category: 'event',
+    description: 'Birthday celebration for Mia at a house party.',
+  },
+  {
+    src: `${P}/event/club16.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  // Row 8
+  {
+    src: `${P}/event/club17.webp`,
+    title: 'Club Selects',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  // Tamanna the Label
+  {
+    src: `${P}/event/tamanna-label1.webp`,
+    title: 'Tamanna the Label',
     category: 'event',
     descriptionHtml:
-      '<a href="https://www.instagram.com/ayebatonye__/" target="_blank" rel="noopener noreferrer">Ayebatonye</a> at an ARIA Awards after-party.',
+      'Event celebrating <a href="https://www.instagram.com/tamannathelabel_/" target="_blank" rel="noopener noreferrer">Tamanna the Label</a>\u2019s new fashion launch.',
   },
-  // Wedding (bottom rows)
+  {
+    src: `${P}/event/tamanna-label2.webp`,
+    title: 'Tamanna the Label',
+    category: 'event',
+    descriptionHtml:
+      'Event celebrating <a href="https://www.instagram.com/tamannathelabel_/" target="_blank" rel="noopener noreferrer">Tamanna the Label</a>\u2019s new fashion launch.',
+  },
+  // Swanky Array
+  {
+    src: `${P}/event/swanky-array.webp`,
+    title: 'Swanky Array',
+    category: 'event',
+    description: 'Club night photography on 35mm film.',
+  },
+  // Row 9: Ricky Nicole Wedding (all 4 together)
   {
     src: `${P}/event/wedding87.webp`,
     title: 'Ricky Nicole Wedding',
@@ -660,6 +690,14 @@ const photos: Photo[] = [
     title: 'Ricky Nicole Wedding',
     category: 'event',
     description: 'Wedding photography for Ricky and Nicole.',
+  },
+  // Ayebatonye
+  {
+    src: `${P}/event/ayebatonye.webp`,
+    title: 'Ayebatonye',
+    category: 'event',
+    descriptionHtml:
+      '<a href="https://www.instagram.com/ayebatonye__/" target="_blank" rel="noopener noreferrer">Ayebatonye</a> at an ARIA Awards after-party.',
   },
 
   // ═══ LIFE ADDITIONAL ═══

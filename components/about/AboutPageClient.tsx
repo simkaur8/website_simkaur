@@ -19,7 +19,7 @@ export function AboutPageClient({ settings }: AboutPageClientProps) {
       <div className="mb-12 cursor-pointer" onClick={() => setBoothOpen(true)}>
         <AboutBio
           bio={settings?.bio}
-          email={settings?.email || 'sim@simkaur.art'}
+          email={settings?.email || 'simtheaquarius@gmail.com'}
           socialLinks={settings?.socialLinks}
         />
       </div>

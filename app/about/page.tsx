@@ -29,7 +29,7 @@ export default function AboutPage() {
       <PersonJsonLd />
       <AboutWithDiary />
       <Footer
-        email="sim@simkaur.art"
+        email="simtheaquarius@gmail.com"
         socialLinks={[
           { platform: 'Instagram', url: 'https://www.instagram.com/s1mkaur/' },
           { platform: 'Vimeo', url: 'https://vimeo.com/user197917349' },

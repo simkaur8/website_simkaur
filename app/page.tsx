@@ -29,7 +29,7 @@ export default function HomePage() {
       />
       <VortexGallery />
       <Footer
-        email="sim@simkaur.art"
+        email="simtheaquarius@gmail.com"
         footerCta="Get in touch"
         socialLinks={[
           { platform: 'Instagram', url: 'https://www.instagram.com/s1mkaur/' },

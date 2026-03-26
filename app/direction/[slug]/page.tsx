@@ -78,7 +78,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     <>
       <StaticProjectDetail project={staticProject} />
       <Footer
-        email="sim@simkaur.art"
+        email="simtheaquarius@gmail.com"
         footerCta="Get in touch"
         socialLinks={[
           { platform: 'Instagram', url: 'https://www.instagram.com/s1mkaur/' },
