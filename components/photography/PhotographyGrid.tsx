@@ -290,6 +290,16 @@ const photos: Photo[] = [
     description: 'Independent fashion brand featuring the Hypnotica handbags.',
     year: '2022',
   },
+  // — Refinery29 (additional)
+  {
+    src: `${P}/fashion/ref29-parra3.webp`,
+    title: 'Refinery29',
+    category: 'fashion',
+    role: 'Photography, Casting',
+    description:
+      "Street View: Parramatta.\nA street style documentary for Refinery29's series capturing the fashion identity of Sydney's western cultural hub.",
+    year: '2022',
+  },
   {
     src: `${P}/fashion/flux2.webp`,
     title: 'FLUX',
@@ -297,6 +307,13 @@ const photos: Photo[] = [
     role: 'Campaign Photography',
     description: 'Independent fashion brand featuring the Hypnotica handbags.',
     year: '2022',
+  },
+  // — Snakes and Shanti (additional)
+  {
+    src: `${P}/fashion/snakes-shanti.webp`,
+    title: 'Snakes and Shanti',
+    category: 'fashion',
+    description: 'Editorial for Snakes and Shanti.',
   },
   {
     src: `${P}/fashion/flux-polaroid2.webp`,
@@ -306,7 +323,6 @@ const photos: Photo[] = [
     description: 'Independent fashion brand featuring the Hypnotica handbags.',
     year: '2022',
   },
-  // (aafw2 polaroid collage removed)
 
   // ═══ PORTRAITS ADDITIONAL ═══
   {
@@ -454,12 +470,6 @@ const photos: Photo[] = [
   // Row 1 (cols 2-4, col 1 is curated): Planet Abundance + Office AAFW afterparty + Club
   {
     src: `${P}/event/planet-abundance.webp`,
-    title: 'Planet Abundance',
-    category: 'event',
-    description: 'Event coverage at Planet Abundance.',
-  },
-  {
-    src: `${P}/event/planet-abundance2.webp`,
     title: 'Planet Abundance',
     category: 'event',
     description: 'Event coverage at Planet Abundance.',

@@ -19,10 +19,10 @@ const generalSans = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL('https://simkaur.art'),
   title: {
-    default: 'Sim Kaur | Creative Direction: Video / Photo',
+    default: 'Sim Kaur | Creative Direction',
     template: '%s | Sim Kaur',
   },
-  description: 'Sim Kaur | Creative Direction: Video / Photo',
+  description: 'Sim Kaur | Creative Direction',
   keywords: [
     'Sim Kaur',
     'creative director',

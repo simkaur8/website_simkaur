@@ -18,6 +18,13 @@ interface DiaryClip {
 
 const diaryClips: DiaryClip[] = [
   {
+    id: 'reem',
+    label: 'Reem & Roshan',
+    type: 'local',
+    src: '/videos/diary-reem-roshan.mp4',
+    thumb: '/images/about/diary/nani-thumb.jpg',
+  },
+  {
     id: 'paradise',
     label: 'Paradise Pool Birthday Hike 2025',
     type: 'youtube',
@@ -30,13 +37,6 @@ const diaryClips: DiaryClip[] = [
     type: 'youtube',
     src: 'p2EMqBIaSpY',
     thumb: 'https://img.youtube.com/vi/p2EMqBIaSpY/hqdefault.jpg',
-  },
-  {
-    id: 'reem',
-    label: 'Reem & Roshan',
-    type: 'local',
-    src: '/videos/diary-reem-roshan.mp4',
-    thumb: '/images/about/diary/nani-thumb.jpg',
   },
   {
     id: 'vhs',

@@ -105,10 +105,10 @@ export function HeroSection({ logoWebmUrl, logoMp4Url, showreelUrl }: HeroSectio
           SIM KAUR
         </h1>
         <p
-          className="font-medium uppercase tracking-[0.18em]"
+          className="text-center font-medium uppercase tracking-[0.18em]"
           style={{ fontSize: 'var(--text-base)', color: '#ffffff' }}
         >
-          Creative Direction: Video / Photo
+          Creative Direction
         </p>
       </motion.div>
 

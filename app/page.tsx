@@ -6,13 +6,13 @@ import { WebsiteJsonLd } from '@/components/seo/WebsiteJsonLd'
 import { PersonJsonLd } from '@/components/seo/PersonJsonLd'
 
 export const metadata: Metadata = {
-  title: 'Sim Kaur | Creative Direction: Video / Photo',
+  title: 'Sim Kaur | Creative Direction',
   description:
-    'Sim Kaur: Creative Direction, Video and Photo. Fashion Film Director, Music Video Director, and Photographer based in Sydney. Watch the showreel and explore fashion films, dance films, and music videos.',
+    'Sim Kaur: Creative Direction. Fashion Film Director, Music Video Director, and Photographer based in Sydney. Watch the showreel and explore fashion films, dance films, and music videos.',
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'Sim Kaur | Creative Direction: Video / Photo',
-    description: 'Sim Kaur | Creative Direction: Video / Photo',
+    title: 'Sim Kaur | Creative Direction',
+    description: 'Sim Kaur | Creative Direction',
     url: 'https://simkaur.art',
   },
 }
