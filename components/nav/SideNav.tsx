@@ -2,7 +2,7 @@
 
 import { Fragment, useSyncExternalStore } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { LogoVideo } from './LogoVideo'
 
@@ -11,6 +11,12 @@ const navLinks = [
   { href: '/photography', label: 'Photo' },
   { href: '/exhibitions', label: 'Exhibitions' },
   { href: '/about', label: 'About' },
+]
+
+const videoSubLinks = [
+  { href: '/direction', label: 'All', filter: null },
+  { href: '/direction?filter=fashion-dance', label: 'Fashion & Dance', filter: 'fashion-dance' },
+  { href: '/direction?filter=music-video', label: 'Music Videos', filter: 'music-video' },
 ]
 
 function getScrollPastHero() {
@@ -25,7 +31,10 @@ function subscribeScroll(callback: () => void) {
 
 export function SideNav() {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
   const isHome = pathname === '/'
+  const isVideoSection = pathname.startsWith('/direction')
+  const activeFilter = searchParams.get('filter') ?? null
   const scrolledPastHero = useSyncExternalStore(subscribeScroll, getScrollPastHero, () => false)
 
   const visible = isHome ? scrolledPastHero : true
@@ -39,7 +48,7 @@ export function SideNav() {
           : 'opacity-0 -translate-x-5 pointer-events-none'
       )}
     >
-      <Link href="/" aria-label="Home" className="mb-10">
+      <Link href="/" aria-label="Home" className="mb-10 logo-fadein">
         <LogoVideo webmSrc="/videos/logo.webm" mp4Src="/videos/logo.mp4" className="w-[150px]" />
       </Link>
 
@@ -58,6 +67,29 @@ export function SideNav() {
               >
                 {link.label}
               </Link>
+              {link.href === '/direction' && isVideoSection && (
+                <ul className="mt-2 flex flex-col gap-1.5 pl-3">
+                  {videoSubLinks.map((sub) => {
+                    const isActive = activeFilter === sub.filter
+                    return (
+                      <li key={sub.href}>
+                        <Link
+                          href={sub.href}
+                          style={{ fontSize: 'clamp(0.7rem, 0.65rem + 0.2vw, 0.8rem)' }}
+                          className={cn(
+                            'uppercase tracking-widest transition-colors duration-[var(--duration-fast)]',
+                            isActive
+                              ? 'text-[var(--text-primary)] font-medium'
+                              : 'text-[var(--text-muted)] hover:text-[var(--text-secondary)]'
+                          )}
+                        >
+                          {sub.label}
+                        </Link>
+                      </li>
+                    )
+                  })}
+                </ul>
+              )}
             </li>
           </Fragment>
         ))}

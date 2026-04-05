@@ -392,7 +392,7 @@ export const staticProjects: StaticProject[] = [
     title: 'Pravaah ft. Anjana Chandran',
     meta: 'Experimental Dance Film, 2023',
     role: 'Direction, Cinematography & Edit',
-    thumbnail: '/images/vortex/pravaah2.webp',
+    thumbnail: '/images/vortex/pravaah1.webp',
     category: 'fashion-dance',
     year: 2023,
     description:
@@ -500,8 +500,6 @@ export const staticProjects: StaticProject[] = [
     ],
     credits: [{ role: 'Direction, Cinematography & Edit', name: 'Sim Kaur' }],
     video: { platform: 'youtube', id: 'qOVkUAOt3XQ' },
-    comingSoon: true,
-    hideFromAll: true,
   },
   {
     slug: 'pages',

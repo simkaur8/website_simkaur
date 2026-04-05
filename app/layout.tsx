@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+import { Suspense } from 'react'
 import './globals.css'
 import { Providers } from './providers'
 import { SideNav } from '@/components/nav/SideNav'
@@ -77,7 +78,9 @@ export default function RootLayout({
           Skip to content
         </a>
         <Providers>
-          <SideNav />
+          <Suspense fallback={null}>
+            <SideNav />
+          </Suspense>
           <MobileNav />
           <div className="fixed left-4 top-5 z-40 rounded-full bg-[var(--bg-primary)]/60 backdrop-blur-sm lg:left-auto lg:right-4">
             <ThemeToggle />
