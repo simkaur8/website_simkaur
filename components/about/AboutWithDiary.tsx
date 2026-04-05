@@ -26,7 +26,7 @@ export function AboutWithDiary() {
             <source srcSet="/images/about/portrait.webp" type="image/webp" />
             <img
               src="/images/about/portrait.jpg"
-              alt="Simrat Kaur"
+              alt="Sim Kaur"
               className="h-full w-full object-cover"
               loading="eager"
             />

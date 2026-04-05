@@ -6,6 +6,7 @@
 export interface Credit {
   role: string
   name: string
+  nameHtml?: string
 }
 
 export interface StaticProject {
@@ -16,6 +17,7 @@ export interface StaticProject {
   year: number
   description: string
   synopsis?: string[]
+  synopsisHtml?: string[]
   credits?: Credit[]
   galleryCount?: number
   galleryImages?: string[]
@@ -47,32 +49,125 @@ export const staticProjects: StaticProject[] = [
       'A small crew hypes a casual battle between the couple. Rome throws the first call, Aaliyah answers, each round an energetic exchange that escalates from playful competition, to charged battle, to confession. Their chemistry flips competition into conversation: receiving, reimagining, returning, then dancing together. Paying homage to Aaliyah & Rome\u2019s talent, their love, and the energy of dance battles + community here in Syd through fashion and film.',
     ],
     credits: [
-      { role: 'Choreographed by & Starring', name: 'Aaliyah Paea, Rome Champion' },
-      { role: 'Direction', name: 'Simrat Kaur' },
-      { role: 'Producers', name: 'Molly Kyriakidis-Costello, Holly Peakman' },
-      { role: 'Movement Direction', name: 'Jamane Virdo' },
-      { role: 'Cinematography', name: 'Cameron Johnson' },
-      { role: 'Steadicam', name: 'Matthew Shanks' },
-      { role: 'Gaffer', name: 'Will Bush' },
-      { role: 'Camera', name: 'Nicholas Severino' },
-      { role: 'Assistant Camera', name: 'John Carlo Acierda' },
+      {
+        role: 'Choreographed by & Starring',
+        name: 'Aaliyah Paea, Rome Champion',
+        nameHtml:
+          '<a href="https://www.instagram.com/aaliyahpaea/" target="_blank" rel="noopener noreferrer">Aaliyah Paea</a>, <a href="https://www.instagram.com/romechampion/" target="_blank" rel="noopener noreferrer">Rome Champion</a>',
+      },
+      {
+        role: 'Direction',
+        name: 'Sim Kaur',
+        nameHtml:
+          '<a href="https://www.instagram.com/s1mkaur/" target="_blank" rel="noopener noreferrer">Sim Kaur</a>',
+      },
+      {
+        role: 'Producers',
+        name: 'Molly Kyriakidis-Costello, Holly Peakman',
+        nameHtml:
+          '<a href="https://www.instagram.com/molly_ck/" target="_blank" rel="noopener noreferrer">Molly Kyriakidis-Costello</a>, <a href="https://www.instagram.com/hollymiaclose/" target="_blank" rel="noopener noreferrer">Holly Peakman</a>',
+      },
+      {
+        role: 'Movement Direction',
+        name: 'Jamane Virdo',
+        nameHtml:
+          '<a href="https://www.instagram.com/jamanevirdo/" target="_blank" rel="noopener noreferrer">Jamane Virdo</a>',
+      },
+      {
+        role: 'Cinematography',
+        name: 'Cameron Johnson',
+        nameHtml:
+          '<a href="https://cameronjohnsondop.com/" target="_blank" rel="noopener noreferrer">Cameron Johnson</a>',
+      },
+      {
+        role: 'Steadicam',
+        name: 'Matthew Shanks',
+        nameHtml:
+          '<a href="https://www.instagram.com/shanksy.steadi/" target="_blank" rel="noopener noreferrer">Matthew Shanks</a>',
+      },
+      {
+        role: 'Gaffer',
+        name: 'Will Bush',
+        nameHtml:
+          '<a href="https://www.instagram.com/bill_wush/" target="_blank" rel="noopener noreferrer">Will Bush</a>',
+      },
+      {
+        role: 'Camera',
+        name: 'Nicholas Severino',
+        nameHtml:
+          '<a href="https://www.instagram.com/datmfnick/" target="_blank" rel="noopener noreferrer">Nicholas Severino</a>',
+      },
+      {
+        role: 'Assistant Camera',
+        name: 'John Carlo Acierda',
+        nameHtml:
+          '<a href="https://www.instagram.com/_jcvx/" target="_blank" rel="noopener noreferrer">John Carlo Acierda</a>',
+      },
       {
         role: 'Dancers',
         name: 'Angelique Van Jour, Jayde Albulario, Julie Thompson, Kailan Teneti, Marcya Fugawai, Roland Gomes, Samuel Chan, Yu Kato',
       },
-      { role: 'Stylists', name: 'Hazel Sherritt, Jaidyn Bowden' },
-      { role: 'Sound Design', name: 'Luke Fuller' },
-      { role: 'Sound Mix', name: 'Issa Tejima' },
+      {
+        role: 'Stylists',
+        name: 'Hazel Sherritt, Jaidyn Taylah',
+        nameHtml:
+          '<a href="https://www.instagram.com/hazelsherritt/" target="_blank" rel="noopener noreferrer">Hazel Sherritt</a>, <a href="https://www.instagram.com/jaidyntaylah/" target="_blank" rel="noopener noreferrer">Jaidyn Taylah</a>',
+      },
+      {
+        role: 'Sound Design',
+        name: 'Luke Fuller',
+        nameHtml:
+          '<a href="https://www.instagram.com/lukeafuller/" target="_blank" rel="noopener noreferrer">Luke Fuller</a>',
+      },
+      {
+        role: 'Sound Mix',
+        name: 'Issa Tejima',
+        nameHtml:
+          '<a href="https://www.instagram.com/issa_____t/" target="_blank" rel="noopener noreferrer">Issa Tejima</a>',
+      },
       {
         role: 'Music',
         name: 'Dance Can\u2019t Dun (Ragz Originale ft John Glacier), Power (TellaX), Move (Dreamer Isioma), Trench Town (Gazthemad, SONNY)',
+        nameHtml:
+          'Dance Can\u2019t Dun (<a href="https://www.instagram.com/ragzoriginale/" target="_blank" rel="noopener noreferrer">Ragz Originale</a> ft <a href="https://www.instagram.com/johnglacier/" target="_blank" rel="noopener noreferrer">John Glacier</a>), Power (<a href="https://www.instagram.com/tellax.tm/" target="_blank" rel="noopener noreferrer">TellaX</a>), Move (<a href="https://www.instagram.com/dreamerisioma/" target="_blank" rel="noopener noreferrer">Dreamer Isioma</a>), Trench Town (<a href="https://www.instagram.com/gazthemad/" target="_blank" rel="noopener noreferrer">Gazthemad</a>, SONNY)',
       },
-      { role: 'Production Design', name: 'Renee Trinity Kypriotis' },
-      { role: 'Production Design Assist', name: 'Alice Ly' },
-      { role: 'Colourist', name: 'Liam Viray' },
+      {
+        role: 'Production Design',
+        name: 'Renee Trinity Kypriotis',
+        nameHtml:
+          '<a href="https://www.instagram.com/rne.e/" target="_blank" rel="noopener noreferrer">Renee Trinity Kypriotis</a>',
+      },
+      {
+        role: 'Production Design Assist',
+        name: 'Alice Ly',
+        nameHtml:
+          '<a href="https://www.instagram.com/_______________vyvy/" target="_blank" rel="noopener noreferrer">Alice Ly</a>',
+      },
+      {
+        role: 'Colourist',
+        name: 'Liam Viray',
+        nameHtml:
+          '<a href="https://www.liamviray.com/" target="_blank" rel="noopener noreferrer">Liam Viray</a>',
+      },
+      {
+        role: 'Graphic Design',
+        name: 'Laz Arroz',
+        nameHtml:
+          '<a href="https://www.instagram.com/laz_arroz_caldo_o/" target="_blank" rel="noopener noreferrer">Laz Arroz</a>',
+      },
       { role: 'On Set Medical', name: 'Paramjeet Dhillon' },
-      { role: 'Runners', name: 'Nimrit Kaur, Bianca Chatterjee' },
-      { role: 'Graffiti Artist', name: 'Misty' },
+      {
+        role: 'Runners',
+        name: 'Nimrit Kaur, Bianca Chatterjee',
+        nameHtml:
+          '<a href="https://www.instagram.com/yoloswagnim/" target="_blank" rel="noopener noreferrer">Nimrit Kaur</a>, <a href="https://www.instagram.com/biancachatterjeee/" target="_blank" rel="noopener noreferrer">Bianca Chatterjee</a>',
+      },
+      {
+        role: 'Graffiti Artist',
+        name: 'Misty',
+        nameHtml:
+          '<a href="https://www.instagram.com/_pro________tro_/" target="_blank" rel="noopener noreferrer">Misty</a>',
+      },
     ],
     galleryCount: 7,
     galleryImages: [
@@ -141,7 +236,7 @@ export const staticProjects: StaticProject[] = [
     synopsis: ['Dance fashion film starring Amanda Va.'],
     credits: [
       { role: 'Movement', name: 'Amanda Va' },
-      { role: 'Direction & Edit', name: 'Simrat Kaur' },
+      { role: 'Direction & Edit', name: 'Sim Kaur' },
       { role: 'Producer', name: 'Holly Peakman' },
       { role: 'Cinematography', name: 'Liam Viray' },
       { role: '1st AC', name: 'Gerard Cabellon' },
@@ -167,7 +262,7 @@ export const staticProjects: StaticProject[] = [
     credits: [
       { role: 'Artist', name: 'Dylan Atlantis' },
       { role: 'Talent', name: 'Cat Strat' },
-      { role: 'Direction', name: 'Simrat Kaur' },
+      { role: 'Direction', name: 'Sim Kaur' },
       { role: 'Producer', name: 'Jacinthe Lau' },
       { role: 'DOP', name: 'Jesse Campos' },
       { role: 'Editor', name: 'Zion Garcia' },
@@ -249,7 +344,7 @@ export const staticProjects: StaticProject[] = [
       'Inspired by the chaos of a circus, the film captures Jaya wearing Song for the Mute\u2019s Jester-inspired collection, blending playful energy with sharp choreography.',
     ],
     credits: [
-      { role: 'Direction', name: 'Simrat Kaur' },
+      { role: 'Direction', name: 'Sim Kaur' },
       { role: 'Cinematography', name: 'Max Dona' },
       { role: 'Sound Design', name: 'Jenny' },
       { role: 'Photography', name: 'Hameed' },
@@ -285,7 +380,7 @@ export const staticProjects: StaticProject[] = [
       'Dance fashion film starring Balinese street dancers Rory and Billy, in collaboration with fashion label Perks and Mini (P.A.M) x Nick Sethi. Shot at Kuta Beach Skatepark, Bali.',
     ],
     credits: [
-      { role: 'Direction, Cinematography & Edit', name: 'Simrat Kaur' },
+      { role: 'Direction, Cinematography & Edit', name: 'Sim Kaur' },
       { role: 'Starring', name: 'Rory, Billy' },
       { role: 'Styling', name: 'Hazel Sherritt' },
     ],
@@ -294,7 +389,7 @@ export const staticProjects: StaticProject[] = [
   },
   {
     slug: 'pravaah',
-    title: 'Pravaah',
+    title: 'Pravaah ft. Anjana Chandran',
     meta: 'Experimental Dance Film, 2023',
     role: 'Direction, cinematography & edit',
     thumbnail: '/images/vortex/pravaah2.webp',
@@ -307,7 +402,7 @@ export const staticProjects: StaticProject[] = [
       'Exhibited at Pari (ARI) Art Gallery, 2025.',
     ],
     credits: [
-      { role: 'Direction, Cinematography & Edit', name: 'Simrat Kaur' },
+      { role: 'Direction, Cinematography & Edit', name: 'Sim Kaur' },
       { role: 'Featuring', name: 'Anjana Chandran' },
     ],
     comingSoon: true,
@@ -316,18 +411,18 @@ export const staticProjects: StaticProject[] = [
   {
     slug: 'paris-in-sydney',
     title: 'Paris in Sydney',
-    meta: 'Dance Film',
+    meta: 'Dance Film, 2025',
     role: 'Direction',
     thumbnail: '/images/direction/thumbnails/paris-in-sydney.webp',
     category: 'fashion-dance',
-    year: 2024,
+    year: 2025,
     description:
       'Starring Paris Crossley, a London-based movement artist and popper. Shot entirely in one take. Cinematography by Max Dona.',
     synopsis: [
       'Starring Paris Crossley, a London-based movement artist and popper. Cinematography by Max Dona.',
     ],
     credits: [
-      { role: 'Direction', name: 'Simrat Kaur' },
+      { role: 'Direction', name: 'Sim Kaur' },
       { role: 'Starring', name: 'Paris Crossley' },
       { role: 'Cinematography', name: 'Max Dona' },
     ],
@@ -345,7 +440,7 @@ export const staticProjects: StaticProject[] = [
     description: 'Music video for JUPiTA.',
     synopsis: ['Music video for JUPiTA.'],
     credits: [
-      { role: 'Direction & Edit', name: 'Simrat Kaur' },
+      { role: 'Direction & Edit', name: 'Sim Kaur' },
       { role: 'Talent', name: 'CD' },
       { role: 'Producer', name: 'Holly Peakman' },
       { role: 'Cinematography', name: 'Alessia Chapman' },
@@ -356,23 +451,33 @@ export const staticProjects: StaticProject[] = [
   {
     slug: 'in-the-mood-for-love',
     title: 'In The Mood for Love',
-    meta: 'Church, 2025',
+    meta: 'Music Video, Church, 2025',
     role: 'Direction & edit',
     thumbnail: '/images/direction/thumbnails/in-the-mood-for-love.webp',
     category: 'music-video',
     year: 2025,
     description:
-      'Music video for New Zealand musician, Church. A black & white, movement-based film starring Iolanthe.',
-    synopsis: [
-      'Music video for New Zealand musician, Church. A black & white, movement-based film starring Iolanthe.',
+      'Music video for Aotearoa (New Zealand) based musician, Church. Choreography & movement direction by Min Bin. Cinematography by Lucca Bp.',
+    synopsisHtml: [
+      'Music video for Aotearoa (New Zealand) based musician, <a href="https://www.instagram.com/church___________/" target="_blank" rel="noopener noreferrer">Church</a>. Choreography & movement direction by <a href="https://www.instagram.com/minibin_/" target="_blank" rel="noopener noreferrer">Min Bin</a>. Cinematography by <a href="https://www.instagram.com/lucca.bp/" target="_blank" rel="noopener noreferrer">Lucca Bp</a>.',
     ],
     credits: [
-      { role: 'Direction & Edit', name: 'Simrat Kaur' },
+      { role: 'Direction & Edit', name: 'Sim Kaur' },
       { role: 'Starring', name: 'Iolanthe' },
-      { role: 'Cinematography', name: 'Lucca Bp' },
+      {
+        role: 'Cinematography',
+        name: 'Lucca Bp',
+        nameHtml:
+          '<a href="https://www.instagram.com/lucca.bp/" target="_blank" rel="noopener noreferrer">Lucca Bp</a>',
+      },
       { role: 'Steadicam', name: 'Markus Sternecker' },
       { role: 'Gaffer', name: 'Will Bush' },
-      { role: 'Movement Direction', name: 'Min Bin' },
+      {
+        role: 'Choreography & Movement Direction',
+        name: 'Min Bin',
+        nameHtml:
+          '<a href="https://www.instagram.com/minibin_/" target="_blank" rel="noopener noreferrer">Min Bin</a>',
+      },
     ],
     video: { platform: 'youtube', id: 'YFQ3muHQf_Y' },
     comingSoon: true,
@@ -380,7 +485,7 @@ export const staticProjects: StaticProject[] = [
   {
     slug: 'sabor-celestial',
     title: 'Sabor Celestial',
-    meta: 'Cherry Chola, 2025',
+    meta: 'Music Video, Cherry Chola, 2025',
     role: 'Direction, cinematography & edit',
     thumbnail: '/images/direction/thumbnails/sabor-celestial.webp',
     category: 'music-video',
@@ -390,7 +495,7 @@ export const staticProjects: StaticProject[] = [
     synopsis: [
       'Music video for Cherry Chola. Shot across Sydney and Colombia on Mac Photobooth and digicam.',
     ],
-    credits: [{ role: 'Direction, Cinematography & Edit', name: 'Simrat Kaur' }],
+    credits: [{ role: 'Direction, Cinematography & Edit', name: 'Sim Kaur' }],
     video: { platform: 'youtube', id: 'qOVkUAOt3XQ' },
     comingSoon: true,
     hideFromAll: true,
@@ -398,13 +503,16 @@ export const staticProjects: StaticProject[] = [
   {
     slug: 'pages',
     title: 'Pages',
-    meta: 'Thandi',
+    meta: 'Visualiser, Ms. Thandi, 2025',
     role: 'Direction',
     thumbnail: '/images/direction/thumbnails/pages.webp',
     category: 'music-video',
-    year: 2024,
-    description: 'Music video for Thandi.',
-    credits: [{ role: 'Direction', name: 'Simrat Kaur' }],
+    year: 2025,
+    description: 'Visualiser, shot on Super8 by Ben Norris.',
+    synopsisHtml: [
+      'Visualiser for <a href="https://www.instagram.com/thqndi/" target="_blank" rel="noopener noreferrer">Ms Thandi</a>, shot on Super8 by Ben Norris.',
+    ],
+    credits: [{ role: 'Direction', name: 'Sim Kaur' }],
     video: { platform: 'youtube', id: 'CInFC1yk5t8', aspect: '4 / 3' },
     comingSoon: true,
     hideFromAll: true,

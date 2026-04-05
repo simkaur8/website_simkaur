@@ -47,7 +47,8 @@ const photos: Photo[] = [
     category: 'fashion',
     curated: true,
     role: 'Campaign Photography',
-    description: "I'm Dying Inside, TikTok content series directed by Arundati Thandur.",
+    description:
+      "I'm Dying Inside, TikTok content series directed by Arundati Thandur. The campaign won a Webby Award for Best Social Content Series.",
     year: '2023',
   },
   {
@@ -55,7 +56,7 @@ const photos: Photo[] = [
     title: 'Donna Bertram',
     category: 'portraits',
     curated: true,
-    description: 'Portrait of Donna Bertram.',
+    description: 'Portrait of Donna Bertram, 2023, Sydney.',
   },
   {
     src: `${P}/portraits/loyle-carner.webp`,
@@ -64,21 +65,21 @@ const photos: Photo[] = [
     curated: true,
     role: 'Photography',
     descriptionHtml:
-      'Photographed for <a href="https://acclaimmag.com/music/loyle-carners-magnum-opus/" target="_blank" rel="noopener noreferrer">Acclaim Magazine</a>.',
+      'Photographed before his show at the Enmore Theatre, for his Hugo album tour in Australia. Shot for <a href="https://acclaimmag.com/music/loyle-carners-magnum-opus/" target="_blank" rel="noopener noreferrer">Acclaim Magazine</a>.',
     year: '2023',
   },
   {
     src: `${P}/event/office-aafw-great.webp`,
-    title: 'Office Magazine Afterpay Australian Fashion Week',
+    title: 'Office Magazine NYC x AAFW',
     category: 'event',
     curated: true,
     description:
-      'Event coverage for Office Magazine for the Afterpay Australian Fashion Week afterparty, 2024.',
+      "Event documentation/coverage for Office Magazine NYC's takeover of Club 77 for the Australian Fashion Week afterparty, 2024, Sydney.",
     year: '2024',
   },
   {
     src: `${P}/fashion/aafw1.webp`,
-    title: 'Afterpay Australian Fashion Week Erik Yvon Show',
+    title: 'Backstage at Erik Yvon (AFW)',
     category: 'fashion',
     curated: true,
     role: 'Photography',
@@ -476,10 +477,10 @@ const photos: Photo[] = [
   },
   {
     src: `${P}/event/office-aafw.webp`,
-    title: 'Office Magazine Afterpay Australian Fashion Week',
+    title: 'Office Magazine NYC x AAFW',
     category: 'event',
     description:
-      'Event coverage for Office Magazine for the Afterpay Australian Fashion Week afterparty, 2024.',
+      "Event documentation/coverage for Office Magazine NYC's takeover of Club 77 for the Australian Fashion Week afterparty, 2024, Sydney.",
   },
   {
     src: `${P}/event/club5.webp`,
@@ -552,17 +553,17 @@ const photos: Photo[] = [
   // Row 4 remaining
   {
     src: `${P}/event/office-aafw3.webp`,
-    title: 'Office Magazine Afterpay Australian Fashion Week',
+    title: 'Office Magazine NYC x AAFW',
     category: 'event',
     description:
-      'Event coverage for Office Magazine for the Afterpay Australian Fashion Week afterparty, 2024.',
+      "Event documentation/coverage for Office Magazine NYC's takeover of Club 77 for the Australian Fashion Week afterparty, 2024, Sydney.",
   },
   {
     src: `${P}/event/office-aafw6.webp`,
-    title: 'Office Magazine Afterpay Australian Fashion Week',
+    title: 'Office Magazine NYC x AAFW',
     category: 'event',
     description:
-      'Event coverage for Office Magazine for the Afterpay Australian Fashion Week afterparty, 2024.',
+      "Event documentation/coverage for Office Magazine NYC's takeover of Club 77 for the Australian Fashion Week afterparty, 2024, Sydney.",
   },
   {
     src: `${P}/event/club13.webp`,
@@ -598,10 +599,10 @@ const photos: Photo[] = [
   // Row 6
   {
     src: `${P}/event/office-aafw5.webp`,
-    title: 'Office Magazine Afterpay Australian Fashion Week',
+    title: 'Office Magazine NYC x AAFW',
     category: 'event',
     description:
-      'Event coverage for Office Magazine for the Afterpay Australian Fashion Week afterparty, 2024.',
+      "Event documentation/coverage for Office Magazine NYC's takeover of Club 77 for the Australian Fashion Week afterparty, 2024, Sydney.",
   },
   {
     src: `${P}/event/club6.webp`,
@@ -617,10 +618,10 @@ const photos: Photo[] = [
   },
   {
     src: `${P}/event/office-aafw4.webp`,
-    title: 'Office Magazine Afterpay Australian Fashion Week',
+    title: 'Office Magazine NYC x AAFW',
     category: 'event',
     description:
-      'Event coverage for Office Magazine for the Afterpay Australian Fashion Week afterparty, 2024.',
+      "Event documentation/coverage for Office Magazine NYC's takeover of Club 77 for the Australian Fashion Week afterparty, 2024, Sydney.",
   },
   // Row 7
   {
@@ -1044,13 +1045,17 @@ export function PhotographyGrid() {
                     photo.objectPosition ? { objectPosition: photo.objectPosition } : undefined
                   }
                 />
-                {/* Hover overlay with text */}
-                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                {/* Hover overlay with text — desktop only */}
+                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 max-sm:hidden">
                   <span className="text-[var(--text-base)] font-medium text-white">
                     {photo.title}
                   </span>
                 </div>
               </div>
+              {/* Mobile label below image */}
+              <p className="mt-2 text-[0.65rem] leading-tight tracking-wide text-white/70 sm:hidden">
+                {photo.title}
+              </p>
             </motion.div>
           ))}
         </AnimatePresence>

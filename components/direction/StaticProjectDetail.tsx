@@ -120,7 +120,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
       {/* Title + meta */}
       <RevealOnScroll>
         <div className="mb-12">
-          {!project.synopsis && (
+          {!project.synopsis && !project.synopsisHtml && (
             <p
               className="mb-3 uppercase tracking-[0.15em] text-[var(--text-muted)]"
               style={{ fontSize: 'var(--text-sm)' }}
@@ -373,28 +373,31 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
       )}
 
       {/* Synopsis + Credits */}
-      {(project.synopsis?.length || project.credits?.length) && (
+      {(project.synopsis?.length || project.synopsisHtml?.length || project.credits?.length) && (
         <RevealOnScroll>
           <div className="mb-16 space-y-12">
             {/* Synopsis */}
-            {project.synopsis && project.synopsis.length > 0 && (
-              <div>
-                <h3
-                  className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
-                  style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
-                >
-                  Synopsis
-                </h3>
-                <div
-                  className="space-y-5 leading-relaxed text-[var(--text-secondary)]"
-                  style={{ fontSize: 'var(--text-base)' }}
-                >
-                  {project.synopsis.map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
+            {(project.synopsisHtml || project.synopsis) &&
+              (project.synopsisHtml || project.synopsis)!.length > 0 && (
+                <div>
+                  <h3
+                    className="mb-5 uppercase tracking-[0.15em] text-[var(--text-muted)]"
+                    style={{ fontSize: 'var(--text-xs, 0.75rem)' }}
+                  >
+                    Synopsis
+                  </h3>
+                  <div
+                    className="space-y-5 leading-relaxed text-[var(--text-secondary)] [&_a]:text-[var(--text-secondary)] [&_a:hover]:text-[var(--text-primary)]"
+                    style={{ fontSize: 'var(--text-base)' }}
+                  >
+                    {project.synopsisHtml
+                      ? project.synopsisHtml.map((p, i) => (
+                          <p key={i} dangerouslySetInnerHTML={{ __html: p }} />
+                        ))
+                      : project.synopsis!.map((p, i) => <p key={i}>{p}</p>)}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* Credits */}
             {project.credits && project.credits.length > 0 && (
@@ -417,7 +420,14 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                       >
                         {credit.role}
                       </span>
-                      <span className="text-[var(--text-secondary)]">{credit.name}</span>
+                      {credit.nameHtml ? (
+                        <span
+                          className="text-[var(--text-secondary)] [&_a]:text-[var(--text-secondary)] [&_a:hover]:text-[var(--text-primary)]"
+                          dangerouslySetInnerHTML={{ __html: credit.nameHtml }}
+                        />
+                      ) : (
+                        <span className="text-[var(--text-secondary)]">{credit.name}</span>
+                      )}
                     </div>
                   ))}
                 </div>
