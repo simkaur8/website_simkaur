@@ -5,6 +5,7 @@ import { PortableText } from '@portabletext/react'
 import { VideoPlayer } from '@/components/ui/VideoPlayer'
 import { Lightbox } from '@/components/ui/Lightbox'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { urlFor } from '@/sanity/lib/image'
 import type { Project } from '@/sanity/lib/types'
 
 interface ProjectDetailProps {
@@ -17,7 +18,7 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
 
   const galleryImages =
     project.gallery?.map((img) => ({
-      src: '/placeholder.svg',
+      src: img.asset ? urlFor(img).width(1200).url() : '/placeholder.svg',
       alt: img.alt || '',
     })) || []
 

@@ -31,7 +31,7 @@ export function VideoPlayer({
         src={src}
         title={`${platform === 'vimeo' ? 'Vimeo' : 'YouTube'} video player`}
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
-        allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
         loading="lazy"
       />

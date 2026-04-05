@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Lightbox } from '@/components/ui/Lightbox'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { urlFor } from '@/sanity/lib/image'
 import type { PhotoCollection } from '@/sanity/lib/types'
 
 interface PhotoGalleryProps {
@@ -15,7 +16,7 @@ export function PhotoGallery({ collection }: PhotoGalleryProps) {
 
   const images =
     collection.photos?.map((photo) => ({
-      src: '/placeholder.svg',
+      src: photo.image ? urlFor(photo.image).width(800).url() : '/placeholder.svg',
       alt: photo.image?.alt || photo.caption || '',
     })) || []
 

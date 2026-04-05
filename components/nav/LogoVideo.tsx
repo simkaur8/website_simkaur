@@ -31,9 +31,7 @@ export function LogoVideo({
     return <img src={fallbackImg} alt="" className={className} style={style} aria-hidden="true" />
   }
 
-  const src = webmSrc || mp4Src || null
-
-  if (!src) {
+  if (!webmSrc && !mp4Src) {
     return <div className={className} style={style} aria-hidden="true" />
   }
 
@@ -45,8 +43,10 @@ export function LogoVideo({
       playsInline
       className={className}
       style={{ ...style, mixBlendMode: 'screen' }}
-      src={src}
       aria-hidden="true"
-    />
+    >
+      {webmSrc && <source src={webmSrc} type="video/webm" />}
+      {mp4Src && <source src={mp4Src} type="video/mp4" />}
+    </video>
   )
 }
