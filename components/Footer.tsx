@@ -1,11 +1,21 @@
+'use client'
+
+import { useSyncExternalStore } from 'react'
+
 interface FooterProps {
   email: string
   footerCta?: string
   socialLinks?: { platform: string; url: string }[]
 }
 
+const yearSubscribe = () => () => {}
+
 export function Footer({ email, footerCta, socialLinks }: FooterProps) {
-  const year = new Date().getFullYear()
+  const year = useSyncExternalStore(
+    yearSubscribe,
+    () => new Date().getFullYear(),
+    () => 2026
+  )
 
   return (
     <footer className="flex flex-col items-center gap-3 py-16 text-center sm:gap-4 sm:py-24">

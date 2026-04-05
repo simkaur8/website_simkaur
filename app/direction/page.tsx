@@ -1,11 +1,7 @@
 import { Suspense } from 'react'
-import { client } from '@/sanity/lib/client'
-import { allProjectsQuery } from '@/sanity/lib/queries'
-import { DirectionGrid } from '@/components/direction/DirectionGrid'
 import { StaticDirectionGrid } from '@/components/direction/StaticDirectionGrid'
 import { Footer } from '@/components/Footer'
 import { staticProjects } from '@/lib/projects-data'
-import type { Project } from '@/sanity/lib/types'
 import type { Metadata } from 'next'
 import { DirectionCollectionJsonLd } from '@/components/seo/DirectionCollectionJsonLd'
 
@@ -34,8 +30,6 @@ export const metadata: Metadata = {
 export const revalidate = 60
 
 export default async function DirectionPage() {
-  const projects: Project[] = await client.fetch(allProjectsQuery).catch(() => [])
-
   return (
     <>
       <DirectionCollectionJsonLd />
@@ -52,7 +46,9 @@ export default async function DirectionPage() {
         >
           Directed &amp; edited by Sim Kaur
         </p>
-        <Suspense>
+        <Suspense
+          fallback={<div className="w-full animate-pulse bg-[var(--bg-surface)] h-96 rounded" />}
+        >
           <StaticDirectionGrid projects={staticProjects} />
         </Suspense>
       </div>

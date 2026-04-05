@@ -12,6 +12,11 @@ function subscribe() {
 }
 
 export function CustomCursor() {
+  const mounted = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false
+  )
   const dotRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
   const visibleRef = useRef(false)
@@ -97,7 +102,7 @@ export function CustomCursor() {
     }
   }, [isTouch])
 
-  if (isTouch) return null
+  if (!mounted || isTouch) return null
 
   return (
     <>

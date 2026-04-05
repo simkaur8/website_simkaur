@@ -587,6 +587,12 @@ export function VortexGallery() {
   const getSnapshot = useCallback(() => window.matchMedia('(max-width: 599px)').matches, [])
   const getServerSnapshot = useCallback(() => false, [])
   const isMobile = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+  const isMobileRef = useRef(isMobile)
+
+  // Keep isMobileRef in sync so the animation loop reads the latest value without restarting
+  useEffect(() => {
+    isMobileRef.current = isMobile
+  }, [isMobile])
 
   // Detect slow connections — swap GIFs for static webp fallbacks
   useEffect(() => {
@@ -617,8 +623,6 @@ export function VortexGallery() {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) return
 
-    const mobile = window.matchMedia('(max-width: 599px)').matches
-
     let deg = 0
     let last = performance.now()
     const speed = 360 / 320000 // One rotation per ~5.3 minutes
@@ -632,7 +636,7 @@ export function VortexGallery() {
       if (vortexRef.current) {
         // Mobile: spiral is a centered square inside the static oval frame
         // Desktop: spiral fills the container (inset: 0)
-        vortexRef.current.style.transform = mobile
+        vortexRef.current.style.transform = isMobileRef.current
           ? `translate(-50%, -50%) rotate(${deg}deg)`
           : `rotate(${deg}deg)`
         vortexRef.current.style.setProperty('--vx-angle', `${deg}deg`)
@@ -641,12 +645,15 @@ export function VortexGallery() {
       rafId = requestAnimationFrame(tick)
     }
 
-    rafId = requestAnimationFrame((now) => {
+    const initId = requestAnimationFrame((now) => {
       last = now
       rafId = requestAnimationFrame(tick)
     })
 
-    return () => cancelAnimationFrame(rafId)
+    return () => {
+      cancelAnimationFrame(initId)
+      cancelAnimationFrame(rafId)
+    }
   }, [])
 
   return (
@@ -660,6 +667,7 @@ export function VortexGallery() {
         <div className="vortex-spiral" ref={vortexRef}>
           {vortexItems.map((item, i) => {
             const pos = spiral[i]
+            if (!pos) return null
             const imageSrc =
               slowConnection && item.image.endsWith('.gif')
                 ? item.image.replace('.gif', '-static.webp')

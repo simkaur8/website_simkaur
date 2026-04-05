@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FilterBar } from '@/components/ui/FilterBar'
@@ -939,7 +939,7 @@ export function PhotographyGrid() {
     [searchParams, router, pathname]
   )
 
-  const filtered = (() => {
+  const filtered = useMemo(() => {
     if (filter === 'all') return photos.filter((p) => p.curated)
     const categoryPhotos = photos.filter((p) => p.category === filter)
     // Swap first 3 fashion images so the grid visually changes from All view
@@ -948,7 +948,7 @@ export function PhotographyGrid() {
       return [b, c, a, ...rest]
     }
     return categoryPhotos
-  })()
+  }, [filter])
 
   const openLightbox = useCallback((idx: number) => {
     setLightbox(idx)
@@ -972,7 +972,7 @@ export function PhotographyGrid() {
     }
     window.addEventListener('popstate', onPopState)
     return () => window.removeEventListener('popstate', onPopState)
-  }, [])
+  }, [lightbox])
 
   // Keyboard: Escape to close, arrows to navigate
   useEffect(() => {
@@ -1062,7 +1062,7 @@ export function PhotographyGrid() {
       </div>
 
       {/* Lightbox */}
-      {lightbox !== null && filtered[lightbox] && (
+      {lightbox !== null && lightbox < filtered.length && filtered[lightbox] && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center"
           onClick={closeLightbox}
@@ -1152,7 +1152,12 @@ export function PhotographyGrid() {
                   <div
                     className="space-y-3 leading-relaxed text-white/90 [&_a]:underline [&_a]:decoration-white/40 [&_a:hover]:decoration-white"
                     style={{ fontSize: 'var(--text-sm, 0.875rem)' }}
-                    dangerouslySetInnerHTML={{ __html: filtered[lightbox].descriptionHtml }}
+                    dangerouslySetInnerHTML={{
+                      __html: (filtered[lightbox].descriptionHtml || '')
+                        .replace(/<script[^>]*>.*?<\/script>/gi, '')
+                        .replace(/on\w+="[^"]*"/gi, '')
+                        .replace(/javascript:/gi, ''),
+                    }}
                   />
                 ) : filtered[lightbox].description ? (
                   <div

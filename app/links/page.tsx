@@ -20,7 +20,7 @@ const fallbackLinks = [
 ]
 
 export default async function LinksPage() {
-  const data: LinkInBio | null = await client.fetch(linkInBioQuery)
+  const data: LinkInBio | null = await client.fetch(linkInBioQuery).catch(() => null)
   const links = data?.links || fallbackLinks
 
   return (

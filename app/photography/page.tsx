@@ -35,7 +35,9 @@ export default async function PhotographyPage() {
         >
           Photography
         </h1>
-        <Suspense>
+        <Suspense
+          fallback={<div className="w-full animate-pulse bg-[var(--bg-surface)] h-96 rounded" />}
+        >
           <PhotographyGrid />
         </Suspense>
       </div>

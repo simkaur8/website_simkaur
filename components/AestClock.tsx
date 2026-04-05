@@ -14,7 +14,14 @@ function formatTime(date: Date) {
 
 let currentTime = ''
 
+const mountedSubscribe = () => () => {}
+
 export function AestClock() {
+  const mounted = useSyncExternalStore(
+    mountedSubscribe,
+    () => true,
+    () => false
+  )
   const listenersRef = useRef(new Set<() => void>())
 
   const subscribe = useCallback((cb: () => void) => {
@@ -23,7 +30,7 @@ export function AestClock() {
   }, [])
 
   const getSnapshot = useCallback(() => currentTime, [])
-  const getServerSnapshot = useCallback(() => '', [])
+  const getServerSnapshot = useCallback(() => formatTime(getAestTime()), [])
 
   useEffect(() => {
     const update = () => {
@@ -37,13 +44,16 @@ export function AestClock() {
 
   const time = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 
+  const spanClass =
+    'font-sans text-[0.7rem] uppercase tracking-[0.12em] text-[var(--text-muted)] tabular-nums'
+
+  if (!mounted)
+    return <span className={spanClass}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
   if (!time) return null
 
   return (
-    <span
-      className="font-sans text-[0.7rem] uppercase tracking-[0.12em] text-[var(--text-muted)] tabular-nums"
-      aria-label={`Current time: ${time}`}
-    >
+    <span className={spanClass} aria-label={`Current time: ${time}`}>
       {time}
     </span>
   )

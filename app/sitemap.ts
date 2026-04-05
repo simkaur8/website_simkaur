@@ -1,7 +1,10 @@
 import type { MetadataRoute } from 'next'
 import { staticProjects } from '@/lib/projects-data'
+import { client } from '@/sanity/lib/client'
+import { allExhibitionsQuery } from '@/sanity/lib/queries'
+import type { Exhibition } from '@/sanity/lib/types'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://simkaur.art'
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -57,5 +60,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.5,
   }))
 
-  return [...staticPages, ...projectPages, ...photographyCategories]
+  const exhibitions: Exhibition[] = await client.fetch(allExhibitionsQuery).catch(() => [])
+  const exhibitionPages: MetadataRoute.Sitemap = exhibitions
+    .filter((e) => e.slug?.current)
+    .map((e) => ({
+      url: `${baseUrl}/exhibitions/${e.slug.current}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    }))
+
+  return [...staticPages, ...projectPages, ...photographyCategories, ...exhibitionPages]
 }

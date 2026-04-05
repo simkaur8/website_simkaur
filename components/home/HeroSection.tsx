@@ -27,7 +27,10 @@ export function HeroSection({ logoWebmUrl, logoMp4Url, showreelUrl }: HeroSectio
     function tryPlay() {
       if (!v || !v.paused) return // already playing
       const p = v.play()
-      if (p) p.catch(() => {})
+      if (p)
+        p.catch((err: Error) => {
+          if (err.name !== 'NotAllowedError') console.warn('Video playback failed:', err)
+        })
     }
 
     // Try immediately

@@ -7,6 +7,20 @@ const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+  {
+    key: 'Content-Security-Policy',
+    value: [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' va.vercel-scripts.com",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob: https: cdn.sanity.io",
+      "font-src 'self'",
+      'frame-src player.vimeo.com www.youtube.com youtube.com',
+      "connect-src 'self' cdn.sanity.io *.sentry.io *.ingest.sentry.io vitals.vercel-insights.com",
+      "media-src 'self' blob: https:",
+      "worker-src 'self' blob:",
+    ].join('; '),
+  },
 ]
 
 const nextConfig: NextConfig = {
@@ -36,6 +50,6 @@ export default withSentryConfig(nextConfig, {
   org: 'sim-kaur',
   project: 'simkaur-website',
   silent: !process.env.CI,
-  widenClientFileUpload: true,
+  widenClientFileUpload: false,
   disableLogger: true,
 })

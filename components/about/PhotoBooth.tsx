@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface PhotoBoothProps {
@@ -50,7 +50,28 @@ const diaryClips: DiaryClip[] = [
 export function PhotoBooth({ isOpen, onClose }: PhotoBoothProps) {
   const [activeIndex, setActiveIndex] = useState(0)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const clip = diaryClips[activeIndex]
+
+  useEffect(() => {
+    if (!isOpen) return
+    const focusable = containerRef.current?.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )
+    if (!focusable?.length) return
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+    first.focus()
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return
+      if (e.shiftKey ? document.activeElement === first : document.activeElement === last) {
+        e.preventDefault()
+        ;(e.shiftKey ? last : first).focus()
+      }
+    }
+    document.addEventListener('keydown', handleTab)
+    return () => document.removeEventListener('keydown', handleTab)
+  }, [isOpen])
 
   const selectClip = useCallback((i: number) => {
     setActiveIndex(i)
@@ -70,6 +91,7 @@ export function PhotoBooth({ isOpen, onClose }: PhotoBoothProps) {
           onClick={onClose}
         >
           <motion.div
+            ref={containerRef}
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}

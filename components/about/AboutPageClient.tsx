@@ -16,13 +16,18 @@ export function AboutPageClient({ settings }: AboutPageClientProps) {
   return (
     <>
       {/* Clickable portrait triggers photo booth */}
-      <div className="mb-12 cursor-pointer" onClick={() => setBoothOpen(true)}>
+      <button
+        type="button"
+        className="mb-12 cursor-pointer"
+        onClick={() => setBoothOpen(true)}
+        aria-label="Open photo booth"
+      >
         <AboutBio
           bio={settings?.bio}
           email={settings?.email || 'simtheaquarius@gmail.com'}
           socialLinks={settings?.socialLinks}
         />
-      </div>
+      </button>
 
       <div className="mx-auto max-w-xl">
         <h2 className="mb-6 text-center text-[var(--text-lg)] font-medium">Get in touch</h2>

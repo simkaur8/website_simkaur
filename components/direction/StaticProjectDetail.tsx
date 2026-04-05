@@ -24,12 +24,23 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
   const vignetteCount = hasVignettes ? project.postcardVideos!.length + (project.video ? 1 : 0) : 0
 
   const prevCarousel = useCallback(() => {
-    setCarouselIdx((i) => (i - 1 + vignetteCount) % vignetteCount)
-  }, [vignetteCount])
+    const count = (project.postcardVideos?.length || 0) + (project.video ? 1 : 0)
+    setCarouselIdx((i) => (i - 1 + count) % count)
+  }, [project.postcardVideos, project.video])
 
   const nextCarousel = useCallback(() => {
-    setCarouselIdx((i) => (i + 1) % vignetteCount)
-  }, [vignetteCount])
+    const count = (project.postcardVideos?.length || 0) + (project.video ? 1 : 0)
+    setCarouselIdx((i) => (i + 1) % count)
+  }, [project.postcardVideos, project.video])
+
+  // Update video src imperatively on carousel change to avoid remount
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v || carouselIdx >= (project.postcardVideos?.length || 0)) return
+    v.src = project.postcardVideos![carouselIdx]
+    v.currentTime = 0
+    v.play().catch(() => {})
+  }, [carouselIdx, project.postcardVideos])
 
   // Gallery horizontal scroll
   const allGalleryItems = [
@@ -161,8 +172,6 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                 {carouselIdx < project.postcardVideos!.length ? (
                   <video
                     ref={videoRef}
-                    key={carouselIdx}
-                    src={project.postcardVideos![carouselIdx]}
                     autoPlay
                     loop
                     playsInline
@@ -226,14 +235,14 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
               {/* Arrows */}
               <button
                 onClick={prevCarousel}
-                className="absolute left-3 top-1/2 z-10 -translate-y-1/2 p-2 text-3xl text-white transition-opacity hover:opacity-70"
+                className="absolute left-3 top-1/2 z-10 -translate-y-1/2 min-h-[44px] min-w-[44px] p-3 text-3xl text-white transition-opacity hover:opacity-70 sm:p-2"
                 aria-label="Previous"
               >
                 &#8249;
               </button>
               <button
                 onClick={nextCarousel}
-                className="absolute right-3 top-1/2 z-10 -translate-y-1/2 p-2 text-3xl text-white transition-opacity hover:opacity-70"
+                className="absolute right-3 top-1/2 z-10 -translate-y-1/2 min-h-[44px] min-w-[44px] p-3 text-3xl text-white transition-opacity hover:opacity-70 sm:p-2"
                 aria-label="Next"
               >
                 &#8250;
@@ -277,7 +286,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
           <div className="mb-14">
             {project.contactSheet ? (
               /* Contact sheet: tight grid, no spacing */
-              <div className="grid grid-cols-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
                 {allGalleryItems.map((item, i) => (
                   <div key={i} className="overflow-hidden">
                     <img
@@ -331,7 +340,11 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                           </div>
                         ) : (
                           <button
-                            onClick={() => setLightboxIdx(project.btsThumbnail ? i - 1 : i)}
+                            onClick={() => {
+                              if (project.btsThumbnail && i === 0) return // BTS thumb, skip gallery lightbox
+                              const galleryIdx = project.btsThumbnail ? i - 1 : i
+                              if (galleryIdx >= 0) setLightboxIdx(galleryIdx)
+                            }}
                             className="w-full overflow-hidden transition-opacity hover:opacity-80"
                           >
                             <img

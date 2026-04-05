@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { VideoPlayer } from '@/components/ui/VideoPlayer'
@@ -14,20 +14,29 @@ interface ProjectOverlayProps {
 }
 
 export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOverlayProps) {
-  const handleKey = useCallback(
-    (e: KeyboardEvent) => {
-      if (!project) return
-      if (e.key === 'Escape') onClose()
-      if (e.key === 'ArrowLeft') onPrev()
-      if (e.key === 'ArrowRight') onNext()
-    },
-    [project, onClose, onPrev, onNext]
-  )
+  const onCloseRef = useRef(onClose)
+  const onPrevRef = useRef(onPrev)
+  const onNextRef = useRef(onNext)
+  useEffect(() => {
+    onCloseRef.current = onClose
+  }, [onClose])
+  useEffect(() => {
+    onPrevRef.current = onPrev
+  }, [onPrev])
+  useEffect(() => {
+    onNextRef.current = onNext
+  }, [onNext])
 
   useEffect(() => {
+    if (!project) return
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onCloseRef.current()
+      if (e.key === 'ArrowLeft') onPrevRef.current()
+      if (e.key === 'ArrowRight') onNextRef.current()
+    }
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
-  }, [handleKey])
+  }, [project]) // only re-register if project changes
 
   useEffect(() => {
     if (project) {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -14,26 +14,29 @@ const navLinks = [
 
 export function MobileNav() {
   const [isOpen, setIsOpen] = useState(false)
+  const savedScrollY = useRef(0)
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') setIsOpen(false)
     }
     if (isOpen) {
+      savedScrollY.current = window.scrollY
       document.addEventListener('keydown', onKeyDown)
       document.body.style.overflow = 'hidden'
       document.body.style.position = 'fixed'
       document.body.style.width = '100%'
-      document.body.style.top = `-${window.scrollY}px`
+      document.body.style.top = `-${savedScrollY.current}px`
     }
     return () => {
       document.removeEventListener('keydown', onKeyDown)
-      const scrollY = document.body.style.top
-      document.body.style.overflow = ''
-      document.body.style.position = ''
-      document.body.style.width = ''
-      document.body.style.top = ''
-      if (scrollY) window.scrollTo(0, parseInt(scrollY || '0') * -1)
+      if (isOpen) {
+        document.body.style.overflow = ''
+        document.body.style.position = ''
+        document.body.style.width = ''
+        document.body.style.top = ''
+        window.scrollTo(0, savedScrollY.current)
+      }
     }
   }, [isOpen])
 

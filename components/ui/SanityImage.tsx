@@ -23,6 +23,8 @@ export function SanityImage({
   className,
   priority,
 }: SanityImageProps) {
+  if (!image) return null
+
   const src = urlFor(image).width(width).url()
 
   return (

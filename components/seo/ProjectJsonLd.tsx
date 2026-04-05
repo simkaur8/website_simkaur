@@ -9,7 +9,7 @@ export function ProjectJsonLd({ project }: ProjectJsonLdProps) {
     '@context': 'https://schema.org',
     '@type': 'CreativeWork',
     name: project.title,
-    dateCreated: project.year ? String(project.year) : undefined,
+    dateCreated: project.year ? `${project.year}-01-01` : undefined,
     genre: project.category === 'fashion-dance' ? 'Fashion & Dance Film' : 'Music Video',
     url: `https://simkaur.art/direction/${project.slug.current}`,
     creator: {

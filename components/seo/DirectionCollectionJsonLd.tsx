@@ -13,14 +13,16 @@ export function DirectionCollectionJsonLd() {
       name: 'Sim Kaur',
       url: 'https://simkaur.art',
     },
-    hasPart: staticProjects.map((p) => ({
-      '@type': 'CreativeWork',
-      name: p.title,
-      url: `https://simkaur.art/direction/${p.slug}`,
-      genre: p.category === 'fashion-dance' ? 'Fashion & Dance Film' : 'Music Video',
-      dateCreated: String(p.year),
-      creator: { '@type': 'Person', name: 'Sim Kaur' },
-    })),
+    hasPart: staticProjects.map((p) => {
+      return {
+        '@type': 'CreativeWork',
+        name: p.title,
+        url: `https://simkaur.art/direction/${p.slug}`,
+        genre: p.category === 'fashion-dance' ? 'Fashion & Dance Film' : 'Music Video',
+        dateCreated: String(p.year),
+        creator: { '@type': 'Person', name: 'Sim Kaur' },
+      }
+    }),
   }
 
   // Safe: JSON.stringify of our own hardcoded data, not user-supplied HTML

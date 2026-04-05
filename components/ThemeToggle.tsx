@@ -1,16 +1,31 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useSyncExternalStore } from 'react'
 
-function getInitialTheme(): 'dark' | 'light' {
-  if (typeof window === 'undefined') return 'dark'
-  const stored = localStorage.getItem('theme')
-  if (stored === 'light' || stored === 'dark') return stored
-  return 'dark'
+// Module-level theme store — avoids setState-in-effect pattern
+let _theme: 'dark' | 'light' | null = null
+const _listeners = new Set<() => void>()
+
+function getThemeSnapshot(): 'dark' | 'light' {
+  if (_theme === null) {
+    const stored = typeof window !== 'undefined' ? localStorage.getItem('theme') : null
+    _theme = stored === 'light' ? 'light' : 'dark'
+  }
+  return _theme
+}
+
+function subscribeToTheme(cb: () => void) {
+  _listeners.add(cb)
+  return () => _listeners.delete(cb)
+}
+
+function setModuleTheme(next: 'dark' | 'light') {
+  _theme = next
+  _listeners.forEach((cb) => cb())
 }
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<'dark' | 'light'>(getInitialTheme)
+  const theme = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, () => 'dark' as const)
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
@@ -18,7 +33,7 @@ export function ThemeToggle() {
 
   function toggle() {
     const next = theme === 'dark' ? 'light' : 'dark'
-    setTheme(next)
+    setModuleTheme(next)
     document.documentElement.setAttribute('data-theme', next)
     localStorage.setItem('theme', next)
   }

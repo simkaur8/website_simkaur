@@ -12,6 +12,9 @@ export function ClickSound() {
   const ctxRef = useRef<AudioContext | null>(null)
 
   useEffect(() => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReduced) return
+
     function play() {
       // Lazily create AudioContext on first interaction (browser policy)
       if (!ctxRef.current) {

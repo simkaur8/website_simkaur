@@ -38,9 +38,11 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
 
   if (!validCategories.includes(category)) notFound()
 
-  const collections: PhotoCollection[] = await client.fetch(photoCollectionByCategoryQuery, {
-    category,
-  })
+  const collections: PhotoCollection[] = await client
+    .fetch(photoCollectionByCategoryQuery, {
+      category,
+    })
+    .catch(() => [])
 
   const label = categoryLabels[category] || category
 

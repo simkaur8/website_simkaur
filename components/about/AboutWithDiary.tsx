@@ -71,6 +71,7 @@ export function AboutWithDiary() {
               onClick={() => setBoothOpen(true)}
               className="mt-8 transition-transform hover:scale-105"
               style={{ width: 'clamp(100px, 20vw, 140px)' }}
+              aria-label="Open diary"
             >
               <img
                 src="/images/about/get-to-know-me.jpg"

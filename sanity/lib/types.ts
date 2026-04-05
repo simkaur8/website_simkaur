@@ -80,8 +80,8 @@ export interface SiteSettings {
   _id: string
   _type: 'siteSettings'
   heroShowreel?: VideoEmbed
-  logoVideoWebm?: { asset: { _ref: string; url: string } }
-  logoVideoMov?: { asset: { _ref: string; url: string } }
+  logoVideoWebm?: string | null
+  logoVideoMov?: string | null
   bio?: PortableTextBlock[]
   email: string
   socialLinks?: SocialLink[]

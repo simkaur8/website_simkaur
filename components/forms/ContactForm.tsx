@@ -3,7 +3,7 @@
 import { useForm, ValidationError } from '@formspree/react'
 
 export function ContactForm() {
-  const [state, handleSubmit] = useForm('xpqypgaw')
+  const [state, handleSubmit] = useForm(process.env.NEXT_PUBLIC_FORMSPREE_ID || 'xpqypgaw')
 
   if (state.succeeded) {
     return (

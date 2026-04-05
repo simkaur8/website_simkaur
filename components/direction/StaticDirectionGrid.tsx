@@ -47,7 +47,7 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
   const filtered =
     activeFilter === 'all'
       ? projects.filter((p) => !p.hideFromAll)
-      : projects.filter((p) => p.category === activeFilter)
+      : projects.filter((p) => p.category === activeFilter && !p.hideFromAll)
 
   const activeProject = activeIdx !== null ? filtered[activeIdx] : null
 
