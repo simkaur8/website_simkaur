@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { PortableText } from '@portabletext/react'
 import { VideoPlayer } from '@/components/ui/VideoPlayer'
 import { Lightbox } from '@/components/ui/Lightbox'
@@ -65,12 +65,15 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
             <h2 className="mb-4 text-[var(--text-sm)] font-medium uppercase tracking-[0.2em] text-[var(--text-muted)]">
               Credits
             </h2>
-            <div className="grid grid-cols-2 gap-2 text-[var(--text-sm)]">
+            <div
+              className="gap-x-8 gap-y-2 text-[var(--text-sm)]"
+              style={{ display: 'grid', gridTemplateColumns: 'max-content 1fr' }}
+            >
               {project.credits.map((credit, i) => (
-                <div key={i} className="flex justify-between gap-4">
+                <Fragment key={i}>
                   <span className="text-[var(--text-muted)]">{credit.role}</span>
                   <span className="text-[var(--text-secondary)]">{credit.name}</span>
-                </div>
+                </Fragment>
               ))}
             </div>
           </div>

@@ -31,6 +31,7 @@ export interface StaticProject {
   contactSheet?: boolean
   hideFromAll?: boolean
   editOnly?: boolean
+  noOverlay?: boolean
 }
 
 export const staticProjects: StaticProject[] = [
@@ -342,7 +343,6 @@ export const staticProjects: StaticProject[] = [
       'Dance fashion film starring Jiggy Jaya, in collaboration with Sydney label Song for the Mute.',
     synopsis: [
       'Dance fashion film starring Jiggy Jaya, in collaboration with Sydney label Song for the Mute.',
-      'Inspired by the chaos of a circus, the film captures Jaya wearing Song for the Mute\u2019s Jester-inspired collection, blending playful energy with sharp choreography.',
     ],
     credits: [
       { role: 'Direction', name: 'Sim Kaur' },
@@ -516,6 +516,7 @@ export const staticProjects: StaticProject[] = [
     ],
     credits: [{ role: 'Direction', name: 'Sim Kaur' }],
     video: { platform: 'youtube', id: 'CInFC1yk5t8', aspect: '4 / 3' },
+    noOverlay: true,
   },
   {
     slug: 'edit-credit-1',

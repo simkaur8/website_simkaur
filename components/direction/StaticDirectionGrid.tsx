@@ -81,37 +81,10 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
               transition={{ duration: 0.3 }}
             >
               <RevealOnScroll>
-                <button
-                  onClick={() => setActiveIdx(idx)}
-                  className="group block w-full overflow-hidden text-left"
-                >
-                  <div className="relative aspect-[5/4] overflow-hidden bg-[var(--bg-surface)]">
-                    {project.thumbnail ? (
-                      <img
-                        src={project.thumbnail}
-                        alt={project.title}
-                        className="h-full w-full object-cover"
-                        loading="lazy"
-                      />
-                    ) : project.video ? (
-                      <VideoThumbnail
-                        platform={project.video.platform}
-                        videoId={project.video.id}
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-[var(--bg-surface)] text-[var(--text-muted)]">
-                        <PlayIcon />
-                      </div>
-                    )}
-                    {/* Hover overlay with text */}
-                    <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                      <span className="text-[var(--text-base)] font-medium text-white">
-                        {project.title}
-                      </span>
-                      <span className="text-[var(--text-xs)] text-white/70">{project.meta}</span>
-                    </div>
-                  </div>
-                </button>
+                <ProjectCard
+                  project={project}
+                  onClick={project.noOverlay ? undefined : () => setActiveIdx(idx)}
+                />
               </RevealOnScroll>
             </motion.div>
           ))}
@@ -165,6 +138,58 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
         onNext={handleNext}
       />
     </div>
+  )
+}
+
+function ProjectCard({ project, onClick }: { project: StaticProject; onClick?: () => void }) {
+  const inner = (
+    <div className="relative aspect-[5/4] overflow-hidden bg-[var(--bg-surface)]">
+      {project.thumbnail ? (
+        <img
+          src={project.thumbnail}
+          alt={project.title}
+          className="h-full w-full object-cover"
+          loading="lazy"
+        />
+      ) : project.video ? (
+        <VideoThumbnail platform={project.video.platform} videoId={project.video.id} />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center bg-[var(--bg-surface)] text-[var(--text-muted)]">
+          <PlayIcon />
+        </div>
+      )}
+      <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <span className="text-[var(--text-base)] font-medium text-white">{project.title}</span>
+        <span className="text-[var(--text-xs)] text-white/70">{project.meta}</span>
+      </div>
+    </div>
+  )
+
+  if (onClick) {
+    return (
+      <button onClick={onClick} className="group block w-full overflow-hidden text-left">
+        {inner}
+      </button>
+    )
+  }
+
+  // noOverlay: link directly to YouTube/Vimeo
+  const href =
+    project.video?.platform === 'youtube'
+      ? `https://www.youtube.com/watch?v=${project.video.id}`
+      : project.video?.platform === 'vimeo'
+        ? `https://vimeo.com/${project.video.id}`
+        : '#'
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block w-full overflow-hidden text-left"
+    >
+      {inner}
+    </a>
   )
 }
 

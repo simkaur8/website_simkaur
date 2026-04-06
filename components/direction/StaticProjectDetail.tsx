@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { Fragment, useState, useRef, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import { VideoPlayer } from '@/components/ui/VideoPlayer'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
@@ -422,17 +422,16 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                   Credits
                 </h3>
                 <div
-                  className="columns-1 gap-x-12 space-y-2 sm:columns-2"
-                  style={{ fontSize: 'var(--text-sm)' }}
+                  className="gap-x-8 gap-y-2"
+                  style={{
+                    fontSize: 'var(--text-sm)',
+                    display: 'grid',
+                    gridTemplateColumns: 'max-content 1fr',
+                  }}
                 >
                   {project.credits.map((credit, i) => (
-                    <div key={i} className="flex flex-row gap-3 break-inside-avoid">
-                      <span
-                        className="shrink-0 font-medium text-[var(--text-primary)]"
-                        style={{ minWidth: 'min(120px, 35vw)' }}
-                      >
-                        {credit.role}
-                      </span>
+                    <Fragment key={i}>
+                      <span className="font-medium text-[var(--text-primary)]">{credit.role}</span>
                       {credit.nameHtml ? (
                         <span
                           className="text-[var(--text-secondary)] [&_a]:text-[var(--text-secondary)] [&_a:hover]:text-[var(--text-primary)]"
@@ -441,7 +440,7 @@ export function StaticProjectDetail({ project }: StaticProjectDetailProps) {
                       ) : (
                         <span className="text-[var(--text-secondary)]">{credit.name}</span>
                       )}
-                    </div>
+                    </Fragment>
                   ))}
                 </div>
               </div>
