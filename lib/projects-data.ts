@@ -374,6 +374,7 @@ export const staticProjects: StaticProject[] = [
     thumbnail: '/images/direction/thumbnails/pam-bali.webp',
     category: 'fashion-dance',
     year: 2024,
+    noOverlay: true,
     description:
       'Dance fashion film starring Balinese street dancers Rory and Billy, in collaboration with fashion label Perks and Mini (P.A.M) x Nick Sethi.',
     synopsis: [
@@ -436,8 +437,8 @@ export const staticProjects: StaticProject[] = [
     thumbnail: '/images/vortex/shysol1.webp',
     category: 'music-video',
     year: 2025,
-    description: 'Music video for JUPiTA.',
-    synopsis: ['Music video for JUPiTA.'],
+    description: 'Direction and edit, shot in Naarm (Melbourne).',
+    synopsis: ['Direction and edit, shot in Naarm (Melbourne).'],
     credits: [
       { role: 'Direction & Edit', name: 'Sim Kaur' },
       { role: 'Talent', name: 'CD' },
@@ -519,13 +520,14 @@ export const staticProjects: StaticProject[] = [
     noOverlay: true,
   },
   {
-    slug: 'edit-credit-1',
-    title: '',
-    meta: 'Edit, 2025',
+    slug: 'never-unlove',
+    title: 'Never Unlove',
+    meta: 'Music Video, Ms Thandi feat Gold Fang, 2025',
     role: 'Edit',
     category: 'music-video',
     year: 2025,
-    description: '',
+    description: 'Music video for Ms Thandi feat Gold Fang.',
+    synopsis: ['Music video for Ms Thandi feat Gold Fang.'],
     credits: [{ role: 'Edit', name: 'Sim Kaur' }],
     video: { platform: 'youtube', id: 'zjg4Kkhk60E' },
     editOnly: true,

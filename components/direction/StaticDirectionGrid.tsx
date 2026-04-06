@@ -27,6 +27,7 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
   const activeFilter =
     filterParam && filters.some((f) => f.value === filterParam) ? filterParam : 'all'
   const [activeIdx, setActiveIdx] = useState<number | null>(null)
+  const [editOverlayProject, setEditOverlayProject] = useState<StaticProject | null>(null)
 
   // Reset overlay when filter changes to prevent stale index
   const handleFilterChange = useCallback(
@@ -107,24 +108,7 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {editCredits.map((project) => (
               <RevealOnScroll key={project.slug}>
-                <a
-                  href={`https://www.youtube.com/watch?v=${project.video?.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block w-full overflow-hidden text-left"
-                >
-                  <div className="relative aspect-[5/4] overflow-hidden bg-[var(--bg-surface)]">
-                    {project.video && (
-                      <VideoThumbnail
-                        platform={project.video.platform}
-                        videoId={project.video.id}
-                      />
-                    )}
-                    <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                      <span className="text-[var(--text-xs)] text-white/70">{project.meta}</span>
-                    </div>
-                  </div>
-                </a>
+                <ProjectCard project={project} onClick={() => setEditOverlayProject(project)} />
               </RevealOnScroll>
             ))}
           </div>
@@ -136,6 +120,12 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
         onClose={() => setActiveIdx(null)}
         onPrev={handlePrev}
         onNext={handleNext}
+      />
+      <ProjectOverlay
+        project={editOverlayProject}
+        onClose={() => setEditOverlayProject(null)}
+        onPrev={() => {}}
+        onNext={() => {}}
       />
     </div>
   )
