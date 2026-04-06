@@ -44,10 +44,14 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
     [searchParams, router, pathname]
   )
 
+  // hideFromAll only excludes from 'all' view — category views show everything in that category
   const filtered =
     activeFilter === 'all'
-      ? projects.filter((p) => !p.hideFromAll)
-      : projects.filter((p) => p.category === activeFilter && !p.hideFromAll)
+      ? projects.filter((p) => !p.hideFromAll && !p.editOnly)
+      : projects.filter((p) => p.category === activeFilter && !p.editOnly)
+
+  // Edit-only credits shown as a separate section in music-video view
+  const editCredits = activeFilter === 'music-video' ? projects.filter((p) => p.editOnly) : []
 
   const activeProject = activeIdx !== null ? filtered[activeIdx] : null
 
@@ -61,7 +65,7 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
 
   return (
     <div>
-      <div className="mb-8 flex justify-center">
+      <div className="mb-6 flex justify-center">
         <FilterBar filters={filters} active={activeFilter} onChange={handleFilterChange} />
       </div>
 
@@ -114,6 +118,46 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
         </AnimatePresence>
       </div>
 
+      {/* Edit credits — separate section with page-break feel */}
+      {editCredits.length > 0 && (
+        <div className="mt-20">
+          <div className="mb-10 flex items-center gap-6">
+            <div className="h-px flex-1 bg-[var(--border)]" />
+            <p
+              className="uppercase tracking-[0.18em] text-[var(--text-muted)]"
+              style={{ fontSize: 'var(--text-xs)' }}
+            >
+              Edit
+            </p>
+            <div className="h-px flex-1 bg-[var(--border)]" />
+          </div>
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {editCredits.map((project) => (
+              <RevealOnScroll key={project.slug}>
+                <a
+                  href={`https://www.youtube.com/watch?v=${project.video?.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block w-full overflow-hidden text-left"
+                >
+                  <div className="relative aspect-[5/4] overflow-hidden bg-[var(--bg-surface)]">
+                    {project.video && (
+                      <VideoThumbnail
+                        platform={project.video.platform}
+                        videoId={project.video.id}
+                      />
+                    )}
+                    <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <span className="text-[var(--text-xs)] text-white/70">{project.meta}</span>
+                    </div>
+                  </div>
+                </a>
+              </RevealOnScroll>
+            ))}
+          </div>
+        </div>
+      )}
+
       <ProjectOverlay
         project={activeProject}
         onClose={() => setActiveIdx(null)}
@@ -129,7 +173,7 @@ function VideoThumbnail({ platform, videoId }: { platform: 'vimeo' | 'youtube'; 
     platform === 'youtube' ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : undefined
 
   if (thumbnailUrl) {
-    return <img src={thumbnailUrl} alt="" className="h-full w-full object-cover" loading="lazy" />
+    return <img src={thumbnailUrl} alt="" className="h-full w-full object-cover" loading="lazy" /> // eslint-disable-line @next/next/no-img-element
   }
 
   return (

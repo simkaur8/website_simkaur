@@ -30,6 +30,7 @@ export interface StaticProject {
   comingSoon?: boolean
   contactSheet?: boolean
   hideFromAll?: boolean
+  editOnly?: boolean
 }
 
 export const staticProjects: StaticProject[] = [
@@ -373,7 +374,6 @@ export const staticProjects: StaticProject[] = [
     thumbnail: '/images/direction/thumbnails/pam-bali.webp',
     category: 'fashion-dance',
     year: 2024,
-    hideFromAll: true,
     description:
       'Dance fashion film starring Balinese street dancers Rory and Billy, in collaboration with fashion label Perks and Mini (P.A.M) x Nick Sethi.',
     synopsis: [
@@ -384,7 +384,6 @@ export const staticProjects: StaticProject[] = [
       { role: 'Starring', name: 'Rory, Billy' },
       { role: 'Styling', name: 'Hazel Sherritt' },
     ],
-    comingSoon: true,
     video: { platform: 'vimeo', id: '1153113366' },
   },
   {
@@ -434,7 +433,7 @@ export const staticProjects: StaticProject[] = [
     title: 'Shy Sol',
     meta: 'Music Video, JUPiTA, 2025',
     role: 'Direction & Edit',
-    thumbnail: '/images/vortex/shysol.webp',
+    thumbnail: '/images/vortex/shysol1.webp',
     category: 'music-video',
     year: 2025,
     description: 'Music video for JUPiTA.',
@@ -453,7 +452,7 @@ export const staticProjects: StaticProject[] = [
     title: 'In The Mood for Love',
     meta: 'Music Video, Church, 2025',
     role: 'Direction & Edit',
-    thumbnail: '/images/direction/thumbnails/in-the-mood-for-love.webp',
+    thumbnail: '/images/vortex/itml2.webp',
     category: 'music-video',
     year: 2025,
     description:
@@ -500,6 +499,7 @@ export const staticProjects: StaticProject[] = [
     ],
     credits: [{ role: 'Direction, Cinematography & Edit', name: 'Sim Kaur' }],
     video: { platform: 'youtube', id: 'qOVkUAOt3XQ' },
+    hideFromAll: true,
   },
   {
     slug: 'pages',
@@ -509,14 +509,25 @@ export const staticProjects: StaticProject[] = [
     thumbnail: '/images/direction/thumbnails/pages.webp',
     category: 'music-video',
     year: 2025,
-    description: 'Visualiser, shot on Super8 by Ben Norris.',
-    synopsis: ['Visualiser for Ms Thandi, shot on Super8 by Ben Norris.'],
+    description: 'Visualiser for Ms Thandi, shot on Super 8 film by Ben Norris.',
+    synopsis: ['Visualiser for Ms Thandi, shot on Super 8 film by Ben Norris.'],
     synopsisHtml: [
-      'Visualiser for <a href="https://www.instagram.com/thqndi/" target="_blank" rel="noopener noreferrer">Ms Thandi</a>, shot on Super8 by Ben Norris.',
+      'Visualiser for <a href="https://www.instagram.com/thqndi/" target="_blank" rel="noopener noreferrer">Ms Thandi</a>, shot on Super 8 film by Ben Norris.',
     ],
     credits: [{ role: 'Direction', name: 'Sim Kaur' }],
     video: { platform: 'youtube', id: 'CInFC1yk5t8', aspect: '4 / 3' },
-    comingSoon: true,
+  },
+  {
+    slug: 'edit-credit-1',
+    title: '',
+    meta: 'Edit, 2025',
+    role: 'Edit',
+    category: 'music-video',
+    year: 2025,
+    description: '',
+    credits: [{ role: 'Edit', name: 'Sim Kaur' }],
+    video: { platform: 'youtube', id: 'zjg4Kkhk60E' },
+    editOnly: true,
     hideFromAll: true,
   },
 ]

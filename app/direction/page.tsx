@@ -41,10 +41,10 @@ export default async function DirectionPage() {
           Video
         </h1>
         <p
-          className="mb-12 text-center tracking-[0.08em] text-[var(--text-muted)]"
+          className="mb-6 text-center tracking-[0.08em] text-[var(--text-muted)]"
           style={{ fontSize: 'var(--text-sm)' }}
         >
-          Directed &amp; edited by Sim Kaur
+          Direction &amp; Edit
         </p>
         <Suspense
           fallback={<div className="w-full animate-pulse bg-[var(--bg-surface)] h-96 rounded" />}
