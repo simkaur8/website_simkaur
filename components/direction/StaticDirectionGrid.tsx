@@ -108,10 +108,7 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {editCredits.map((project) => (
               <RevealOnScroll key={project.slug}>
-                <ProjectCard
-                  project={project}
-                  onClick={project.noOverlay ? undefined : () => setEditOverlayProject(project)}
-                />
+                <ProjectCard project={project} onClick={() => setEditOverlayProject(project)} />
               </RevealOnScroll>
             ))}
           </div>

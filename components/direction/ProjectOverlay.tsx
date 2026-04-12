@@ -154,7 +154,7 @@ export function ProjectOverlay({ project, onClose, onPrev, onNext }: ProjectOver
                     <p key={i}>{para}</p>
                   ))}
               </div>
-              {!project.comingSoon && (
+              {!project.comingSoon && !project.editOnly && (
                 <Link
                   href={`/direction/${project.slug}`}
                   className="mt-3 inline-block text-white/80 transition-colors hover:text-white"
