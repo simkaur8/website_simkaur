@@ -533,5 +533,6 @@ export const staticProjects: StaticProject[] = [
     video: { platform: 'youtube', id: 'zjg4Kkhk60E' },
     editOnly: true,
     hideFromAll: true,
+    noOverlay: true,
   },
 ]
