@@ -3547,7 +3547,7 @@ function newStar(w, h, scatter) {
     y:          scatter ? Math.random() * h : -6 - Math.random() * 30,
     vy:         0.10 + Math.random() * 0.42,    // always downward, gentle consistent drift
     vx:         (Math.random() - 0.5) * 0.06,   // very slight lateral bias (corrected by sway)
-    size:       0.5 + Math.pow(Math.random(), 2.0) * 2.4,
+    size:       0.9 + Math.pow(Math.random(), 1.6) * 4.0,
     baseAlpha:  0.78 + Math.random() * 0.22,
     shape:      roll < 0.30 ? 1 : roll < 0.52 ? 2 : roll < 0.66 ? 3 : roll < 0.80 ? 4 : roll < 0.92 ? 5 : 6,
     color:      STAR_PALETTE[Math.floor(Math.random() * STAR_PALETTE.length)],
@@ -3562,8 +3562,8 @@ function initFallingStarsAnim(w, h) {
   anim.fallingStars.particles = [];
   anim.fallingStars._initW = w;
   anim.fallingStars._initH = h;
-  // 160 stars scattered across the full canvas on first init
-  for (let i = 0; i < 160; i++) {
+  // 220 stars scattered across the full canvas on first init
+  for (let i = 0; i < 220; i++) {
     anim.fallingStars.particles.push(newStar(w, h, true));
   }
   anim.fallingStars.t = 0;
