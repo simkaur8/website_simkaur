@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JHALAK</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&family=Special+Elite&family=Caveat:wght@400;600;700&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="jhalak.css">
+</head>
+
+<body>
+
+  <!-- ============================================================
+       DESKTOP BACKGROUND
+       The page root — styled as an old computer desktop
+  ============================================================ -->
+  <div class="desktop">
+
+    <!-- ============================================================
+         MAIN APPLICATION WINDOW
+    ============================================================ -->
+    <div class="app-window" id="app-window">
+
+      <!-- TITLE BAR -->
+      <div class="title-bar">
+        <div class="title-bar-dots">
+          <span class="dot dot--close"></span>
+          <span class="dot dot--min"></span>
+          <span class="dot dot--max"></span>
+        </div>
+        <span class="title-bar-label">JHALAK_MEMORY_CAPTURE_</span>
+        <div class="title-bar-spacer"></div>
+      </div>
+
+      <!-- APP BODY -->
+      <div class="app-body">
+
+        <!-- ============================================================
+             FILTER GRID
+             3×3 grid. Centre cell = NORMAL (no filter).
+             8 surrounding cells = filter options.
+             First 3 filters active for MVP; remainder locked.
+        ============================================================ -->
+        <div class="filter-grid">
+
+          <!-- Row 1 -->
+
+          <div class="filter-cell filter-cell--active" data-filter="pixel-ghost" tabindex="0">
+            <canvas class="filter-canvas" data-filter-canvas="pixel-ghost"></canvas>
+            <span class="filter-name">PIXEL GHOST</span>
+          </div>
+
+          <div class="filter-cell filter-cell--active" data-filter="surveillance" tabindex="0">
+            <canvas class="filter-canvas" data-filter-canvas="surveillance"></canvas>
+            <span class="filter-name">SURVEILLANCE</span>
+          </div>
+
+          <div class="filter-cell filter-cell--active" data-filter="iloveyou" tabindex="0">
+            <canvas class="filter-canvas" data-filter-canvas="iloveyou"></canvas>
+            <span class="filter-name">ILOVEYOU</span>
+          </div>
+
+          <!-- Row 2 -->
+
+          <div class="filter-cell filter-cell--active" data-filter="aura" tabindex="0">
+            <canvas class="filter-canvas" data-filter-canvas="aura"></canvas>
+            <span class="filter-name">AURA</span>
+          </div>
+
+          <!-- CENTRE CELL — always NORMAL, no filter -->
+          <div class="filter-cell filter-cell--normal filter-cell--selected" data-filter="none" tabindex="0">
+            <canvas class="filter-canvas" id="canvas-normal" data-filter-canvas="none"></canvas>
+            <span class="filter-name">NORMAL</span>
+          </div>
+
+          <div class="filter-cell filter-cell--active" data-filter="3rd-eye" tabindex="0">
+            <canvas class="filter-canvas" data-filter-canvas="3rd-eye"></canvas>
+            <span class="filter-name">3RD EYE</span>
+          </div>
+
+          <!-- Row 3 -->
+
+          <div class="filter-cell filter-cell--active" data-filter="thermal" tabindex="0">
+            <canvas class="filter-canvas" data-filter-canvas="thermal"></canvas>
+            <span class="filter-name">THERMAL</span>
+          </div>
+
+          <div class="filter-cell filter-cell--active" data-filter="falling-stars" tabindex="0">
+            <canvas class="filter-canvas" data-filter-canvas="falling-stars"></canvas>
+            <span class="filter-name">FALLING STARS</span>
+          </div>
+
+          <div class="filter-cell filter-cell--active" data-filter="glitch" tabindex="0">
+            <canvas class="filter-canvas" data-filter-canvas="glitch"></canvas>
+            <span class="filter-name">GLITCH</span>
+          </div>
+
+        </div>
+        <!-- /.filter-grid -->
+
+
+        <!-- ============================================================
+             COUNTDOWN DISPLAY
+             Positioned absolutely over the grid. JS shows/hides it.
+        ============================================================ -->
+        <div class="countdown" id="countdown" aria-live="assertive" aria-atomic="true"></div>
+
+
+        <!-- ============================================================
+             BOTTOM CONTROLS BAR
+             Mode selector (1 photo vs 4-photo strip) + capture button.
+        ============================================================ -->
+        <div class="controls-bar">
+
+          <div class="mode-selector" role="group" aria-label="Photo mode">
+
+            <!-- 4-photo strip mode -->
+            <button class="mode-btn" id="mode-strip" data-mode="strip"
+                    title="4-photo strip" aria-pressed="false">
+              <svg class="mode-icon" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3"  y="3"  width="7" height="7"/>
+                <rect x="14" y="3"  width="7" height="7"/>
+                <rect x="3"  y="14" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+              </svg>
+            </button>
+
+            <!-- Capture / shutter button — central, prominent -->
+            <button class="capture-btn" id="capture-btn"
+                    title="Take photo" aria-label="Take photo">
+              <svg class="capture-icon" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8
+                         a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+            </button>
+
+            <!-- Single photo mode -->
+            <button class="mode-btn mode-btn--active" id="mode-single" data-mode="single"
+                    title="Single photo" aria-pressed="true">
+              <svg class="mode-icon" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="2" y="3" width="20" height="18" rx="1"/>
+                <circle cx="12" cy="10" r="3"/>
+                <path d="M7 21c0-3 2.5-5 5-5s5 2 5 5"/>
+              </svg>
+            </button>
+
+          </div>
+          <!-- /.mode-selector -->
+
+        </div>
+        <!-- /.controls-bar -->
+
+      </div>
+      <!-- /.app-body -->
+
+
+      <!-- ============================================================
+           STATUS BAR
+           Always-visible info strip at the bottom of the window.
+      ============================================================ -->
+      <div class="status-bar">
+        <span class="status-item" id="status-camera">○ initialising…</span>
+        <span class="status-sep">|</span>
+        <span class="status-item" id="status-filter">filter: none</span>
+        <span class="status-sep">|</span>
+        <span class="status-item" id="status-mode">mode: single</span>
+        <span class="status-sep">|</span>
+        <span class="status-deco">✦ JHALAK</span>
+        <span class="status-sep">|</span>
+        <button class="status-archive-btn" id="btn-archive" title="View captures this session">ARCHIVE</button>
+      </div>
+
+
+      <!-- ============================================================
+           ARCHIVE PANEL
+           In-session photo history. Shown over the app window.
+      ============================================================ -->
+      <div class="archive-panel" id="archive-panel" hidden aria-hidden="true">
+        <div class="archive-panel-inner">
+          <div class="archive-header">
+            <span class="archive-title">SESSION ARCHIVE</span>
+            <button class="archive-close" id="btn-archive-close" aria-label="Close archive">&times;</button>
+          </div>
+          <div class="archive-grid" id="archive-grid"></div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /.app-window -->
+
+  </div>
+  <!-- /.desktop -->
+
+
+  <!-- ============================================================
+       EMAIL MODAL
+       Floats above the desktop as a centered popup.
+       Hidden by default — shown after capture.
+  ============================================================ -->
+  <div class="email-modal" id="email-panel" hidden aria-hidden="true" role="dialog" aria-label="Send your photo">
+    <div class="email-modal-card">
+
+      <!-- Modal title bar -->
+      <div class="email-modal-titlebar">
+        <div class="title-bar-dots">
+          <span class="dot dot--max"></span>
+          <span class="dot dot--min"></span>
+          <span class="dot dot--close"></span>
+        </div>
+        <span class="email-modal-title">JHALAK_MOMENT_</span>
+        <div class="title-bar-spacer"></div>
+      </div>
+
+      <!-- Modal body — vertical layout -->
+      <div class="email-modal-body">
+
+        <!-- POSTCARD PREVIEW: logo stamp + large captured image -->
+        <div class="email-postcard-area">
+          <div class="email-postcard-logo">
+            <!-- PLUG IN LOGO URL HERE: set src on #email-logo-preview in JS, or hardcode below -->
+            <img class="email-logo-img" id="email-logo-preview" src="" alt="JHALAK" style="display:none" />
+            <span class="email-logo-fallback">✦ JHALAK</span>
+          </div>
+          <div class="email-postcard-img-wrap">
+            <img id="email-preview-img" src="" alt="Your captured photo" class="email-postcard-img" />
+          </div>
+          <!-- BUTTERFLY STAMP — set JHALAK_LOGO_URL in jhalak.js to activate.
+               File: copy /jhalak/assets/sim logo.png → /public/jhalak-assets/jhalak-logo.png -->
+          <img class="email-butterfly-stamp" id="email-butterfly-stamp" src="" alt="" />
+        </div>
+
+        <!-- FILMSTRIP: horizontal thumbnail strip of session captures -->
+        <div class="email-filmstrip" id="email-filmstrip"></div>
+
+        <!-- HEADLINE -->
+        <div class="email-headline">
+          <span class="email-headline-main">wna keep this?</span>
+        </div>
+
+        <!-- EMAIL SEND AREA -->
+        <div class="email-send-area">
+
+          <div class="email-input-row">
+            <!-- SPIRAL: replace src with final GIF URL when ready (see JS: JHALAK_SPIRAL_URL) -->
+            <img id="email-loading-spiral" class="email-spiral" src="" alt="" aria-hidden="true" style="display:none" />
+            <input
+              type="email"
+              id="email-input"
+              class="email-input"
+              placeholder="your@email.com"
+              autocomplete="email"
+              spellcheck="false"
+            />
+            <button class="btn-send" id="btn-send">SEND &rarr;</button>
+          </div>
+
+          <!-- NAME INPUT — optional, stored in archive -->
+          <div class="email-name-row">
+            <input type="text" id="name-input" class="name-input" placeholder="your name (optional)" maxlength="40" spellcheck="false" autocomplete="off" />
+          </div>
+
+          <!-- ARCHIVE YES/NO — Yes keeps (already done), No removes from session archive -->
+          <div class="email-archive-row">
+            <span class="email-archive-q">SAVE TO JHALAK ARCHIVE?</span>
+            <button class="btn-archive-choice btn-archive-choice--yes" id="btn-archive-yes">YES</button>
+            <button class="btn-archive-choice" id="btn-archive-no">NO</button>
+          </div>
+
+          <button class="btn-skip" id="btn-skip">no thanks, start over</button>
+          <p class="email-status" id="email-status" aria-live="polite"></p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       HIDDEN UTILITY ELEMENTS
+       Never rendered — used as data sources by JavaScript only.
+  ============================================================ -->
+  <video id="webcam-feed" autoplay playsinline muted></video>
+  <canvas id="capture-canvas"></canvas>
+
+
+  <script src="jhalak.js"></script>
+
+</body>
+</html>

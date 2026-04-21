@@ -1,0 +1,1454 @@
+/* ============================================================
+   JHALAK — Memory Capture v1.0
+   Stylesheet
+
+   Palette
+   -------
+   --oat:             #E8E2D8   old-monitor / oat surface (window body)
+   --oat-mid:         #D4CEC4   slightly deeper oat (panels)
+   --oat-deep:        #BAB4AA   inset shadows / panel edge
+   --bevel-hi:        #F2EDE6   top/left highlight (warm white)
+   --bevel-lo:        #6B6360   bottom/right deep shadow
+   --shadow-soft:     #8A8178   mid shadow
+   --bar-bg:          #C8C2B8   title-bar body
+   --bar-stripe-hi:   #D8D2C8   title-bar stripe light
+   --bar-stripe-lo:   #B4AEA4   title-bar stripe dark
+   --accent-rose:     #C9A0A0   active / selected
+   --accent-rose-dk:  #A07878   deeper rose
+   --accent-blue:     #9AA3C2   hover / secondary
+   --accent-mint:     #A3BFB1   success / decorative
+   --accent-gold:     #C9BA8A   min-dot / decorative
+   --text-dark:       #2C2825   primary text
+   --text-mid:        #7A706A   secondary / labels
+   --text-cream:      #EDE8E2   light text on dark bg
+   --desktop-oat:     #C8C0B0   outer desktop (old monitor warm-oat)
+
+   Fonts (Google Fonts, loaded below)
+   ---
+   VT323          — monospace bitmap UI labels & status
+   Special Elite  — typewriter, title bar
+   Caveat         — handwritten, email prompt & soft copy
+============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Special+Elite&family=Caveat:wght@400;600&display=swap');
+
+/* ============================================================
+   CUSTOM PROPERTIES
+============================================================ */
+
+:root {
+  --oat: #e8e2d8;
+  --oat-mid: #d4cec4;
+  --oat-deep: #bab4aa;
+  --bevel-hi: #f2ede6;
+  --bevel-lo: #6b6360;
+  --shadow-soft: #8a8178;
+
+  /* Legacy aliases kept so nothing else breaks */
+  --grey-light: #e8e2d8;
+  --grey-mid: #d4cec4;
+  --grey-deep: #bab4aa;
+
+  --bar-bg: #c8c2b8;
+
+  --accent-rose: #c9a0a0;
+  --accent-rose-dk: #a07878;
+  --accent-blue: #9aa3c2;
+  --accent-mint: #a3bfb1;
+  --accent-gold: #c9ba8a;
+
+  --text-dark: #2c2825;
+  --text-mid: #7a706a;
+  --text-cream: #f2ede6;
+
+  --desktop-oat: #eceae4; /* much lighter — pale warm off-white desktop */
+
+  /* Bevel shorthand */
+  --raised: 2px solid var(--bevel-hi) 2px solid var(--bevel-hi) 2px solid var(--shadow-soft) 2px
+    solid var(--shadow-soft);
+}
+
+/* ============================================================
+   RESET & BASE
+============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 16px;
+  color: var(--text-dark);
+  background-color: var(--desktop-oat);
+
+  /* No text selection — feels like a real app */
+  user-select: none;
+  -webkit-user-select: none;
+
+  cursor: default;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input {
+  font-family: inherit;
+}
+
+/* ============================================================
+   DESKTOP BACKGROUND
+   Old monitor / Macintosh desktop surface.
+   Warm oat-tone with very faint horizontal banding.
+
+   Hook for optional custom background image:
+     Set --desktop-image to a url() to override the flat colour.
+     e.g. body { --desktop-image: url('/path/to/MONITOR VB.png'); }
+   The image will cover the desktop div if set.
+============================================================ */
+
+.desktop {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Warm oat — old monitor warm-up tone */
+  background-color: var(--desktop-oat);
+
+  /* Monitor wallpaper behind the window */
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 248, 238, 0.03) 0px,
+      rgba(255, 248, 238, 0.03) 1px,
+      rgba(0, 0, 0, 0.015) 1px,
+      rgba(0, 0, 0, 0.015) 2px
+    ),
+    url('/jhalak-assets/jhalak-desktop-collage-copy.png');
+
+  background-size: auto, cover;
+  background-position:
+    0 0,
+    center center;
+  background-repeat: repeat, no-repeat;
+}
+
+/* ============================================================
+   APPLICATION WINDOW
+   The main floating software window, centered on the desktop.
+   Fixed pixel-ish width so it never reflows like a webpage.
+============================================================ */
+
+.app-window {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  width: min(88vw, 700px);
+  max-height: 96vh;
+
+  background-color: var(--oat);
+
+  /* Window outer chrome — 2-layer bevel */
+  border-top: 2px solid var(--bevel-hi);
+  border-left: 2px solid var(--bevel-hi);
+  border-bottom: 2px solid var(--bevel-lo);
+  border-right: 2px solid var(--bevel-lo);
+
+  /* Cobalt blue selection ring — richer, more saturated */
+  outline: 3px solid #3060f0;
+  outline-offset: 0px;
+
+  /* Lift off the desktop — deeper shadow for popup feel */
+  box-shadow:
+    6px 6px 0 rgba(0, 0, 0, 0.38),
+    0 0 0 1px #2050ce;
+
+  overflow: hidden;
+  user-select: none;
+}
+
+.app-window.is-dragging {
+  cursor: grabbing !important;
+}
+.title-bar {
+  cursor: grab;
+}
+
+/* ============================================================
+   TITLE BAR
+   Macintosh-style: horizontal pinstripe over warm mid-grey.
+   Restrained, nostalgic. No colour-gradient — just the subtle
+   texture of old Mac chrome.
+============================================================ */
+
+.title-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  height: 26px;
+  flex-shrink: 0;
+
+  /* Mac OS 8/9 pinstripe — thin alternating warm-grey lines */
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 252, 246, 0.55) 0px,
+      rgba(255, 252, 246, 0.55) 1px,
+      rgba(0, 0, 0, 0) 1px,
+      rgba(0, 0, 0, 0) 2px
+    ),
+    linear-gradient(to bottom, #d2ccc2 0%, #b8b2a8 100%);
+
+  border-bottom: 1px solid var(--shadow-soft);
+}
+
+/* Traffic-light dots — small, muted, Macintosh-appropriate
+   order:2 pushes the dots to the right side of the flex bar;
+   the spacer (order:-1) moves to the left as a mirror counterweight. */
+.title-bar-dots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  order: 2;
+}
+
+.dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.28);
+  flex-shrink: 0;
+}
+
+.dot--close {
+  background-color: #e04040;
+}
+.dot--min {
+  background-color: #d4a010;
+}
+.dot--max {
+  background-color: #40b860;
+}
+
+/* X glyph on the red close dot */
+.dot--close::after {
+  content: '\00D7';
+  font-size: 9px;
+  line-height: 1;
+  color: rgba(60, 0, 0, 0.55);
+  pointer-events: none;
+}
+
+/* Window title — dark text on warm-grey bar */
+.title-bar-label {
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  color: var(--text-dark);
+
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Spacer mirrors dot group so title stays centered.
+   order:-1 puts the spacer on the LEFT (counterweight for dots now on right). */
+.title-bar-spacer {
+  width: 40px;
+  flex-shrink: 0;
+  order: -1;
+}
+
+/* ============================================================
+   APP BODY
+   Contains the filter grid and controls bar.
+============================================================ */
+
+.app-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+
+  padding: 6px;
+  gap: 6px;
+
+  background-color: var(--oat);
+}
+
+/* ============================================================
+   FILTER GRID
+   3×3 layout. Centre = NORMAL. Surrounding 8 = filters.
+============================================================ */
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 2px;
+
+  flex: 1;
+  min-height: 0;
+  position: relative; /* enlarge needs absolute positioning anchor */
+
+  /* Inset panel border around the whole grid */
+  border-top: 2px solid var(--shadow-soft);
+  border-left: 2px solid var(--shadow-soft);
+  border-bottom: 2px solid var(--bevel-hi);
+  border-right: 2px solid var(--bevel-hi);
+
+  /* Near-black gap colour gives much clearer tile framing vs mid-grey */
+  background-color: #141210;
+  padding: 2px;
+}
+
+/* --- ENLARGE mode (double-click a filter tile) ------------ */
+/* Photo Booth-style overlay panel floats above the entire app-body.
+   The grid beneath remains intact — only the overlay sits on top.   */
+
+.filter-enlarge-overlay {
+  position: absolute;
+  /* top/left/width/height set by JS to cover only the filter-grid area,
+     leaving the controls bar and status bar fully visible and usable.  */
+  z-index: 50;
+  background: #0a0608;
+  border: 2px solid rgba(150, 80, 255, 0.55);
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.9),
+    inset 0 0 0 1px rgba(200, 140, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.filter-enlarge-overlay canvas {
+  display: block;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.filter-enlarge-overlay .filter-name {
+  font-family: 'VT323', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: rgba(237, 232, 226, 0.55);
+  text-align: center;
+  padding: 4px 0 5px 0;
+  background: rgba(10, 4, 20, 0.7);
+  border-top: 1px solid rgba(150, 80, 255, 0.18);
+  flex-shrink: 0;
+}
+
+/* Double-click hint inside the overlay */
+.filter-enlarge-overlay::before {
+  content: 'double-click to close';
+  position: absolute;
+  top: 5px;
+  left: 8px;
+  font-family: 'VT323', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: rgba(237, 232, 226, 0.35);
+  pointer-events: none;
+  z-index: 51;
+}
+
+/* ============================================================
+   FILTER CELL
+   Each tile in the 3×3 grid.
+============================================================ */
+
+.filter-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+
+  /* Raised bevel — default state */
+  border-top: 2px solid var(--bevel-hi);
+  border-left: 2px solid var(--bevel-hi);
+  border-bottom: 2px solid var(--bevel-lo);
+  border-right: 2px solid var(--bevel-lo);
+
+  /* Dark backing = looks like a real camera viewfinder */
+  background-color: #0e0c0b;
+}
+
+/* The canvas fills the cell, minus the label strip */
+.filter-canvas {
+  display: block;
+  width: 100%;
+  height: calc(100% - 22px);
+  object-fit: cover;
+
+  /* Prevent canvas from being blurry when JS scales it */
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Filter name label strip at cell bottom */
+.filter-name {
+  display: block;
+  height: 22px;
+  line-height: 22px;
+  padding: 0 5px;
+  flex-shrink: 0;
+
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  letter-spacing: 0.07em;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  color: var(--text-cream);
+  background-color: rgba(20, 16, 14, 0.82);
+}
+
+/* --- SELECTED state ---------------------------------------- */
+/* Currently active filter (JS adds/removes this class)        */
+
+.filter-cell--selected {
+  /* Invert bevel = pressed in */
+  border-top: 2px solid var(--bevel-lo);
+  border-left: 2px solid var(--bevel-lo);
+  border-bottom: 2px solid var(--bevel-hi);
+  border-right: 2px solid var(--bevel-hi);
+
+  /* Yellow accent outline — clear selection indicator */
+  outline: 2px solid #ffe800;
+  outline-offset: -2px;
+  z-index: 2;
+}
+
+.filter-cell--selected .filter-name {
+  background-color: rgba(120, 100, 0, 0.85);
+  color: var(--text-cream);
+}
+
+/* --- NORMAL cell (centre) ---------------------------------- */
+/* Always no filter. Label styled slightly differently.        */
+
+.filter-cell--normal .filter-name {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: #c8c2bc;
+  background-color: rgba(20, 16, 14, 0.7);
+}
+
+.filter-cell--normal.filter-cell--selected .filter-name {
+  background-color: rgba(44, 40, 37, 0.88);
+  color: var(--text-cream);
+}
+
+/* --- LOCKED state ------------------------------------------ */
+/* Filter not yet implemented. Dimmed, non-interactive.        */
+
+.filter-cell--locked {
+  opacity: 0.38;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.filter-cell--locked .filter-name {
+  font-style: italic;
+  color: var(--text-mid);
+  background-color: rgba(20, 16, 14, 0.5);
+}
+
+/* --- HOVER on available (non-selected) cells --------------- */
+
+.filter-cell--active:not(.filter-cell--selected):hover,
+.filter-cell--normal:not(.filter-cell--selected):hover {
+  outline: 2px solid #00c8d8;
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.filter-cell--active:not(.filter-cell--selected):hover .filter-name,
+.filter-cell--normal:not(.filter-cell--selected):hover .filter-name {
+  background-color: rgba(0, 140, 160, 0.55);
+}
+
+/* ============================================================
+   CONTROLS BAR
+   The bottom strip: mode selector + capture button + countdown
+============================================================ */
+
+.controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  padding: 5px 10px;
+  flex-shrink: 0;
+
+  background-color: var(--oat);
+  border-top: 1px solid var(--shadow-soft);
+}
+
+/* ============================================================
+   MODE SELECTOR
+   Pill-shaped toolbar housing the mode toggle buttons.
+   Mimics the Mac Photobooth bottom bar shape.
+============================================================ */
+
+.mode-selector {
+  display: flex;
+  align-items: center;
+  gap: 0;
+
+  background-color: var(--grey-deep);
+
+  /* Inset bevel — the group container is recessed */
+  border-top: 2px solid var(--shadow-soft);
+  border-left: 2px solid var(--shadow-soft);
+  border-bottom: 2px solid var(--bevel-hi);
+  border-right: 2px solid var(--bevel-hi);
+
+  padding: 4px;
+  gap: 3px;
+}
+
+/* Mode toggle buttons (strip / single icons) */
+.mode-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  background-color: var(--oat);
+  color: var(--text-dark);
+  border: none;
+
+  /* Raised bevel */
+  border-top: 2px solid var(--bevel-hi);
+  border-left: 2px solid var(--bevel-hi);
+  border-bottom: 2px solid var(--shadow-soft);
+  border-right: 2px solid var(--shadow-soft);
+}
+
+.mode-btn:hover {
+  background-color: #ddd8d2;
+}
+
+/* Active / pressed mode button */
+.mode-btn--active,
+.mode-btn:active {
+  border-top: 2px solid var(--shadow-soft);
+  border-left: 2px solid var(--shadow-soft);
+  border-bottom: 2px solid var(--bevel-hi);
+  border-right: 2px solid var(--bevel-hi);
+  background-color: #c4beb8;
+}
+
+.mode-icon {
+  width: 20px;
+  height: 20px;
+  stroke: var(--text-dark);
+  pointer-events: none;
+}
+
+.mode-btn--active .mode-icon {
+  stroke: var(--accent-rose-dk);
+}
+
+/* ============================================================
+   CAPTURE BUTTON
+   The large central shutter button.
+============================================================ */
+
+.capture-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 68px;
+  height: 68px;
+
+  background-color: var(--oat);
+  border: none;
+  margin: 0 10px;
+
+  /* Heavier bevel for prominence */
+  border-top: 3px solid var(--bevel-hi);
+  border-left: 3px solid var(--bevel-hi);
+  border-bottom: 3px solid var(--bevel-lo);
+  border-right: 3px solid var(--bevel-lo);
+
+  outline: 1px solid #3a3230;
+}
+
+.capture-btn:hover {
+  background-color: #dddad6;
+}
+
+.capture-btn:active {
+  border-top: 3px solid var(--bevel-lo);
+  border-left: 3px solid var(--bevel-lo);
+  border-bottom: 3px solid var(--bevel-hi);
+  border-right: 3px solid var(--bevel-hi);
+  background-color: #bfbab4;
+}
+
+.capture-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.capture-icon {
+  width: 30px;
+  height: 30px;
+  stroke: var(--text-dark);
+  pointer-events: none;
+}
+
+/* ============================================================
+   COUNTDOWN DISPLAY
+   3 / 2 / 1 shown full-screen over the grid during timer.
+   JS toggles .visible and updates the inner text.
+============================================================ */
+
+.countdown {
+  position: absolute;
+
+  /* Sits over the grid, not over the controls bar */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 64px; /* approx controls bar height */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+  z-index: 60; /* above filter-enlarge overlay (50) and its close button (52) */
+
+  opacity: 0;
+}
+
+.countdown.visible {
+  opacity: 1;
+}
+
+@keyframes countdown-pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  45% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.countdown-number {
+  font-family: 'VT323', monospace;
+  font-size: 140px;
+  line-height: 1;
+  color: var(--bevel-hi);
+  display: inline-block;
+
+  /* Bounce in on each number change */
+  animation: countdown-pop 0.28s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+
+  /* Outline for legibility over any filter */
+  text-shadow:
+    3px 3px 0 #1a1410,
+    -3px -3px 0 #1a1410,
+    3px -3px 0 #1a1410,
+    -3px 3px 0 #1a1410,
+    0 0 18px rgba(255, 255, 255, 0.35);
+}
+
+/* ============================================================
+   EMAIL MODAL
+   Fixed centered popup above the photobooth.
+   Appears after capture — photobooth remains visible behind.
+============================================================ */
+
+.email-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 14, 10, 0.72);
+  backdrop-filter: blur(1px);
+}
+
+.email-modal[hidden] {
+  display: none;
+}
+
+.email-modal-card {
+  width: min(92vw, 440px);
+  max-height: 92vh;
+  overflow-y: auto;
+  background-color: var(--oat);
+
+  border-top: 2px solid var(--bevel-hi);
+  border-left: 2px solid var(--bevel-hi);
+  border-bottom: 2px solid var(--bevel-lo);
+  border-right: 2px solid var(--bevel-lo);
+  outline: 2px solid #3060f0;
+  outline-offset: 0;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.45);
+}
+
+.email-modal-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background-color: var(--bar-bg);
+  border-bottom: 1px solid var(--shadow-soft);
+  /* Pinstripe matching main title bar */
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 252, 246, 0.55) 0px,
+    rgba(255, 252, 246, 0.55) 1px,
+    rgba(0, 0, 0, 0) 1px,
+    rgba(0, 0, 0, 0) 2px
+  );
+}
+
+.email-modal-title {
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--text-dark);
+  flex: 1;
+  text-align: center;
+}
+
+/* Vertical column layout */
+.email-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Postcard preview area — logo + image ── */
+.email-postcard-area {
+  background-color: #1a1614;
+  border-bottom: 2px solid var(--shadow-soft);
+  position: relative;
+}
+
+.email-postcard-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px 4px;
+}
+
+.email-logo-img {
+  height: 22px;
+  display: block;
+}
+
+.email-logo-fallback {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 240, 200, 0.65);
+}
+
+.email-postcard-img-wrap {
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+
+.email-postcard-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Butterfly / signature logo stamp — bottom-right corner of the postcard */
+.email-butterfly-stamp {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  height: 32px;
+  width: auto;
+  opacity: 0.8;
+  pointer-events: none;
+  /* Soft white glow so it reads on dark photo backgrounds */
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.35));
+}
+.email-butterfly-stamp[src=''] {
+  display: none;
+}
+
+/* ── Filmstrip — horizontal scrolling archive strip ── */
+.email-filmstrip {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  padding: 6px 10px;
+  overflow-x: auto;
+  background-color: var(--oat-mid);
+  border-bottom: 1px solid var(--shadow-soft);
+  min-height: 54px;
+  align-items: center;
+}
+
+.filmstrip-item {
+  flex-shrink: 0;
+  width: 62px;
+  height: 46px;
+  overflow: hidden;
+  border: 1px solid var(--shadow-soft);
+  cursor: default;
+  opacity: 0.7;
+}
+
+.filmstrip-item--selected {
+  opacity: 1;
+  border: 2px solid #3060f0;
+  box-shadow: 0 0 0 1px #2050ce;
+}
+
+.filmstrip-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.filmstrip-empty {
+  font-family: 'VT323', monospace;
+  font-size: 12px;
+  color: var(--text-mid);
+  width: 100%;
+  text-align: center;
+}
+
+/* ── Headline copy ── */
+.email-headline {
+  padding: 8px 14px 3px;
+}
+
+.email-headline-main {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 36px;
+  font-weight: 400; /* Pinyon Script is naturally elegant at regular weight */
+  color: #d90754;
+  line-height: 1;
+  display: block;
+  letter-spacing: 0.02em;
+}
+
+/* ── Email send area ── */
+.email-send-area {
+  padding: 4px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Spiral loading gif */
+.email-spiral {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Thumbnail of the captured image — slightly larger in the modal */
+.email-preview-thumb {
+  flex-shrink: 0;
+  width: 110px;
+  height: 82px;
+  overflow: hidden;
+
+  /* Inset bevel — like a photo sitting in a recess */
+  border-top: 2px solid var(--shadow-soft);
+  border-left: 2px solid var(--shadow-soft);
+  border-bottom: 2px solid var(--bevel-hi);
+  border-right: 2px solid var(--bevel-hi);
+
+  background-color: #181614;
+}
+
+.email-preview-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Right side: form content */
+.email-form-area {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.email-input-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Text input field */
+.email-input {
+  flex: 1;
+  height: 32px;
+  padding: 4px 8px;
+
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  color: var(--text-dark);
+
+  /* Slightly warm off-white — not a stark white field */
+  background-color: #f2eee8;
+
+  border: none;
+
+  /* Inset bevel — text fields are always recessed */
+  border-top: 2px solid var(--shadow-soft);
+  border-left: 2px solid var(--shadow-soft);
+  border-bottom: 2px solid var(--bevel-hi);
+  border-right: 2px solid var(--bevel-hi);
+
+  outline: none;
+}
+
+.email-input::placeholder {
+  color: var(--text-mid);
+  opacity: 0.65;
+}
+
+.email-input:focus {
+  background-color: #faf6f0;
+  /* Retro dotted focus ring — not a glowing blue outline */
+  outline: 1px dotted var(--accent-rose);
+  outline-offset: 2px;
+}
+
+/* SEND → button */
+.btn-send {
+  height: 32px;
+  padding: 0 16px;
+
+  font-family: 'VT323', monospace;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  color: var(--text-dark);
+
+  background-color: var(--oat);
+  border: none;
+  white-space: nowrap;
+
+  border-top: 2px solid var(--bevel-hi);
+  border-left: 2px solid var(--bevel-hi);
+  border-bottom: 2px solid var(--shadow-soft);
+  border-right: 2px solid var(--shadow-soft);
+}
+
+.btn-send:hover {
+  background-color: #ddd8d2;
+}
+
+.btn-send:active {
+  border-top: 2px solid var(--shadow-soft);
+  border-left: 2px solid var(--shadow-soft);
+  border-bottom: 2px solid var(--bevel-hi);
+  border-right: 2px solid var(--bevel-hi);
+  background-color: #c4beb8;
+}
+
+.btn-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* no thanks / skip — styled as a plain underline link */
+.btn-skip {
+  font-family: 'VT323', monospace;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: #00c8d8; /* cyan blue — clearly clickable */
+
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-style: dotted;
+
+  align-self: flex-start;
+  opacity: 0.85;
+}
+
+.btn-skip:hover {
+  color: #00e8fa;
+  opacity: 1;
+}
+
+/* Archive confirmation — shown automatically after capture */
+.archive-confirm {
+  font-family: 'VT323', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: #d90754;
+  opacity: 0.6;
+}
+
+/* ── Yes / No archive row ── */
+.email-archive-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 1px 0;
+}
+
+.email-archive-q {
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--text-dark);
+  flex: 1;
+}
+
+.btn-archive-choice {
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  height: 24px;
+  padding: 0 10px;
+  background: none;
+  border-top: 2px solid var(--bevel-hi);
+  border-left: 2px solid var(--bevel-hi);
+  border-bottom: 2px solid var(--shadow-soft);
+  border-right: 2px solid var(--shadow-soft);
+  color: var(--text-dark);
+  cursor: pointer;
+}
+
+.btn-archive-choice:hover {
+  background-color: var(--oat-mid);
+}
+
+.btn-archive-choice--yes {
+  color: #28d84a; /* vivid green */
+  font-weight: bold;
+}
+
+#btn-archive-no {
+  color: #ff3838; /* vivid red */
+  font-weight: bold;
+}
+
+/* Email modal — close dot slightly larger for easy tap */
+.email-modal .dot--close {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+.email-modal .dot--close::after {
+  font-size: 11px;
+  color: rgba(80, 0, 0, 0.7);
+}
+
+/* Status line beneath the form */
+.email-status {
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--text-mid);
+  min-height: 16px;
+}
+
+.email-status.is-success {
+  color: var(--accent-mint);
+}
+
+.email-status.is-error {
+  color: #00c8d8; /* cyan — stands out clearly against the oat background */
+}
+
+/* ============================================================
+   STATUS BAR
+   The bottommost strip of the window — always visible.
+============================================================ */
+
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 9px;
+  flex-shrink: 0;
+  height: 22px;
+
+  background-color: var(--oat-mid);
+
+  /* Inset top line */
+  border-top: 2px solid var(--shadow-soft);
+  border-bottom: 1px solid var(--bevel-hi);
+}
+
+.status-item {
+  font-family: 'VT323', monospace;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: var(--text-dark);
+  white-space: nowrap;
+}
+
+.status-sep {
+  color: var(--grey-deep);
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+/* JHALAK mark in the status bar — floats right */
+.status-deco {
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: #ff3d9a; /* hot pink */
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+/* Archive button in the status bar */
+.status-archive-btn {
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--text-mid);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.status-archive-btn:hover {
+  color: var(--accent-rose);
+}
+
+/* ============================================================
+   SHUTTER FLASH OVERLAY
+   Instantaneous white flash over the full window on capture.
+   Added to DOM by JS, removed after animation completes.
+============================================================ */
+
+.shutter-flash {
+  position: absolute;
+  inset: 0;
+  background-color: #f4f0ec;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0;
+}
+
+.shutter-flash.is-flashing {
+  animation: shutterFlash 130ms ease-out forwards;
+}
+
+@keyframes shutterFlash {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   HIDDEN UTILITY ELEMENTS
+   The live webcam video and final capture canvas.
+   These are never rendered — just used as data sources by JS.
+============================================================ */
+
+#webcam-feed,
+#capture-canvas {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* ============================================================
+   EMAIL FORTUNE
+   Shown above the "send this to yourself?" prompt.
+============================================================ */
+
+/* .email-fortune — removed from popup (fortune no longer displayed in modal) */
+
+/* ============================================================
+   ARCHIVE PANEL
+   Full-window overlay showing in-session captures.
+============================================================ */
+
+.archive-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  background-color: var(--oat-mid);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.archive-panel[hidden] {
+  display: none;
+}
+
+.archive-panel-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.archive-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background-color: var(--title-bar);
+  border-bottom: 1px solid var(--shadow-soft);
+  flex-shrink: 0;
+}
+
+.archive-title {
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--text-dark);
+}
+
+.archive-close {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  line-height: 1;
+  background: none;
+  border: none;
+  color: var(--text-dark);
+  cursor: pointer;
+  padding: 0 2px;
+}
+.archive-close:hover {
+  color: var(--accent-rose);
+}
+
+.archive-grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-content: flex-start;
+}
+
+.archive-empty {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: var(--text-mid);
+  width: 100%;
+  text-align: center;
+  margin-top: 24px;
+}
+
+.archive-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.archive-thumb {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  display: block;
+  border-top: 2px solid var(--bevel-hi);
+  border-left: 2px solid var(--bevel-hi);
+  border-bottom: 2px solid var(--shadow-soft);
+  border-right: 2px solid var(--shadow-soft);
+}
+
+.archive-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.archive-fortune {
+  font-family: 'Caveat', cursive;
+  font-size: 12px;
+  color: var(--text-dark);
+  font-style: italic;
+  line-height: 1.3;
+}
+
+/* Date/time stamp — cobalt blue, VT323 monospace */
+.archive-datetime {
+  font-family: 'VT323', monospace;
+  font-size: 11px;
+  color: #1a5cb8;
+  letter-spacing: 0.06em;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Optional name — slightly brighter cobalt */
+.archive-name {
+  display: block;
+  font-family: 'VT323', monospace;
+  font-size: 12px;
+  color: #2272d8;
+  letter-spacing: 0.04em;
+  margin-top: 1px;
+}
+
+.archive-filter {
+  font-family: 'VT323', monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-mid);
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   If any scroll ever appears, keep it retro.
+============================================================ */
+
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--grey-mid);
+  border-left: 1px solid var(--shadow-soft);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--grey-light);
+  border-top: 2px solid var(--bevel-hi);
+  border-left: 2px solid var(--bevel-hi);
+  border-bottom: 2px solid var(--shadow-soft);
+  border-right: 2px solid var(--shadow-soft);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--grey-mid);
+}
+
+/* ── Enlarge close button — white square, pixelated X ─────────────────────── */
+.enlarge-close-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 52;
+  width: 24px;
+  height: 24px;
+  background: #ffffff;
+  border: 1px solid rgba(150, 80, 255, 0.7);
+  border-radius: 0;
+  color: #000000;
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  image-rendering: pixelated;
+}
+.enlarge-close-btn:hover {
+  background: rgba(200, 140, 255, 0.9);
+  border-color: rgba(150, 80, 255, 1);
+  color: #ffffff;
+}
+
+/* ── Email name row ────────────────────────────────────────────────────────── */
+.email-name-row {
+  margin: 6px 0 0 0;
+}
+.name-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(237, 232, 226, 0.25);
+  color: #ede8e2;
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  padding: 4px 2px;
+  outline: none;
+  letter-spacing: 0.05em;
+}
+.name-input::placeholder {
+  color: rgba(237, 232, 226, 0.3);
+}
+
+/* ── Archive meta / name ───────────────────────────────────────────────────── */
+.archive-meta {
+  font-size: 10px;
+  color: rgba(237, 232, 226, 0.55);
+  margin: 3px 0 0 0;
+  letter-spacing: 0.04em;
+}
+.archive-name {
+  display: block;
+  color: rgba(237, 232, 226, 0.8);
+  font-size: 11px;
+  margin-top: 2px;
+}
