@@ -2260,13 +2260,13 @@ function drawSurveillance(ctx, w, h, isCapture, dt) {
           }
         }
         cells.sort((a, b) => b.level - a.level);
-        const raw = cells.slice(0, 50);
+        // Cap dots by buildProgress: 0 dots at bp=0, up to 22 dots at bp=1
+        const maxDots = Math.round(bp * 22);
+        const raw = cells.slice(0, maxDots);
 
         // Temporal smoothing: lerp tracked dots toward detected cells each frame
-        // This prevents teleporting dots and makes tracking feel more continuous
         if (!s.trackedDots) s.trackedDots = [];
-        const LERP = 0.30;  // how fast dots follow motion (0=frozen, 1=instant)
-        // Match existing tracked dots to closest new cells
+        const LERP = 0.28;
         raw.forEach((cell, i) => {
           if (i < s.trackedDots.length) {
             s.trackedDots[i].nx += (cell.nx - s.trackedDots[i].nx) * LERP;
@@ -2276,7 +2276,6 @@ function drawSurveillance(ctx, w, h, isCapture, dt) {
             s.trackedDots.push({ nx: cell.nx, ny: cell.ny, level: cell.level });
           }
         });
-        // Trim if fewer cells detected this frame
         if (s.trackedDots.length > raw.length) {
           s.trackedDots.length = raw.length;
         }
@@ -2285,19 +2284,20 @@ function drawSurveillance(ctx, w, h, isCapture, dt) {
       s.prevMotionData = sCurr;
     }
 
-    // Draw motion-tracking dots — spatially accurate, temporally smooth
-    if (s.motionCells && s.motionCells.length > 2) {
+    // Draw motion-tracking dots — gated by buildProgress so they appear gradually
+    const dotFade = surveyAlpha(bp, 0.30, 0.20);  // fade in: 30% → 50% build
+    if (s.motionCells && s.motionCells.length > 0 && dotFade > 0) {
       const now2 = performance.now();
       ctx.save();
       s.motionCells.forEach((cell, i) => {
         const cx = cell.nx * w;
         const cy = cell.ny * h;
-        const r  = 1.5;   // larger radius for visibility at high resolution
+        const r  = 1.2;
 
         const flickPhase = (now2 * 0.003 + i * 0.71) % 1;
-        ctx.globalAlpha = flickPhase < 0.08 ? 0.4 : 1.0;
-        // Top-8 cells → green (most active); rest → yellow
-        ctx.fillStyle = i < 8 ? '#32FF46' : '#FFD71E';
+        const flick = flickPhase < 0.08 ? 0.3 : 1.0;
+        ctx.globalAlpha = dotFade * 0.70 * flick;  // kept calm
+        ctx.fillStyle = i < 5 ? '#32FF46' : '#FFD71E';
         ctx.beginPath();
         ctx.arc(cx, cy, r, 0, Math.PI * 2);
         ctx.fill();
@@ -2888,8 +2888,13 @@ function drawAura(ctx, w, h, isCapture, dt) {
   const au = anim.aura;
   if (!isCapture) au.t += dt;
 
-  // Re-init if canvas size changed
-  if (!au.trailCanvas || au.trailCanvas.width !== w || au.trailCanvas.height !== h) {
+  // Re-init if canvas size changed — but NEVER during capture.
+  // During capture the canvas is 640×480 while the trail is 320×240.
+  // We scale the existing trail via drawImage(tc, 0, 0, w, h) so the
+  // accumulated aura effect appears in the captured photo.
+  if (!au.trailCanvas) {
+    initAuraAnim(w, h);
+  } else if (!isCapture && (au.trailCanvas.width !== w || au.trailCanvas.height !== h)) {
     initAuraAnim(w, h);
   }
   const tc  = au.trailCanvas;
@@ -3543,7 +3548,7 @@ function newStar(w, h, scatter) {
     vy:         0.10 + Math.random() * 0.42,    // always downward, gentle consistent drift
     vx:         (Math.random() - 0.5) * 0.06,   // very slight lateral bias (corrected by sway)
     size:       0.5 + Math.pow(Math.random(), 2.0) * 2.4,
-    baseAlpha:  0.55 + Math.random() * 0.40,
+    baseAlpha:  0.78 + Math.random() * 0.22,
     shape:      roll < 0.30 ? 1 : roll < 0.52 ? 2 : roll < 0.66 ? 3 : roll < 0.80 ? 4 : roll < 0.92 ? 5 : 6,
     color:      STAR_PALETTE[Math.floor(Math.random() * STAR_PALETTE.length)],
     twinkle:    Math.random() < 0.60,
@@ -3569,10 +3574,14 @@ function drawFallingStars(ctx, w, h, isCapture, dt) {
   if (!isCapture) fs.t += dt;
 
   // Proportional rescale when canvas size changes (enlarged overlay mode).
-  // Scale existing positions to the new canvas — no burst, no reset.
+  // NEVER mutate positions during capture — instead apply a ctx scale transform
+  // in the render passes so stars appear at the right proportional positions
+  // without disturbing the live preview particles.
   const fsInitW = fs._initW || CANVAS_W;
   const fsInitH = fs._initH || CANVAS_H;
-  if (Math.abs(w - fsInitW) > 30 || Math.abs(h - fsInitH) > 30) {
+  const capScaleX = isCapture ? w / fsInitW : 1;
+  const capScaleY = isCapture ? h / fsInitH : 1;
+  if (!isCapture && (Math.abs(w - fsInitW) > 30 || Math.abs(h - fsInitH) > 30)) {
     const scaleX = w / fsInitW;
     const scaleY = h / fsInitH;
     fs.particles.forEach(p => { p.x *= scaleX; p.y *= scaleY; });
@@ -3703,16 +3712,18 @@ function drawFallingStars(ctx, w, h, isCapture, dt) {
   // Drawn before the video — video naturally covers them in the face/body area.
   // Stars near the face softly fade so they appear behind the user without a
   // geometric mask shape. The video occlusion handles the rest naturally.
+  // During capture: ctx.scale(capScaleX, capScaleY) maps 320×240 particle
+  // positions onto the 640×480 capture canvas without mutating live particles.
   ctx.save();
+  if (capScaleX !== 1) ctx.scale(capScaleX, capScaleY);
   fs.particles.forEach((p, i) => {
     if (i % 6 === 0) return;  // reserve 1-in-6 for foreground
     let a = p.baseAlpha;
     // Soft face-area fade — no hard circle, just a smooth distance falloff
-    const dxF = p.x - faceSoftX;
-    const dyF = p.y - faceSoftY;
-    const distN = Math.sqrt(dxF * dxF + dyF * dyF) / faceSoftR;
+    const dxF = p.x - faceSoftX / capScaleX;
+    const dyF = p.y - faceSoftY / capScaleY;
+    const distN = Math.sqrt(dxF * dxF + dyF * dyF) / (faceSoftR / capScaleX);
     if (distN < 1.4) {
-      // Gentle linear fade starting well outside face centre
       a *= Math.min(1, 0.15 + 0.85 * ((distN - 0.3) / 1.1));
     }
     _drawStarShape(p, _twinkleAlpha(p, a));
@@ -3727,13 +3738,12 @@ function drawFallingStars(ctx, w, h, isCapture, dt) {
   ctx.restore();
 
   // ── 4. Foreground stars — screen blend, softly through the video ─────────
-  // Fewer foreground stars (1-in-6). Screen blend makes bright stars glow
-  // naturally through skin without adding a separate vignette layer.
   ctx.save();
   ctx.globalCompositeOperation = 'screen';
+  if (capScaleX !== 1) ctx.scale(capScaleX, capScaleY);
   fs.particles.forEach((p, i) => {
     if (i % 6 !== 0) return;
-    const a = _twinkleAlpha(p, p.baseAlpha * 0.65);
+    const a = _twinkleAlpha(p, p.baseAlpha * 0.90);
     _drawStarShape(p, a);
   });
   ctx.restore();

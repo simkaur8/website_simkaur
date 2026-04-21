@@ -1115,6 +1115,28 @@ input {
 }
 
 /* ============================================================
+   SMILE STICKER
+   Small decorative sticker, top-right corner of app window.
+   Sits above the filter grid, inside the app chrome.
+   z-index 25 — above grid cells (z-index 2) but below enlarged
+   overlay (50) and countdown (60) so it never blocks controls.
+============================================================ */
+
+.smile-sticker {
+  position: absolute;
+  top: 30px; /* just below the title bar */
+  right: 10px;
+  width: 68px;
+  height: auto;
+  z-index: 25;
+  pointer-events: none;
+  transform: rotate(6deg);
+  opacity: 0.92;
+  border-radius: 3px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.28);
+}
+
+/* ============================================================
    STATUS BAR
    The bottommost strip of the window — always visible.
 ============================================================ */
