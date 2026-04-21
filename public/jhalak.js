@@ -4652,8 +4652,15 @@ async function sendEmail(address, dataURL) {
   try { data = await res.json(); } catch { data = {}; }
   console.log('[JHALAK] Send response status:', res.status, data);
 
+  if (data?.warning) {
+    // Sandbox fallback: API worked but email went to account owner, not visitor
+    console.warn('[JHALAK] send warning:', data.warning);
+  }
   if (!res.ok) {
-    throw new Error(`send failed (${res.status})${data.error ? ': ' + data.error : ''}`);
+    // Log the raw server response so it's visible in the browser console at the gallery
+    console.error('[JHALAK] API error response:', res.status, data);
+    const detail = data?.error ?? 'unknown error';
+    throw new Error(`send failed (${res.status}): ${detail}`);
   }
 }
 
@@ -4690,9 +4697,12 @@ btnSend.addEventListener('click', async () => {
   } catch (err) {
     console.error('[JHALAK] send error:', err);
     if (spiralEl) spiralEl.style.display = 'none';
-    const msg = err.message.startsWith('network')
+    const raw = err.message ?? '';
+    const msg = raw.startsWith('network')
       ? 'sending failed — check internet connection'
-      : 'sending failed — check email setup or try again';
+      : raw.startsWith('send failed')
+        ? `sending failed — ${raw.replace('send failed', '').replace(/^\s*\(\d+\)\s*:?\s*/, '').trim() || 'check email setup'}`
+        : 'sending failed — check email setup or try again';
     setEmailStatus(msg, 'is-error');
     btnSend.disabled = false;
     btnSkip.disabled = false;
