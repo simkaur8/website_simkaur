@@ -1287,7 +1287,9 @@ function renderLoop(timestamp) {
       octx.clearRect(0, 0, oc.width, oc.height);
       try {
         renderFilter(octx, oc.width, oc.height, enlargeOverlay.dataset.filterKey, false, dt);
-      } catch (err) { /* silent — overlay is secondary */ }
+      } catch (err) {
+        console.error('[JHALAK] enlarged overlay render error (', enlargeOverlay.dataset.filterKey, '):', err);
+      }
     }
   }
 
@@ -4415,24 +4417,36 @@ function startCapture() {
 }
 
 async function captureSingle() {
-  await runCountdown(COUNTDOWN_S);
-  flashShutter();
-  const dataURL = renderToCapture(state.selectedFilter);
-  finishCapture(dataURL);
+  try {
+    await runCountdown(COUNTDOWN_S);
+    flashShutter();
+    const dataURL = renderToCapture(state.selectedFilter);
+    finishCapture(dataURL);
+  } catch (err) {
+    console.error('[JHALAK] captureSingle error — resetting state:', err);
+    state.capturing     = false;
+    captureBtn.disabled = false;
+    hideCountdown();
+  }
 }
 
 async function captureStrip() {
   const frames = [];
-
-  for (let i = 0; i < 4; i++) {
-    await runCountdown(COUNTDOWN_S);
-    flashShutter();
-    frames.push(renderToCapture(state.selectedFilter));
-    if (i < 3) await wait(750);  // brief pause so visitor can repose
+  try {
+    for (let i = 0; i < 4; i++) {
+      await runCountdown(COUNTDOWN_S);
+      flashShutter();
+      frames.push(renderToCapture(state.selectedFilter));
+      if (i < 3) await wait(750);  // brief pause so visitor can repose
+    }
+    const dataURL = await compositeStrip(frames);
+    finishCapture(dataURL);
+  } catch (err) {
+    console.error('[JHALAK] captureStrip error — resetting state:', err);
+    state.capturing     = false;
+    captureBtn.disabled = false;
+    hideCountdown();
   }
-
-  const dataURL = await compositeStrip(frames);
-  finishCapture(dataURL);
 }
 
 /** Render current video + chosen filter at full 640×480 onto the hidden canvas. */
@@ -4481,14 +4495,18 @@ async function compositeStrip(frames) {
 
   await Promise.all(
     frames.map((dataURL, i) => new Promise(resolve => {
-      const img  = new Image();
-      img.onload = () => {
+      const img    = new Image();
+      img.onload   = () => {
         capCtx.drawImage(img,
           gap + (i % cols)           * (fw + gap),
           gap + Math.floor(i / cols) * (fh + gap),
           fw, fh
         );
         resolve();
+      };
+      img.onerror  = () => {
+        console.error('[JHALAK] compositeStrip: frame', i, 'failed to decode — cell left blank');
+        resolve(); // resolve anyway so the strip still completes
       };
       img.src = dataURL;
     }))
@@ -4660,6 +4678,14 @@ btnSend.addEventListener('click', async () => {
     await sendEmail(address, state.capturedDataURL);
     if (spiralEl) spiralEl.style.display = 'none';
     setEmailStatus('sent ✓  check your inbox', 'is-success');
+    // Update archive entry name now that user has typed it
+    if (memoryArchive.length > 0) {
+      const nameVal = document.getElementById('name-input')?.value?.trim() || '';
+      if (nameVal) {
+        memoryArchive[memoryArchive.length - 1].name = nameVal;
+        saveArchiveToStorage(memoryArchive);
+      }
+    }
     setTimeout(reset, 3500);
   } catch (err) {
     console.error('[JHALAK] send error:', err);
@@ -4700,6 +4726,10 @@ function reset() {
   emailInput.value        = '';
   emailStatus.textContent = '';
   emailStatus.className   = 'email-status';
+
+  // Clear name field so the next visitor doesn't see a previous visitor's name
+  const nameInput = document.getElementById('name-input');
+  if (nameInput) nameInput.value = '';
 
   selectFilter('none');
   setStatus('camera', '\u25CF camera ready');
@@ -4957,8 +4987,15 @@ document.querySelector('#email-panel .dot--close')
 
 // Archive YES / NO buttons
 document.getElementById('btn-archive-yes')?.addEventListener('click', () => {
-  // YES — photo already archived on capture, nothing more to do
+  // YES — photo already archived on capture; update name now that user has typed it
   playClick();
+  if (memoryArchive.length > 0) {
+    const nameVal = document.getElementById('name-input')?.value?.trim() || '';
+    if (nameVal) {
+      memoryArchive[memoryArchive.length - 1].name = nameVal;
+      saveArchiveToStorage(memoryArchive);
+    }
+  }
   const row = document.querySelector('.email-archive-row');
   if (row) { row.style.opacity = '0.45'; row.style.pointerEvents = 'none'; }
   setEmailStatus('\u2756 saved to archive', 'is-success');
@@ -5025,8 +5062,12 @@ init();
 
   window.addEventListener('mousemove', e => {
     if (!dragging) return;
-    win.style.left = (origLeft + e.clientX - startX) + 'px';
-    win.style.top  = (origTop  + e.clientY - startY) + 'px';
+    // Clamp so the title bar always stays on-screen (at least 48px from each edge)
+    const MARGIN = 48;
+    const newLeft = origLeft + e.clientX - startX;
+    const newTop  = origTop  + e.clientY - startY;
+    win.style.left = Math.min(window.innerWidth  - MARGIN, Math.max(MARGIN - win.offsetWidth,  newLeft)) + 'px';
+    win.style.top  = Math.min(window.innerHeight - MARGIN, Math.max(0, newTop)) + 'px';
   });
 
   window.addEventListener('mouseup', () => {
