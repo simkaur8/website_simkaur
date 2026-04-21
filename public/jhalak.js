@@ -2260,8 +2260,8 @@ function drawSurveillance(ctx, w, h, isCapture, dt) {
           }
         }
         cells.sort((a, b) => b.level - a.level);
-        // Cap dots by buildProgress: 0 dots at bp=0, up to 22 dots at bp=1
-        const maxDots = Math.round(bp * 22);
+        // Cap dots by buildProgress: 0 dots at bp=0, up to 30 dots at bp=1
+        const maxDots = Math.round(bp * 30);
         const raw = cells.slice(0, maxDots);
 
         // Temporal smoothing: lerp tracked dots toward detected cells each frame
@@ -3543,18 +3543,20 @@ const STAR_PALETTE = [
 function newStar(w, h, scatter) {
   const roll = Math.random();
   return {
-    x:          Math.random() * w,
-    y:          scatter ? Math.random() * h : -6 - Math.random() * 30,
-    vy:         0.10 + Math.random() * 0.42,    // always downward, gentle consistent drift
-    vx:         (Math.random() - 0.5) * 0.06,   // very slight lateral bias (corrected by sway)
-    size:       0.9 + Math.pow(Math.random(), 1.6) * 4.0,
-    baseAlpha:  0.78 + Math.random() * 0.22,
-    shape:      roll < 0.30 ? 1 : roll < 0.52 ? 2 : roll < 0.66 ? 3 : roll < 0.80 ? 4 : roll < 0.92 ? 5 : 6,
-    color:      STAR_PALETTE[Math.floor(Math.random() * STAR_PALETTE.length)],
-    twinkle:    Math.random() < 0.60,
-    twinkleT:   Math.random() * 4000,
-    twinklePer: 1400 + Math.random() * 3000,    // slower, more atmospheric twinkle
-    swayOffset: Math.random() * Math.PI * 2,    // unique phase for per-star sway
+    x:           Math.random() * w,
+    y:           scatter ? Math.random() * h : -6 - Math.random() * 30,
+    vy:          0.08 + Math.random() * 0.58,   // wider speed range → stars fall at very different rates
+    vx:          (Math.random() - 0.5) * 0.06,  // very slight lateral bias (corrected by sway)
+    size:        1.2 + Math.pow(Math.random(), 1.4) * 5.2,  // larger min + heavier tail toward big
+    baseAlpha:   0.85 + Math.random() * 0.15,   // more solid — less translucent
+    shape:       roll < 0.30 ? 1 : roll < 0.52 ? 2 : roll < 0.66 ? 3 : roll < 0.80 ? 4 : roll < 0.92 ? 5 : 6,
+    color:       STAR_PALETTE[Math.floor(Math.random() * STAR_PALETTE.length)],
+    twinkle:     Math.random() < 0.60,
+    twinkleT:    Math.random() * 4000,
+    twinklePer:  1400 + Math.random() * 3000,   // slower, more atmospheric twinkle
+    swayOffset:  Math.random() * Math.PI * 2,   // unique phase for per-star sway
+    jitterFreq:  0.8 + Math.random() * 2.5,     // per-star vertical jitter frequency
+    jitterPhase: Math.random() * Math.PI * 2,   // per-star jitter phase offset
   };
 }
 
@@ -3562,8 +3564,8 @@ function initFallingStarsAnim(w, h) {
   anim.fallingStars.particles = [];
   anim.fallingStars._initW = w;
   anim.fallingStars._initH = h;
-  // 220 stars scattered across the full canvas on first init
-  for (let i = 0; i < 220; i++) {
+  // 260 stars scattered across the full canvas on first init
+  for (let i = 0; i < 260; i++) {
     anim.fallingStars.particles.push(newStar(w, h, true));
   }
   anim.fallingStars.t = 0;
@@ -3629,9 +3631,11 @@ function drawFallingStars(ctx, w, h, isCapture, dt) {
     const tSec = fs.t / 1000;
     fs.particles.forEach((p, i) => {
       // Per-star sinusoidal sway — makes drift feel organic, not mechanical
-      const sway = Math.sin(tSec * 0.35 + p.swayOffset) * 0.012;
+      const sway = Math.sin(tSec * 0.35 + p.swayOffset) * 0.014;
+      // Per-star vertical jitter — varies fall speed subtly so paths feel irregular
+      const jitter = Math.sin(tSec * p.jitterFreq + p.jitterPhase) * 0.045;
       p.x += (p.vx + sway) * dtN;
-      p.y += p.vy * dtN;
+      p.y += (p.vy + jitter) * dtN;
       if (p.twinkle) p.twinkleT += dt;
       // Respawn from top when star exits frame
       if (p.y > h + 12 || p.x < -40 || p.x > w + 40) {
