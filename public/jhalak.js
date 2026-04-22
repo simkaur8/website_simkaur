@@ -4543,8 +4543,66 @@ function wait(ms) {
 
 
 /* ============================================================
-  16. EMAIL PANEL
+  16. EMAIL PANEL + QR CODE
 ============================================================ */
+
+/**
+ * Upload the captured JPEG to Vercel Blob via /api/jhalak-upload.
+ * On success, display the returned QR code (a data URL PNG) in the panel.
+ * On failure, show an error and leave the email form as the fallback.
+ */
+async function uploadAndShowQR(dataURL) {
+  const qrLoading = document.getElementById('qr-loading');
+  const qrImg     = document.getElementById('qr-img');
+  const qrHint    = document.getElementById('qr-hint');
+  const qrError   = document.getElementById('qr-error');
+  if (!qrLoading || !qrImg) return;
+
+  // Reset to loading state
+  qrLoading.hidden = false;
+  qrLoading.textContent = 'generating link…';
+  qrImg.hidden    = true;
+  qrImg.src       = '';
+  if (qrHint)  qrHint.hidden = true;
+  if (qrError) { qrError.hidden = true; qrError.textContent = ''; }
+
+  try {
+    const res = await fetch('/api/jhalak-upload', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ image: dataURL }),
+    });
+
+    let data;
+    try { data = await res.json(); } catch { data = {}; }
+
+    if (!res.ok) {
+      throw new Error(data.error || `upload failed (${res.status})`);
+    }
+
+    if (data.qr) {
+      // QR code ready — show it
+      qrLoading.hidden = true;
+      qrImg.src        = data.qr;
+      qrImg.hidden     = false;
+      if (qrHint) qrHint.hidden = false;
+      console.log('[JHALAK] QR generated. Blob URL:', data.url);
+    } else if (data.url) {
+      // Blob uploaded but QR generation failed — show text link
+      qrLoading.textContent = '↗ ' + data.url;
+    } else {
+      throw new Error('no url returned');
+    }
+
+  } catch (err) {
+    console.error('[JHALAK] QR upload error:', err);
+    qrLoading.hidden = true;
+    if (qrError) {
+      qrError.textContent = 'link unavailable — send by email below';
+      qrError.hidden = false;
+    }
+  }
+}
 
 function showEmailPanel(dataURL, memory) {
   // Large postcard image
@@ -4557,8 +4615,6 @@ function showEmailPanel(dataURL, memory) {
   emailStatus.className   = 'email-status';
   btnSend.disabled        = false;
   btnSkip.disabled        = false;
-
-  // Fortune is no longer displayed in the popup modal (removed from HTML).
 
   // Logo preview (shows if JHALAK_LOGO_URL is set)
   const logoEl = document.getElementById('email-logo-preview');
@@ -4582,6 +4638,10 @@ function showEmailPanel(dataURL, memory) {
   // Render archive filmstrip
   renderFilmstrip();
 
+  // Kick off QR upload (non-blocking — email form stays usable while it loads)
+  uploadAndShowQR(dataURL);
+
+  // Focus email input as secondary option
   emailInput.focus();
 }
 

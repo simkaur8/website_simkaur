@@ -241,10 +241,20 @@
         <!-- FILMSTRIP: horizontal thumbnail strip of session captures -->
         <div class="email-filmstrip" id="email-filmstrip"></div>
 
-        <!-- HEADLINE -->
-        <div class="email-headline">
-          <span class="email-headline-main">wna keep this?</span>
+        <!-- QR CODE — scan to save photo on phone -->
+        <div class="qr-section" id="qr-section">
+          <span class="qr-label">SCAN TO SAVE</span>
+          <div class="qr-wrap" id="qr-wrap">
+            <!-- Loading state — replaced by QR image once upload completes -->
+            <div class="qr-loading" id="qr-loading" aria-live="polite">generating link…</div>
+            <img class="qr-img" id="qr-img" src="" alt="Scan to save your photo" hidden />
+          </div>
+          <p class="qr-hint" id="qr-hint" hidden>point your phone camera at the code · tap to open · save to photos</p>
+          <p class="qr-error" id="qr-error" hidden></p>
         </div>
+
+        <!-- DIVIDER between QR and email -->
+        <div class="qr-divider"><span>or send by email</span></div>
 
         <!-- EMAIL SEND AREA -->
         <div class="email-send-area">

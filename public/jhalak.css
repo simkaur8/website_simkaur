@@ -881,6 +881,92 @@ input {
   letter-spacing: 0.02em;
 }
 
+/* ============================================================
+   QR CODE SECTION
+   Shown between filmstrip and email form in the post-capture modal.
+   QR code is generated server-side and returned as a data URL.
+============================================================ */
+
+.qr-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px 4px;
+}
+
+.qr-label {
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  letter-spacing: 0.18em;
+  color: var(--text-mid);
+}
+
+.qr-wrap {
+  /* Fixed size so layout doesn't shift when QR loads */
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--oat);
+  border: 2px solid var(--oat-deep);
+  box-shadow:
+    inset 1px 1px 0 var(--bevel-hi),
+    inset -1px -1px 0 var(--bevel-lo);
+}
+
+.qr-loading {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: var(--text-mid);
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+.qr-img {
+  width: 196px;
+  height: 196px;
+  display: block;
+  image-rendering: pixelated; /* keep QR modules crisp */
+}
+
+.qr-hint {
+  font-family: 'Caveat', cursive;
+  font-size: 13px;
+  color: var(--text-mid);
+  text-align: center;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.qr-error {
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  color: #b04040;
+  text-align: center;
+  margin: 0;
+}
+
+.qr-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 20px 0;
+  color: var(--text-mid);
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+}
+
+.qr-divider::before,
+.qr-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--oat-deep);
+}
+
 /* ── Email send area ── */
 .email-send-area {
   padding: 4px 14px 10px;
