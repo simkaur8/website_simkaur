@@ -4460,7 +4460,7 @@ function renderToCapture(filterKey) {
 }
 
 /**
- * Composite Sim's logo into the bottom-left corner of a capture canvas.
+ * Composite Sim's logo into the bottom-right corner of a capture canvas.
  * The logo PNG is 3840×2160 — we scale it to ~88px wide (≈5% of CAPTURE_W).
  * Drawn at 78% opacity so it's visible but not intrusive.
  * Safe to call even if the image hasn't loaded yet (no-op in that case).
@@ -4472,7 +4472,7 @@ function _drawCaptureLogoOnCanvas(ctx, canvasW, canvasH) {
     logoDisplayW * (_captureLogoImg.naturalHeight / _captureLogoImg.naturalWidth)
   );
   const margin = Math.round(canvasW * 0.022);               // ~14px at 640 wide
-  const lx = margin;
+  const lx = canvasW - logoDisplayW - margin;
   const ly = canvasH - logoDisplayH - margin;
   ctx.save();
   ctx.globalAlpha = 0.78;
@@ -4610,10 +4610,8 @@ function showEmailPanel(dataURL, memory) {
 
   emailPanel.hidden = false;
   emailPanel.setAttribute('aria-hidden', 'false');
-  emailInput.value        = '';
   emailStatus.textContent = '';
   emailStatus.className   = 'email-status';
-  btnSend.disabled        = false;
   btnSkip.disabled        = false;
 
   // Logo preview (shows if JHALAK_LOGO_URL is set)
@@ -4627,10 +4625,6 @@ function showEmailPanel(dataURL, memory) {
   const stampEl = document.getElementById('email-butterfly-stamp');
   if (stampEl) stampEl.src = JHALAK_LOGO_URL || '';
 
-  // Spiral: pre-load src so it's ready when needed
-  const spiralEl = document.getElementById('email-loading-spiral');
-  if (spiralEl && JHALAK_SPIRAL_URL) spiralEl.src = JHALAK_SPIRAL_URL;
-
   // Reset archive row so Yes/No is interactive again for each capture
   const archiveRow = document.querySelector('.email-archive-row');
   if (archiveRow) { archiveRow.style.opacity = ''; archiveRow.style.pointerEvents = ''; }
@@ -4638,11 +4632,8 @@ function showEmailPanel(dataURL, memory) {
   // Render archive filmstrip
   renderFilmstrip();
 
-  // Kick off QR upload (non-blocking — email form stays usable while it loads)
+  // Kick off QR upload (non-blocking)
   uploadAndShowQR(dataURL);
-
-  // Focus email input as secondary option
-  emailInput.focus();
 }
 
 function renderFilmstrip() {

@@ -1118,6 +1118,15 @@ input {
   opacity: 1;
 }
 
+/* ── Skip / status wrapper ── */
+.email-skip-area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 4px 14px 10px;
+}
+
 /* Archive confirmation — shown automatically after capture */
 .archive-confirm {
   font-family: 'VT323', monospace;
@@ -1132,7 +1141,7 @@ input {
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 1px 0;
+  padding: 8px 14px 4px;
 }
 
 .email-archive-q {

@@ -75,11 +75,14 @@ export async function POST(req: NextRequest) {
   }
 
   // ── 5. Generate QR code server-side ──────────────────────────────────────
-  // Returns a PNG data URL — the client renders it as <img src={qr}>.
-  // No CDN dependency, no CSP changes needed (data: is already allowed).
+  // QR encodes a branded simkaur.art landing page rather than the raw blob URL
+  // so phones see "simkaur.art" in their camera app instead of vercel-storage.com.
+  const siteBase = (process.env.JHALAK_SITE_URL || 'https://simkaur.art').replace(/\/$/, '')
+  const viewUrl = `${siteBase}/jhalak-photo.html?url=${encodeURIComponent(blobUrl)}`
+
   let qrDataURL: string
   try {
-    qrDataURL = await QRCode.toDataURL(blobUrl, {
+    qrDataURL = await QRCode.toDataURL(viewUrl, {
       width: 240,
       margin: 2,
       errorCorrectionLevel: 'M',
@@ -90,9 +93,8 @@ export async function POST(req: NextRequest) {
     })
   } catch (err) {
     console.error('[JHALAK] QR generation failed:', err)
-    // Still return the URL — client can show a text link as fallback
     return NextResponse.json({ url: blobUrl, qr: null })
   }
 
-  return NextResponse.json({ url: blobUrl, qr: qrDataURL })
+  return NextResponse.json({ url: blobUrl, viewUrl, qr: qrDataURL })
 }

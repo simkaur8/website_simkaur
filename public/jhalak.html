@@ -226,16 +226,20 @@
         <!-- POSTCARD PREVIEW: logo stamp + large captured image -->
         <div class="email-postcard-area">
           <div class="email-postcard-logo">
-            <!-- PLUG IN LOGO URL HERE: set src on #email-logo-preview in JS, or hardcode below -->
             <img class="email-logo-img" id="email-logo-preview" src="" alt="JHALAK" style="display:none" />
             <span class="email-logo-fallback">✦ JHALAK</span>
           </div>
           <div class="email-postcard-img-wrap">
             <img id="email-preview-img" src="" alt="Your captured photo" class="email-postcard-img" />
           </div>
-          <!-- BUTTERFLY STAMP — set JHALAK_LOGO_URL in jhalak.js to activate.
-               File: copy /jhalak/assets/sim logo.png → /public/jhalak-assets/jhalak-logo.png -->
           <img class="email-butterfly-stamp" id="email-butterfly-stamp" src="" alt="" />
+        </div>
+
+        <!-- ARCHIVE YES/NO — directly under image -->
+        <div class="email-archive-row">
+          <span class="email-archive-q">SAVE TO JHALAK ARCHIVE?</span>
+          <button class="btn-archive-choice btn-archive-choice--yes" id="btn-archive-yes">YES</button>
+          <button class="btn-archive-choice" id="btn-archive-no">NO</button>
         </div>
 
         <!-- FILMSTRIP: horizontal thumbnail strip of session captures -->
@@ -245,7 +249,6 @@
         <div class="qr-section" id="qr-section">
           <span class="qr-label">SCAN TO SAVE</span>
           <div class="qr-wrap" id="qr-wrap">
-            <!-- Loading state — replaced by QR image once upload completes -->
             <div class="qr-loading" id="qr-loading" aria-live="polite">generating link…</div>
             <img class="qr-img" id="qr-img" src="" alt="Scan to save your photo" hidden />
           </div>
@@ -253,40 +256,10 @@
           <p class="qr-error" id="qr-error" hidden></p>
         </div>
 
-        <!-- DIVIDER between QR and email -->
-        <div class="qr-divider"><span>or send by email</span></div>
-
-        <!-- EMAIL SEND AREA -->
-        <div class="email-send-area">
-
-          <div class="email-input-row">
-            <!-- SPIRAL: replace src with final GIF URL when ready (see JS: JHALAK_SPIRAL_URL) -->
-            <img id="email-loading-spiral" class="email-spiral" src="" alt="" aria-hidden="true" style="display:none" />
-            <input
-              type="email"
-              id="email-input"
-              class="email-input"
-              placeholder="your@email.com"
-              autocomplete="email"
-              spellcheck="false"
-            />
-            <button class="btn-send" id="btn-send">SEND &rarr;</button>
-          </div>
-
-          <!-- NAME INPUT — optional, stored in archive -->
-          <div class="email-name-row">
-            <input type="text" id="name-input" class="name-input" placeholder="your name (optional)" maxlength="40" spellcheck="false" autocomplete="off" />
-          </div>
-
-          <!-- ARCHIVE YES/NO — Yes keeps (already done), No removes from session archive -->
-          <div class="email-archive-row">
-            <span class="email-archive-q">SAVE TO JHALAK ARCHIVE?</span>
-            <button class="btn-archive-choice btn-archive-choice--yes" id="btn-archive-yes">YES</button>
-            <button class="btn-archive-choice" id="btn-archive-no">NO</button>
-          </div>
-
-          <button class="btn-skip" id="btn-skip">no thanks, start over</button>
+        <!-- Status + skip -->
+        <div class="email-skip-area">
           <p class="email-status" id="email-status" aria-live="polite"></p>
+          <button class="btn-skip" id="btn-skip">no thanks, start over</button>
         </div>
 
       </div>
