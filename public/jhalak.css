@@ -416,9 +416,10 @@ input {
 
 /* Filter name label strip at cell bottom */
 .filter-name {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 22px;
-  line-height: 22px;
   padding: 0 5px;
   flex-shrink: 0;
 
@@ -430,8 +431,8 @@ input {
   overflow: hidden;
   text-overflow: ellipsis;
 
-  color: var(--text-cream);
-  background-color: rgba(20, 16, 14, 0.82);
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.92);
 }
 
 /* --- SELECTED state ---------------------------------------- */
@@ -451,8 +452,8 @@ input {
 }
 
 .filter-cell--selected .filter-name {
-  background-color: rgba(120, 100, 0, 0.85);
-  color: var(--text-cream);
+  background-color: rgba(90, 72, 0, 0.95);
+  color: #ffffff;
 }
 
 /* --- NORMAL cell (centre) ---------------------------------- */
@@ -461,13 +462,13 @@ input {
 .filter-cell--normal .filter-name {
   font-size: 12px;
   letter-spacing: 0.12em;
-  color: #c8c2bc;
-  background-color: rgba(20, 16, 14, 0.7);
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.88);
 }
 
 .filter-cell--normal.filter-cell--selected .filter-name {
-  background-color: rgba(44, 40, 37, 0.88);
-  color: var(--text-cream);
+  background-color: rgba(0, 0, 0, 0.94);
+  color: #ffffff;
 }
 
 /* --- LOCKED state ------------------------------------------ */
@@ -1222,7 +1223,7 @@ input {
   position: absolute;
   top: 18px;
   right: 22px;
-  width: 72px;
+  width: 130px;
   height: auto;
   z-index: 5;
   pointer-events: none;

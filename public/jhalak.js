@@ -495,6 +495,7 @@ const anim = {
     blockTimer: 0,
     motionCanvas: null, motionCtx: null, prevMotionData: null,
     motionLevel: 0, motionCentroidX: 0.5, motionCentroidY: 0.5,
+    dataStripes: [], colorBlocks: [], dataTimer: 0,
   },
   thermal: {
     motionCanvas: null, motionCtx: null, prevMotionData: null,
@@ -1701,6 +1702,35 @@ function drawPixelGhost(ctx, w, h, isCapture, dt) {
   drawVideoCover(ctx, 0, 0, w, h);
   ctx.restore();
 
+  // ── DRIFTING GHOST DOUBLES — two tinted echoes offset on sine curves ────
+  // Rose ghost drifts left/up; violet ghost drifts right/down. Screen blend
+  // lets them layer over the base without darkening — gives a holographic feel.
+  if (video.readyState >= 2) {
+    const t = pg.t * 0.001;
+    const roseOffX   =  Math.sin(t * 0.53) * w * 0.015;
+    const roseOffY   =  Math.cos(t * 0.41) * h * 0.010;
+    const violetOffX = -Math.sin(t * 0.47 + 1.2) * w * 0.018;
+    const violetOffY =  Math.cos(t * 0.37 + 0.8) * h * 0.012;
+    const ghostAlpha = isCapture ? 0.28 : 0.22 + Math.sin(t * 0.9) * 0.06;
+
+    ctx.save();
+    ctx.globalCompositeOperation = 'screen';
+
+    ctx.save();
+    ctx.globalAlpha = ghostAlpha;
+    ctx.filter = 'hue-rotate(330deg) saturate(3.5) brightness(0.85)';
+    drawVideoCover(ctx, roseOffX, roseOffY, w, h);
+    ctx.restore();
+
+    ctx.save();
+    ctx.globalAlpha = ghostAlpha * 0.85;
+    ctx.filter = 'hue-rotate(260deg) saturate(3.0) brightness(0.80)';
+    drawVideoCover(ctx, violetOffX, violetOffY, w, h);
+    ctx.restore();
+
+    ctx.restore();
+  }
+
   // ── FULL-FRAME MOTION DETECTION ─────────────────────────────────────────
   // 32×24 tiny canvas covers the whole frame — tracks moving hands anywhere.
   // Computes per-pixel delta, motion total, and weighted centroid (hand position).
@@ -1859,6 +1889,34 @@ function drawPixelGhost(ctx, w, h, isCapture, dt) {
       ctx.restore();
     }
   });
+
+  // ── SCANLINE INTERFERENCE — thin horizontal bars pulse across the frame ─
+  // Alternating bright/dark lines 2px apart give a CRT / transmission feel.
+  // Alpha pulses gently on a slow sine so the effect breathes, not bakes.
+  {
+    const t        = pg.t * 0.001;
+    const scanAlpha = isCapture ? 0.10 : 0.07 + Math.sin(t * 1.1) * 0.03;
+    ctx.save();
+    ctx.globalAlpha = scanAlpha;
+    ctx.fillStyle   = 'rgba(0, 0, 0, 1)';
+    for (let sy = 0; sy < h; sy += 4) {
+      ctx.fillRect(0, sy, w, 1);
+    }
+    ctx.restore();
+  }
+
+  // ── VIGNETTE + DREAMINESS WASH — darkened edges, soft face glow ─────────
+  {
+    const grad = ctx.createRadialGradient(w * 0.5, h * 0.44, h * 0.12, w * 0.5, h * 0.44, h * 0.82);
+    grad.addColorStop(0,   'rgba(16, 4, 24, 0)');
+    grad.addColorStop(0.7, 'rgba(16, 4, 24, 0)');
+    grad.addColorStop(1.0, 'rgba(16, 4, 24, 0.72)');
+    ctx.save();
+    ctx.globalAlpha = 1;
+    ctx.fillStyle   = grad;
+    ctx.fillRect(0, 0, w, h);
+    ctx.restore();
+  }
 
 }
 // Presence glow removed — it added a milky haze over the left (clean) side.
@@ -3549,7 +3607,7 @@ function newStar(w, h, scatter) {
     y:           scatter ? Math.random() * h : -6 - Math.random() * 30,
     vy:          0.08 + Math.random() * 0.58,   // wider speed range → stars fall at very different rates
     vx:          (Math.random() - 0.5) * 0.06,  // very slight lateral bias (corrected by sway)
-    size:        1.2 + Math.pow(Math.random(), 1.4) * 5.2,  // larger min + heavier tail toward big
+    size:        1.8 + Math.pow(Math.random(), 1.15) * 8.5,  // bigger, more variation
     baseAlpha:   0.85 + Math.random() * 0.15,   // more solid — less translucent
     shape:       roll < 0.30 ? 1 : roll < 0.52 ? 2 : roll < 0.66 ? 3 : roll < 0.80 ? 4 : roll < 0.92 ? 5 : 6,
     color:       STAR_PALETTE[Math.floor(Math.random() * STAR_PALETTE.length)],
@@ -3566,8 +3624,8 @@ function initFallingStarsAnim(w, h) {
   anim.fallingStars.particles = [];
   anim.fallingStars._initW = w;
   anim.fallingStars._initH = h;
-  // 260 stars scattered across the full canvas on first init
-  for (let i = 0; i < 260; i++) {
+  // 380 stars scattered across the full canvas on first init
+  for (let i = 0; i < 380; i++) {
     anim.fallingStars.particles.push(newStar(w, h, true));
   }
   anim.fallingStars.t = 0;
@@ -3659,6 +3717,21 @@ function drawFallingStars(ctx, w, h, isCapture, dt) {
 
   // Inline star-shape helper — used by both background and foreground passes
   const _drawStarShape = (p, alpha) => {
+    // Glow halo for larger stars — soft radial bloom
+    if (p.size > 3.5) {
+      const gr = Math.max(1, p.size * 3.8);
+      const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, gr);
+      glow.addColorStop(0, p.color + 'cc');
+      glow.addColorStop(0.45, p.color + '44');
+      glow.addColorStop(1, p.color + '00');
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, Math.min(1, alpha * 0.7));
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, gr, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
     ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
     const col = p.color;
     const drawStar = (pts, outerR, innerR) => {
@@ -4083,7 +4156,6 @@ function drawGlitch(ctx, w, h, isCapture, dt) {
     const exCX = extraFace.cx * w;
     const exCY = extraFace.cy * h;
     const exFH = extraFace.h * h;
-    // One extra horizontal strip near this face
     const exY = exCY + (Math.random() - 0.5) * exFH * 0.8;
     const exH2 = 2 + Math.floor(Math.random() * 8);
     const exOff = (Math.random() - 0.5) * 30;
@@ -4096,6 +4168,69 @@ function drawGlitch(ctx, w, h, isCapture, dt) {
     drawVideoCover(ctx, 0, 0, w, h);
     ctx.restore();
   });
+
+  // ── DIGITAL DATA-SORT LAYER ───────────────────────────────────────────────
+  // Thin vertical clip-strips of the video with extreme hue rotation → vivid
+  // colour columns matching the reference image. Refreshed every ~2-3 seconds.
+  const _GLITCH_HUES = [0, 45, 90, 135, 180, 225, 270, 315, 30, 75, 150, 200, 260, 320];
+  if (!isCapture) {
+    gl.dataTimer += dt;
+    const refreshInterval = 2200 + Math.random() * 900;
+    if (!gl.dataStripes.length || gl.dataTimer > refreshInterval) {
+      gl.dataTimer = 0;
+      // 20-30 thin vertical stripes — clipped video with strong hue rotation
+      gl.dataStripes = [];
+      const n = 20 + Math.floor(Math.random() * 12);
+      for (let i = 0; i < n; i++) {
+        gl.dataStripes.push({
+          x:    Math.floor(Math.random() * w),
+          sw:   1 + Math.floor(Math.random() * 4),   // 1-4 px wide
+          sy:   Math.floor(Math.random() * h * 0.25),
+          sh:   Math.floor(h * (0.3 + Math.random() * 0.65)),
+          hue:  _GLITCH_HUES[Math.floor(Math.random() * _GLITCH_HUES.length)],
+          sat:  5 + Math.random() * 6,
+          alpha: 0.55 + Math.random() * 0.35,
+        });
+      }
+      // 10-18 colourful macro-blocks (JPEG corruption style)
+      gl.colorBlocks = [];
+      const nb = 10 + Math.floor(Math.random() * 9);
+      const _BLOCK_COLS = ['#FF00FF','#00FFEE','#FFEE00','#FF2200','#00FF88',
+                           '#FF6600','#0088FF','#FF0099','#CCFF00','#FFFFFF'];
+      for (let i = 0; i < nb; i++) {
+        gl.colorBlocks.push({
+          x:     Math.floor(Math.random() * w * 0.88),
+          y:     Math.floor(Math.random() * h * 0.88),
+          bw:    Math.floor(8 + Math.random() * 55),
+          bh:    Math.floor(6 + Math.random() * 42),
+          color: _BLOCK_COLS[Math.floor(Math.random() * _BLOCK_COLS.length)],
+          alpha: 0.28 + Math.random() * 0.42,
+        });
+      }
+    }
+  }
+
+  // Draw thin vertical video-strips (hue-rotated, high saturation)
+  gl.dataStripes.forEach(s => {
+    ctx.save();
+    ctx.globalAlpha = s.alpha;
+    ctx.filter = `hue-rotate(${s.hue}deg) saturate(${s.sat.toFixed(1)}) brightness(1.15)`;
+    ctx.beginPath();
+    ctx.rect(s.x, s.sy, s.sw, s.sh);
+    ctx.clip();
+    drawVideoCover(ctx, 0, 0, w, h);
+    ctx.restore();
+  });
+
+  // Draw coloured macro-blocks
+  ctx.save();
+  ctx.globalCompositeOperation = 'screen';
+  gl.colorBlocks.forEach(b => {
+    ctx.globalAlpha = b.alpha;
+    ctx.fillStyle   = b.color;
+    ctx.fillRect(b.x, b.y, b.bw, b.bh);
+  });
+  ctx.restore();
 }
 
 
