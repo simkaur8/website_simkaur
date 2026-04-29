@@ -4715,50 +4715,6 @@ async function sendEmail(address, dataURL) {
   }
 }
 
-btnSend.addEventListener('click', async () => {
-  const address = emailInput.value.trim();
-
-  if (!address || !address.includes('@') || !address.includes('.')) {
-    setEmailStatus('please enter a valid email', 'is-error');
-    return;
-  }
-
-  playClick();
-  btnSend.disabled = true;
-  btnSkip.disabled = true;
-  setEmailStatus('sending…', '');
-
-  // Show spiral loading animation while sending
-  const spiralEl = document.getElementById('email-loading-spiral');
-  if (spiralEl) spiralEl.style.display = 'inline-block';
-
-  try {
-    await sendEmail(address, state.capturedDataURL);
-    if (spiralEl) spiralEl.style.display = 'none';
-    setEmailStatus('sent ✓  check your inbox', 'is-success');
-    // Update archive entry name now that user has typed it
-    if (memoryArchive.length > 0) {
-      const nameVal = document.getElementById('name-input')?.value?.trim() || '';
-      if (nameVal) {
-        memoryArchive[memoryArchive.length - 1].name = nameVal;
-        saveArchiveToStorage(memoryArchive);
-      }
-    }
-    setTimeout(reset, 3500);
-  } catch (err) {
-    console.error('[JHALAK] send error:', err);
-    if (spiralEl) spiralEl.style.display = 'none';
-    const raw = err.message ?? '';
-    const msg = raw.startsWith('network')
-      ? 'sending failed — check internet connection'
-      : raw.startsWith('send failed')
-        ? `sending failed — ${raw.replace('send failed', '').replace(/^\s*\(\d+\)\s*:?\s*/, '').trim() || 'check email setup'}`
-        : 'sending failed — check email setup or try again';
-    setEmailStatus(msg, 'is-error');
-    btnSend.disabled = false;
-    btnSkip.disabled = false;
-  }
-});
 
 btnSkip.addEventListener('click', () => { playClick(); reset(); });
 
@@ -4782,15 +4738,9 @@ function reset() {
   hideCountdown();
 
   captureBtn.disabled     = false;
-  btnSend.disabled        = false;
   btnSkip.disabled        = false;
-  emailInput.value        = '';
   emailStatus.textContent = '';
   emailStatus.className   = 'email-status';
-
-  // Clear name field so the next visitor doesn't see a previous visitor's name
-  const nameInput = document.getElementById('name-input');
-  if (nameInput) nameInput.value = '';
 
   selectFilter('none');
   setStatus('camera', '\u25CF camera ready');
