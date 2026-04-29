@@ -932,8 +932,9 @@ input {
 }
 
 .qr-hint {
-  font-family: 'Caveat', cursive;
-  font-size: 13px;
+  font-family: 'EB Garamond', 'Adobe Caslon Pro', Georgia, serif;
+  font-style: italic;
+  font-size: 14px;
   color: var(--text-mid);
   text-align: center;
   margin: 0;
@@ -1098,7 +1099,7 @@ input {
   font-family: 'VT323', monospace;
   font-size: 15px;
   letter-spacing: 0.04em;
-  color: #00c8d8; /* cyan blue — clearly clickable */
+  color: #0047ab; /* cobalt blue */
 
   background: none;
   border: none;
@@ -1114,7 +1115,7 @@ input {
 }
 
 .btn-skip:hover {
-  color: #00e8fa;
+  color: #1a6fd4;
   opacity: 1;
 }
 
