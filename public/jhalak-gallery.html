@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JHALAK — Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0a0a0a;
+  color: #e8e0d5;
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 16px;
+  min-height: 100vh;
+  padding: 0;
+}
+
+#login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-card {
+  background: #1a1614;
+  border: 1px solid #3a3230;
+  padding: 40px 32px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+}
+
+.login-title {
+  font-size: 32px;
+  letter-spacing: 6px;
+  color: #e8e0d5;
+  margin-bottom: 8px;
+}
+
+.login-sub {
+  font-size: 14px;
+  color: #7a6e68;
+  margin-bottom: 32px;
+  letter-spacing: 2px;
+}
+
+.login-input {
+  width: 100%;
+  background: #0a0a0a;
+  border: 1px solid #3a3230;
+  color: #e8e0d5;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  outline: none;
+  letter-spacing: 2px;
+}
+
+.login-input:focus {
+  border-color: #c8a882;
+}
+
+.login-btn {
+  width: 100%;
+  background: #c8a882;
+  color: #0a0a0a;
+  border: none;
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  letter-spacing: 4px;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.login-btn:hover { background: #e8c89a; }
+
+.login-error {
+  color: #cc4444;
+  font-size: 13px;
+  margin-top: 12px;
+  min-height: 18px;
+  letter-spacing: 1px;
+}
+
+/* ── Gallery ── */
+#gallery-screen { display: none; padding: 24px; }
+
+.gallery-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #2a2220;
+}
+
+.gallery-title {
+  font-size: 36px;
+  letter-spacing: 8px;
+  color: #e8e0d5;
+}
+
+.gallery-meta {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #7a6e68;
+  letter-spacing: 1px;
+}
+
+.refresh-btn {
+  background: transparent;
+  border: 1px solid #3a3230;
+  color: #c8a882;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  letter-spacing: 2px;
+  padding: 6px 18px;
+  cursor: pointer;
+}
+
+.refresh-btn:hover { border-color: #c8a882; }
+
+#loading-msg {
+  text-align: center;
+  color: #7a6e68;
+  font-size: 18px;
+  letter-spacing: 3px;
+  padding: 60px 0;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.photo-card {
+  background: #1a1614;
+  border: 1px solid #2a2220;
+  overflow: hidden;
+  position: relative;
+}
+
+.photo-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+}
+
+.photo-info {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.photo-time {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: #7a6e68;
+}
+
+.delete-btn {
+  background: transparent;
+  border: 1px solid #4a2020;
+  color: #aa4444;
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  padding: 2px 10px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+.delete-btn:hover { background: #2a0a0a; border-color: #aa4444; }
+
+.empty-msg {
+  text-align: center;
+  color: #7a6e68;
+  font-size: 18px;
+  letter-spacing: 3px;
+  padding: 60px 0;
+}
+
+.photo-card.deleting { opacity: 0.4; pointer-events: none; }
+
+/* lightbox */
+#lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+#lightbox.open { display: flex; }
+#lightbox img {
+  max-width: 96vw;
+  max-height: 92vh;
+  object-fit: contain;
+  box-shadow: 0 0 40px rgba(0,0,0,0.8);
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-title">✦ JHALAK</div>
+    <div class="login-sub">GALLERY ARCHIVE</div>
+    <input type="password" id="secret-input" class="login-input"
+           placeholder="enter access key" autocomplete="off"
+           spellcheck="false" />
+    <button class="login-btn" id="login-btn">ENTER</button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div id="gallery-screen">
+  <div class="gallery-header">
+    <div>
+      <div class="gallery-title">✦ JHALAK</div>
+      <div class="gallery-meta" id="gallery-meta">loading…</div>
+    </div>
+    <button class="refresh-btn" id="refresh-btn">↺ REFRESH</button>
+  </div>
+  <div id="loading-msg">loading…</div>
+  <div class="photo-grid" id="photo-grid" style="display:none"></div>
+  <div class="empty-msg" id="empty-msg" style="display:none">no photos yet — be the first ✦</div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<script>
+'use strict';
+
+let adminSecret = '';
+
+const loginScreen  = document.getElementById('login-screen');
+const galleryScreen= document.getElementById('gallery-screen');
+const secretInput  = document.getElementById('secret-input');
+const loginBtn     = document.getElementById('login-btn');
+const loginError   = document.getElementById('login-error');
+const galleryMeta  = document.getElementById('gallery-meta');
+const loadingMsg   = document.getElementById('loading-msg');
+const photoGrid    = document.getElementById('photo-grid');
+const emptyMsg     = document.getElementById('empty-msg');
+const refreshBtn   = document.getElementById('refresh-btn');
+const lightbox     = document.getElementById('lightbox');
+const lightboxImg  = document.getElementById('lightbox-img');
+
+// ── Login ─────────────────────────────────────────────────────────────────────
+async function tryLogin() {
+  const secret = secretInput.value.trim();
+  if (!secret) { loginError.textContent = 'please enter the access key'; return; }
+  loginError.textContent = '';
+  loginBtn.textContent = 'checking…';
+  loginBtn.disabled = true;
+
+  try {
+    const res = await fetch(`/api/jhalak-gallery?secret=${encodeURIComponent(secret)}`);
+    if (res.status === 401) {
+      loginError.textContent = 'incorrect access key';
+      loginBtn.textContent = 'ENTER';
+      loginBtn.disabled = false;
+      return;
+    }
+    if (!res.ok) throw new Error(`server error ${res.status}`);
+    adminSecret = secret;
+    sessionStorage.setItem('jhalak_gallery_secret', secret);
+    loginScreen.style.display = 'none';
+    galleryScreen.style.display = 'block';
+    const data = await res.json();
+    renderPhotos(data.blobs || []);
+  } catch (e) {
+    loginError.textContent = 'connection error — try again';
+    loginBtn.textContent = 'ENTER';
+    loginBtn.disabled = false;
+  }
+}
+
+loginBtn.addEventListener('click', tryLogin);
+secretInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+
+// Resume session if secret was stored
+const stored = sessionStorage.getItem('jhalak_gallery_secret');
+if (stored) {
+  secretInput.value = stored;
+  tryLogin();
+}
+
+// ── Load photos ───────────────────────────────────────────────────────────────
+async function loadPhotos() {
+  loadingMsg.style.display = 'block';
+  photoGrid.style.display = 'none';
+  emptyMsg.style.display = 'none';
+  photoGrid.innerHTML = '';
+
+  try {
+    const res = await fetch(`/api/jhalak-gallery?secret=${encodeURIComponent(adminSecret)}`);
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    renderPhotos(data.blobs || []);
+  } catch (e) {
+    loadingMsg.textContent = 'error loading — refresh to retry';
+  }
+}
+
+function renderPhotos(blobs) {
+  loadingMsg.style.display = 'none';
+  photoGrid.innerHTML = '';
+
+  if (blobs.length === 0) {
+    emptyMsg.style.display = 'block';
+    galleryMeta.textContent = '0 photos';
+    return;
+  }
+
+  galleryMeta.textContent = `${blobs.length} photo${blobs.length === 1 ? '' : 's'} · newest first`;
+  photoGrid.style.display = 'grid';
+
+  for (const blob of blobs) {
+    const card = document.createElement('div');
+    card.className = 'photo-card';
+
+    const img = document.createElement('img');
+    img.src = blob.url;
+    img.alt = 'jhalak capture';
+    img.loading = 'lazy';
+    img.addEventListener('click', () => openLightbox(blob.url));
+
+    const info = document.createElement('div');
+    info.className = 'photo-info';
+
+    const time = document.createElement('span');
+    time.className = 'photo-time';
+    const d = new Date(blob.uploadedAt);
+    time.textContent = d.toLocaleString('en-AU', {
+      timeZone: 'Australia/Sydney',
+      month: 'short', day: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+
+    const del = document.createElement('button');
+    del.className = 'delete-btn';
+    del.textContent = '✕ DEL';
+    del.addEventListener('click', () => deletePhoto(blob.url, card));
+
+    info.appendChild(time);
+    info.appendChild(del);
+    card.appendChild(img);
+    card.appendChild(info);
+    photoGrid.appendChild(card);
+  }
+}
+
+async function deletePhoto(url, card) {
+  if (!confirm('Delete this photo?')) return;
+  card.classList.add('deleting');
+  try {
+    const res = await fetch(
+      `/api/jhalak-gallery?secret=${encodeURIComponent(adminSecret)}`,
+      { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url }) }
+    );
+    if (!res.ok) throw new Error(res.status);
+    card.remove();
+    const remaining = photoGrid.querySelectorAll('.photo-card').length;
+    galleryMeta.textContent = `${remaining} photo${remaining === 1 ? '' : 's'} · newest first`;
+    if (remaining === 0) { photoGrid.style.display = 'none'; emptyMsg.style.display = 'block'; }
+  } catch {
+    card.classList.remove('deleting');
+    alert('Delete failed — try again');
+  }
+}
+
+refreshBtn.addEventListener('click', loadPhotos);
+
+// ── Lightbox ──────────────────────────────────────────────────────────────────
+function openLightbox(url) {
+  lightboxImg.src = url;
+  lightbox.classList.add('open');
+}
+
+lightbox.addEventListener('click', () => {
+  lightbox.classList.remove('open');
+  lightboxImg.src = '';
+});
+</script>
+</body>
+</html>

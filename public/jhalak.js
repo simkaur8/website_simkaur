@@ -222,7 +222,7 @@ const NOTES = [
 
 const ARCHIVE_KEY     = 'jhalak_archive';
 const ARCHIVE_VER_KEY = 'jhalak_archive_ver';
-const ARCHIVE_VERSION = 'v3';  // bump this to auto-wipe stale entries on next load
+const ARCHIVE_VERSION = 'v4';  // bump this to auto-wipe stale entries on next load
 
 function loadArchiveFromStorage() {
   try {
