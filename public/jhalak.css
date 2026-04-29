@@ -900,7 +900,7 @@ input {
   font-family: 'VT323', monospace;
   font-size: 20px;
   letter-spacing: 0.18em;
-  color: var(--text-mid);
+  color: #0047ab;
 }
 
 .qr-wrap {
@@ -920,7 +920,7 @@ input {
 .qr-loading {
   font-family: 'VT323', monospace;
   font-size: 14px;
-  color: var(--text-mid);
+  color: #0047ab;
   letter-spacing: 0.06em;
   text-align: center;
 }
@@ -936,7 +936,7 @@ input {
   font-family: 'EB Garamond', 'Adobe Caslon Pro', Georgia, serif;
   font-style: italic;
   font-size: 14px;
-  color: var(--text-mid);
+  color: #0047ab;
   text-align: center;
   margin: 0;
   line-height: 1.4;
@@ -1111,7 +1111,7 @@ input {
   text-underline-offset: 3px;
   text-decoration-style: dotted;
 
-  align-self: flex-start;
+  align-self: center;
   opacity: 0.85;
 }
 
@@ -1124,7 +1124,7 @@ input {
 .email-skip-area {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 4px;
   padding: 4px 14px 10px;
 }
@@ -1199,7 +1199,7 @@ input {
   font-family: 'VT323', monospace;
   font-size: 13px;
   letter-spacing: 0.04em;
-  color: var(--text-mid);
+  color: #0047ab;
   min-height: 16px;
 }
 

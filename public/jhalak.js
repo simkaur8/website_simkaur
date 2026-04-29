@@ -1263,13 +1263,12 @@ function renderLoop(timestamp) {
     }
   }
 
+  // First pass: render all non-'none' cells
   filterCells.forEach(cell => {
     if (cell.classList.contains('filter-cell--locked')) return;
-
     const canvas    = cell.querySelector('.filter-canvas');
     const filterKey = cell.dataset.filter;
-    if (!canvas) return;
-
+    if (!canvas || filterKey === 'none') return;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     try {
@@ -1278,6 +1277,50 @@ function renderLoop(timestamp) {
       console.error('[JHALAK] renderFilter error in', filterKey, err);
     }
   });
+
+  // Second pass: ALL composite — draw 3×3 grid of all filter canvases into the 'none' cell
+  {
+    const noneCell = [...filterCells].find(c => c.dataset.filter === 'none' && !c.classList.contains('filter-cell--locked'));
+    const ac = noneCell?.querySelector('.filter-canvas');
+    if (ac) {
+      const actx = ac.getContext('2d');
+      actx.clearRect(0, 0, ac.width, ac.height);
+      actx.fillStyle = '#0d0b0a';
+      actx.fillRect(0, 0, ac.width, ac.height);
+      const otherCells = [...filterCells].filter(c => c.dataset.filter !== 'none' && !c.classList.contains('filter-cell--locked'));
+      const cols = 3, rows = 3;
+      const cw = Math.floor(ac.width / cols);
+      const ch = Math.floor(ac.height / rows);
+      let cellIdx = 0;
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          const x = col * cw, y = row * ch;
+          if (row === 1 && col === 1) {
+            // Centre slot: live mirrored video
+            if (video.readyState >= 2) {
+              const vw = video.videoWidth || 640, vh = video.videoHeight || 480;
+              const scale = Math.max(cw / vw, ch / vh);
+              const sw = cw / scale, sh = ch / scale;
+              const sx = (vw - sw) * 0.5, sy = (vh - sh) * 0.5;
+              actx.save();
+              actx.translate(x + cw, y);
+              actx.scale(-1, 1);
+              actx.drawImage(video, sx, sy, sw, sh, 0, 0, cw, ch);
+              actx.restore();
+            }
+          } else {
+            const oCanvas = otherCells[cellIdx++]?.querySelector('.filter-canvas');
+            if (oCanvas && oCanvas.width > 0) actx.drawImage(oCanvas, x, y, cw, ch);
+          }
+        }
+      }
+      // Thin divider lines
+      actx.strokeStyle = 'rgba(0,0,0,0.55)';
+      actx.lineWidth = 1;
+      for (let c = 1; c < cols; c++) { actx.beginPath(); actx.moveTo(c * cw, 0); actx.lineTo(c * cw, ac.height); actx.stroke(); }
+      for (let r = 1; r < rows; r++) { actx.beginPath(); actx.moveTo(0, r * ch); actx.lineTo(ac.width, r * ch); actx.stroke(); }
+    }
+  }
 
   // Render to enlarged overlay canvas if present (Photo Booth overlay mode)
   const enlargeOverlay = document.querySelector('.filter-enlarge-overlay');
@@ -1564,8 +1607,8 @@ function newGhostPatch(w, h) {
   const safePX = Math.max(0, Math.min(w - safePW, px));
   const safePY = Math.max(0, Math.min(h - safePH, py));
 
-  // High opacity — fragments read as actual extracted photo pieces, not tinted overlays
-  const opacity = 0.68 + Math.random() * 0.26;  // 0.68–0.94
+  // Fully opaque — fragments read as solid extracted photo pieces
+  const opacity = 1.0;
 
   // 25% chance of using an external asset image — falls back to live webcam (never blank)
   const readyAssets = assetImages.filter(img => img.complete && img.naturalWidth > 0);
@@ -1890,33 +1933,6 @@ function drawPixelGhost(ctx, w, h, isCapture, dt) {
     }
   });
 
-  // ── SCANLINE INTERFERENCE — thin horizontal bars pulse across the frame ─
-  // Alternating bright/dark lines 2px apart give a CRT / transmission feel.
-  // Alpha pulses gently on a slow sine so the effect breathes, not bakes.
-  {
-    const t        = pg.t * 0.001;
-    const scanAlpha = isCapture ? 0.10 : 0.07 + Math.sin(t * 1.1) * 0.03;
-    ctx.save();
-    ctx.globalAlpha = scanAlpha;
-    ctx.fillStyle   = 'rgba(0, 0, 0, 1)';
-    for (let sy = 0; sy < h; sy += 4) {
-      ctx.fillRect(0, sy, w, 1);
-    }
-    ctx.restore();
-  }
-
-  // ── VIGNETTE + DREAMINESS WASH — darkened edges, soft face glow ─────────
-  {
-    const grad = ctx.createRadialGradient(w * 0.5, h * 0.44, h * 0.12, w * 0.5, h * 0.44, h * 0.82);
-    grad.addColorStop(0,   'rgba(16, 4, 24, 0)');
-    grad.addColorStop(0.7, 'rgba(16, 4, 24, 0)');
-    grad.addColorStop(1.0, 'rgba(16, 4, 24, 0.72)');
-    ctx.save();
-    ctx.globalAlpha = 1;
-    ctx.fillStyle   = grad;
-    ctx.fillRect(0, 0, w, h);
-    ctx.restore();
-  }
 
 }
 // Presence glow removed — it added a milky haze over the left (clean) side.
@@ -2272,10 +2288,10 @@ function drawSurveillance(ctx, w, h, isCapture, dt) {
       // Unicode/emoji lines need a different font — monospace won't render them
       const hasUnicode = /[^\x00-\x7F]/.test(line);
       if (hasUnicode) {
-        ctx.font        = '9px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", monospace';
+        ctx.font        = '7px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", monospace';
         ctx.globalAlpha = Math.min(0.72, logAlpha * 1.45);
       } else {
-        ctx.font        = '8px monospace';
+        ctx.font        = '7px monospace';
         ctx.globalAlpha = logAlpha;
       }
       ctx.fillText(line, 4 + xNoise, startY + i * LH);
@@ -2395,7 +2411,7 @@ function drawSurveillance(ctx, w, h, isCapture, dt) {
 
   // ── REC + TIMESTAMP — always on ───────────────────────────────────────────
   {
-    const fS = Math.max(12, w * 0.040);
+    const fS = Math.max(8, w * 0.026);
     const ts = new Date().toISOString().replace('T', ' ').slice(0, 19);
     ctx.save();
     ctx.font      = `${fS}px "VT323", "Courier New", monospace`;
@@ -2441,7 +2457,7 @@ function drawSurveillance(ctx, w, h, isCapture, dt) {
     ctx.save();
     ctx.globalAlpha = a;
     ctx.fillStyle   = `${RD} 1)`;
-    ctx.font        = `${Math.max(11, w * 0.036)}px "VT323", monospace`;
+    ctx.font        = `${Math.max(7, w * 0.024)}px "VT323", monospace`;
     ctx.textAlign   = 'left';
     ctx.fillText('FACE_01', boxX + 3, boxY - 4);
     ctx.restore();
@@ -2596,7 +2612,7 @@ function drawSurveillance(ctx, w, h, isCapture, dt) {
   if (bp > 0.35 && facePos.detected) {
     const a = Math.min(1, (bp - 0.35) / 0.25) * 0.38;  // lighter peripheral annotations
     ctx.save();
-    ctx.font        = '7px monospace';
+    ctx.font        = '6px monospace';
     ctx.globalAlpha = a;
 
     // Adjacent to face box right edge
@@ -3112,10 +3128,18 @@ function drawAura(ctx, w, h, isCapture, dt) {
     }
   }
 
-  // Base: moderately desaturated video — enough grey to let colours read, still warm
+  // Base: heavily desaturated, high contrast — makes aura colours pop against dark flesh tones
   ctx.save();
-  ctx.filter = 'saturate(0.55) brightness(0.75) contrast(1.10)';
+  ctx.filter = 'saturate(0.30) brightness(0.60) contrast(1.55)';
   drawVideoCover(ctx, 0, 0, w, h);
+  ctx.restore();
+
+  // Deep hot pink in shadows — multiply blend pushes dark areas toward magenta
+  ctx.save();
+  ctx.globalCompositeOperation = 'multiply';
+  ctx.globalAlpha = 0.55;
+  ctx.fillStyle = 'rgba(220, 0, 110, 1)';
+  ctx.fillRect(0, 0, w, h);
   ctx.restore();
 
   // Trail composite — screen blend for luminous glow over desaturated base
@@ -3607,9 +3631,9 @@ function newStar(w, h, scatter) {
     y:           scatter ? Math.random() * h : -6 - Math.random() * 30,
     vy:          0.08 + Math.random() * 0.58,   // wider speed range → stars fall at very different rates
     vx:          (Math.random() - 0.5) * 0.06,  // very slight lateral bias (corrected by sway)
-    size:        1.8 + Math.pow(Math.random(), 1.15) * 8.5,  // bigger, more variation
-    baseAlpha:   0.85 + Math.random() * 0.15,   // more solid — less translucent
-    shape:       roll < 0.30 ? 1 : roll < 0.52 ? 2 : roll < 0.66 ? 3 : roll < 0.80 ? 4 : roll < 0.92 ? 5 : 6,
+    size:        0.6 + Math.pow(Math.random(), 1.5) * 3.8,   // smaller stars
+    baseAlpha:   0.80 + Math.random() * 0.20,
+    shape:       roll < 0.35 ? 1 : roll < 0.58 ? 2 : roll < 0.74 ? 3 : roll < 0.88 ? 5 : 6,  // no shape 4 (plus)
     color:       STAR_PALETTE[Math.floor(Math.random() * STAR_PALETTE.length)],
     twinkle:     Math.random() < 0.60,
     twinkleT:    Math.random() * 4000,
@@ -3702,6 +3726,24 @@ function drawFallingStars(ctx, w, h, isCapture, dt) {
         fs.particles[i] = newStar(w, h, false);
       }
     });
+
+    // Motion reactivity — when hands move, burst extra fast stars at motion position
+    if ((fs.motionLevel || 0) > 0.045) {
+      const mLvl = Math.min(1, fs.motionLevel * 4.0);
+      const burstCount = Math.round(mLvl * 3);
+      const mx = (1 - (fs.motionCentroidX || 0.5)) * w;
+      const my = (fs.motionCentroidY || 0.5) * h;
+      for (let bi = 0; bi < burstCount; bi++) {
+        const bs = newStar(w, h, false);
+        bs.x  = mx + (Math.random() - 0.5) * w * 0.12;
+        bs.y  = my + (Math.random() - 0.5) * h * 0.12;
+        bs.vy = 0.30 + Math.random() * 1.2;   // faster on burst
+        bs.size = 0.4 + Math.random() * 2.0;  // smaller burst stars
+        // Replace a random existing star so particle count stays fixed
+        const replaceIdx = Math.floor(Math.random() * fs.particles.length);
+        fs.particles[replaceIdx] = bs;
+      }
+    }
   }
 
   // ── RENDER: stars behind face, seamless integration ─────────────────────
@@ -3980,37 +4022,36 @@ function drawGlitch(ctx, w, h, isCapture, dt) {
       gl.timer    = 0;
       gl.duration = 80 + Math.random() * (200 + intensity * 200);
       gl.strips   = [];
-      const n = Math.round(1 + Math.random() * (2 + intensity * 3));  // 1-3 calm, up to 1-7 peak
+      const n = Math.round(1 + Math.random() * (2 + intensity * 2));  // 1-3 calm, up to 1-5 peak
       for (let i = 0; i < n; i++) {
-        const isVert    = Math.random() < 0.08;  // vertical less common in VHS
-        // VHS: tracking errors mostly span the full width or a large chunk
-        const isFullWide = Math.random() < 0.55;  // 55% span full width (VHS tracking error)
-        const stripW     = isFullWide ? w : Math.floor(w * (0.40 + Math.random() * 0.50));
+        const isVert    = Math.random() < 0.06;
+        // Narrower strips — 20-35% width max for partial glitches
+        const isFullWide = Math.random() < 0.30;
+        const stripW     = isFullWide ? w : Math.floor(w * (0.12 + Math.random() * 0.28));
         const stripX     = isFullWide ? 0 : Math.floor(Math.random() * (w - stripW));
-        // Strip type: tape noise (light), chroma error (colour), or dark signal drop
         const typeRoll    = Math.random();
-        const isTapeNoise = typeRoll < 0.20;   // 20% — light/white noise bands (very VHS)
-        const isBlackBar  = !isTapeNoise && typeRoll < 0.28;  // 8% — dark signal drop
-        const isChroma    = !isTapeNoise && !isBlackBar;      // 72% chroma/offset
+        const isTapeNoise = typeRoll < 0.22;
+        const isBlackBar  = !isTapeNoise && typeRoll < 0.30;
+        const isChroma    = !isTapeNoise && !isBlackBar;
         const hR = Math.random();
         const chromaHue = hR < 0.38 ? 125 : hR < 0.72 ? 182 : 258;
         gl.strips.push({
           y:        Math.floor(Math.random() * h),
           h:        isTapeNoise
-            ? 1 + Math.floor(Math.random() * 3)                        // tape noise: 1-3px
+            ? 1                                                         // tape noise: 1px only
             : isBlackBar
-              ? 1 + Math.floor(Math.random() * 2)                      // signal drop: 1-2px
-              : 1 + Math.floor(Math.random() * (4 + intensity * 4)),   // chroma: 1-5px
+              ? 1                                                       // signal drop: 1px
+              : 1 + Math.floor(Math.random() * (2 + intensity * 2)),   // chroma: 1-3px
           sx:       isVert ? 0      : stripX,
           sw:       isVert ? w      : stripW,
-          offset:   (Math.random() - 0.5) * (18 + intensity * 18),
+          offset:   (Math.random() - 0.5) * (10 + intensity * 12),
           chroma:   isChroma,
           blackBar: isBlackBar,
           tapeNoise: isTapeNoise,
           chromaHue,
           vertical: isVert,
           vx:       isVert ? Math.floor(Math.random() * w * 0.8) : 0,
-          vw:       isVert ? 2 + Math.floor(Math.random() * 6) : w,
+          vw:       isVert ? 1 + Math.floor(Math.random() * 3) : w,
         });
       }
     }
@@ -4083,13 +4124,13 @@ function drawGlitch(ctx, w, h, isCapture, dt) {
       const n = 1 + Math.floor(Math.random() * 2);   // 1 or 2 blocks
       for (let i = 0; i < n; i++) {
         gl.blocks.push({
-          x:        Math.floor(Math.random() * w * 0.6),
-          y:        Math.floor(Math.random() * h * 0.85),
-          bw:       Math.floor(w * (0.15 + Math.random() * 0.30)),  // 15–45% wide
-          bh:       Math.floor(h * (0.03 + Math.random() * 0.06)),  // 3–9% tall
-          offset:   Math.round((Math.random() - 0.5) * 32),          // ±16 px
+          x:        Math.floor(Math.random() * w * 0.75),
+          y:        Math.floor(Math.random() * h * 0.90),
+          bw:       Math.floor(w * (0.06 + Math.random() * 0.18)),  // 6–24% wide (was 15-45%)
+          bh:       Math.floor(h * (0.008 + Math.random() * 0.022)), // 1–3% tall (was 3-9%)
+          offset:   Math.round((Math.random() - 0.5) * 18),          // ±9 px (was ±16px)
           elapsed:  0,
-          duration: 120 + Math.floor(Math.random() * 280),          // 120–400 ms
+          duration: 80 + Math.floor(Math.random() * 200),           // 80–280 ms
         });
       }
     }
@@ -4169,6 +4210,24 @@ function drawGlitch(ctx, w, h, isCapture, dt) {
     ctx.restore();
   });
 
+  // ── PER-ROW JITTER DISTORTION — rows of pixels shift sideways individually ─
+  // Simulates digital compression failure: groups of rows slide left/right by
+  // varying amounts, creating the classic "digital glitch" staircase look.
+  if (gl.active || (intensity > 0.20 && !isCapture && Math.random() < 0.04)) {
+    const jRows = 3 + Math.floor(Math.random() * (4 + intensity * 5));
+    for (let ji = 0; ji < jRows; ji++) {
+      const jY = Math.floor(Math.random() * h);
+      const jH = 1 + Math.floor(Math.random() * 3);
+      const jOff = Math.round((Math.random() - 0.5) * (8 + intensity * 14));
+      ctx.save();
+      ctx.globalAlpha = 0.55 + Math.random() * 0.35;
+      ctx.beginPath(); ctx.rect(0, jY, w, jH); ctx.clip();
+      ctx.translate(jOff, 0);
+      drawVideoCover(ctx, 0, 0, w, h);
+      ctx.restore();
+    }
+  }
+
   // ── DIGITAL DATA-SORT LAYER ───────────────────────────────────────────────
   // Thin vertical clip-strips of the video with extreme hue rotation → vivid
   // colour columns matching the reference image. Refreshed every ~2-3 seconds.
@@ -4192,19 +4251,19 @@ function drawGlitch(ctx, w, h, isCapture, dt) {
           alpha: 0.55 + Math.random() * 0.35,
         });
       }
-      // 10-18 colourful macro-blocks (JPEG corruption style)
+      // 8-14 small colourful pixel-blocks (JPEG corruption style, compact)
       gl.colorBlocks = [];
-      const nb = 10 + Math.floor(Math.random() * 9);
+      const nb = 8 + Math.floor(Math.random() * 7);
       const _BLOCK_COLS = ['#FF00FF','#00FFEE','#FFEE00','#FF2200','#00FF88',
                            '#FF6600','#0088FF','#FF0099','#CCFF00','#FFFFFF'];
       for (let i = 0; i < nb; i++) {
         gl.colorBlocks.push({
-          x:     Math.floor(Math.random() * w * 0.88),
-          y:     Math.floor(Math.random() * h * 0.88),
-          bw:    Math.floor(8 + Math.random() * 55),
-          bh:    Math.floor(6 + Math.random() * 42),
+          x:     Math.floor(Math.random() * w * 0.90),
+          y:     Math.floor(Math.random() * h * 0.90),
+          bw:    Math.floor(3 + Math.random() * 14),   // 3-17px (was 8-63px)
+          bh:    Math.floor(2 + Math.random() * 7),    // 2-9px  (was 6-48px)
           color: _BLOCK_COLS[Math.floor(Math.random() * _BLOCK_COLS.length)],
-          alpha: 0.28 + Math.random() * 0.42,
+          alpha: 0.30 + Math.random() * 0.38,
         });
       }
     }
@@ -5130,6 +5189,11 @@ document.addEventListener('click', e => {
 // Email modal — X (close dot) closes the popup
 document.querySelector('#email-panel .dot--close')
   ?.addEventListener('click', () => { playClick(); reset(); });
+
+// Clicking the backdrop (outside the card) also closes the popup
+emailPanel.addEventListener('click', e => {
+  if (!e.target.closest('.email-modal-card')) { playClick(); reset(); }
+});
 
 // Archive YES / NO buttons
 document.getElementById('btn-archive-yes')?.addEventListener('click', () => {
