@@ -397,14 +397,15 @@ const thermalCtx = thermalCanvas.getContext('2d', { willReadFrequently: true });
 
 const anim = {
   pixelGhost: {
-    t:           0,    // time counter — increases by dt, drives drifting offsets
-    densityT:    0,    // time elapsed on this filter — ramps patch count from 3→GHOST_PATCHES over ~35s
-    patches:     [],   // corruption patch regions — populated by initGhostPatches()
-    motionCanvas: null, motionCtx: null, prevMotion: null, // full-frame motion detection
-    rightMotion:      0,    // compat alias for fullMotion
-    fullMotion:       0,    // 0-1 normalised full-frame motion level
-    motionCentroidX:  0.5,  // normalised [0..1] X of motion centroid (hand position)
-    motionCentroidY:  0.5,  // normalised [0..1] Y of motion centroid
+    t:           0,
+    densityT:    0,
+    patches:     [],
+    motionCanvas: null, motionCtx: null, prevMotion: null,
+    rightMotion:      0,
+    fullMotion:       0,
+    motionCentroidX:  0.5,
+    motionCentroidY:  0.5,
+    collage: [], collageTimer: 0, collageCoverX: 0,
   },
   surveillance: {
     scanY:           0,
@@ -485,7 +486,7 @@ const anim = {
   },
   glitch: {
     t:          0,
-    intensityT: 0,   // ms since filter activated — ramps chroma/strip intensity over 60s
+    intensityT: 0,
     timer:      0,
     active:     false,
     elapsed:    0,
@@ -496,6 +497,10 @@ const anim = {
     motionCanvas: null, motionCtx: null, prevMotionData: null,
     motionLevel: 0, motionCentroidX: 0.5, motionCentroidY: 0.5,
     dataStripes: [], colorBlocks: [], dataTimer: 0,
+    eyeFlashTimer: 0, eyeFlashOn: false, eyeFlashDuration: 0,
+    colTimer: 0, colStrips: [],
+    slabs: [], slabTimer: 0, pixelBlocks: [],
+    glitchActive: false, quietTimer: 0, quietDuration: 1500,
   },
   thermal: {
     motionCanvas: null, motionCtx: null, prevMotionData: null,
@@ -1263,12 +1268,12 @@ function renderLoop(timestamp) {
     }
   }
 
-  // First pass: render all non-'none' cells
+  // Render all filter cells — 'none' shows live video in preview
   filterCells.forEach(cell => {
     if (cell.classList.contains('filter-cell--locked')) return;
     const canvas    = cell.querySelector('.filter-canvas');
     const filterKey = cell.dataset.filter;
-    if (!canvas || filterKey === 'none') return;
+    if (!canvas) return;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     try {
@@ -1277,50 +1282,6 @@ function renderLoop(timestamp) {
       console.error('[JHALAK] renderFilter error in', filterKey, err);
     }
   });
-
-  // Second pass: ALL composite — draw 3×3 grid of all filter canvases into the 'none' cell
-  {
-    const noneCell = [...filterCells].find(c => c.dataset.filter === 'none' && !c.classList.contains('filter-cell--locked'));
-    const ac = noneCell?.querySelector('.filter-canvas');
-    if (ac) {
-      const actx = ac.getContext('2d');
-      actx.clearRect(0, 0, ac.width, ac.height);
-      actx.fillStyle = '#0d0b0a';
-      actx.fillRect(0, 0, ac.width, ac.height);
-      const otherCells = [...filterCells].filter(c => c.dataset.filter !== 'none' && !c.classList.contains('filter-cell--locked'));
-      const cols = 3, rows = 3;
-      const cw = Math.floor(ac.width / cols);
-      const ch = Math.floor(ac.height / rows);
-      let cellIdx = 0;
-      for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-          const x = col * cw, y = row * ch;
-          if (row === 1 && col === 1) {
-            // Centre slot: live mirrored video
-            if (video.readyState >= 2) {
-              const vw = video.videoWidth || 640, vh = video.videoHeight || 480;
-              const scale = Math.max(cw / vw, ch / vh);
-              const sw = cw / scale, sh = ch / scale;
-              const sx = (vw - sw) * 0.5, sy = (vh - sh) * 0.5;
-              actx.save();
-              actx.translate(x + cw, y);
-              actx.scale(-1, 1);
-              actx.drawImage(video, sx, sy, sw, sh, 0, 0, cw, ch);
-              actx.restore();
-            }
-          } else {
-            const oCanvas = otherCells[cellIdx++]?.querySelector('.filter-canvas');
-            if (oCanvas && oCanvas.width > 0) actx.drawImage(oCanvas, x, y, cw, ch);
-          }
-        }
-      }
-      // Thin divider lines
-      actx.strokeStyle = 'rgba(0,0,0,0.55)';
-      actx.lineWidth = 1;
-      for (let c = 1; c < cols; c++) { actx.beginPath(); actx.moveTo(c * cw, 0); actx.lineTo(c * cw, ac.height); actx.stroke(); }
-      for (let r = 1; r < rows; r++) { actx.beginPath(); actx.moveTo(0, r * ch); actx.lineTo(ac.width, r * ch); actx.stroke(); }
-    }
-  }
 
   // Render to enlarged overlay canvas if present (Photo Booth overlay mode)
   const enlargeOverlay = document.querySelector('.filter-enlarge-overlay');
@@ -3917,377 +3878,109 @@ function drawGlitch(ctx, w, h, isCapture, dt) {
     gl.prevMotionData = gCurr;
   }
 
-  // Sinusoidal 3-minute intensity cycle: ebbs and flows, never fully off.
-  // Ranges from ~0.08 (calm) to ~0.85 (active). Two overlapping cycles add organic variation.
-  const cycle = Math.sin(gl.intensityT * Math.PI * 2 / 180000);
-  const cycle2 = Math.sin(gl.intensityT * Math.PI * 2 / 113000 + 1.4);  // offset second wave
-  const intensity = 0.08 + 0.62 * (0.5 + 0.5 * cycle) + 0.15 * (0.5 + 0.5 * cycle2);
+  const motionHigh = (gl.motionLevel || 0) > 0.048;
 
-  // ── LAYER 1: base video (slightly desaturated for VHS look) ─────────────
+  // ── LAYER 1: base video — clean, full colour ─────────────────────────────
   ctx.save();
-  ctx.filter = 'saturate(0.82) contrast(1.05) brightness(0.96)';
   drawVideoCover(ctx, 0, 0, w, h);
   ctx.restore();
 
-  // ── LAYER 2: VHS chroma drift — luma/chroma separation ───────────────────
-  // VHS records chroma (colour) at lower bandwidth than luma (brightness).
-  // The chroma signal trails to the right and bleeds into adjacent lines.
-  // Simulate with a horizontally-offset colour-only layer at low opacity.
-  const chromaShift = Math.round(3 + intensity * 7);
-  {
-    // Chroma trail: saturated colour channel shifted right (delayed colour)
-    ctx.save();
-    ctx.globalAlpha = 0.09 + intensity * 0.11;
-    ctx.filter = 'saturate(12) hue-rotate(5deg) brightness(0.65)';
-    drawVideoCover(ctx, chromaShift, 0, w, h);
-    ctx.restore();
-
-    // Counter-phase: slight blue/cyan lead on left (chroma phase error)
-    ctx.save();
-    ctx.globalAlpha = 0.06 + intensity * 0.07;
-    ctx.filter = 'saturate(10) hue-rotate(178deg) brightness(0.60)';
-    drawVideoCover(ctx, -Math.round(chromaShift * 0.5), 0, w, h);
-    ctx.restore();
-  }
-
-  // ── LAYER 2b: top-of-frame sync wobble ────────────────────────────────────
-  // VHS tapes have a bent/unstable sync signal at the very top of the frame.
-  // Simulate with a sinusoidal horizontal offset on the top rows.
-  {
-    const wobbleH = Math.round(h * (0.06 + intensity * 0.06));  // top 6-12% of frame
-    const wobbleAmp = 2 + intensity * 4;
-    const wobbleX = Math.round(Math.sin(gl.t * 0.0018) * wobbleAmp);
-    ctx.save();
-    ctx.beginPath();
-    ctx.rect(0, 0, w, wobbleH);
-    ctx.clip();
-    ctx.translate(wobbleX, 0);
-    ctx.filter = 'saturate(0.78) brightness(0.90)';
-    drawVideoCover(ctx, 0, 0, w, h);
-    ctx.restore();
-  }
-
-  // ── LAYER 3: face region micro-displacement — multiple zones ────────────
-  // Two permanent oscillating slice-shifts on face area: eye level + mouth level.
-  // Gives believable local corruption without long spanning bars.
-  {
-    const glMP = getMPKeyPoints(w, h);
-    // Eye-level displacement — main face distortion zone
-    const eyeY = glMP
-      ? glMP.leftEye.y
-      : (facePos.detected ? (facePos.cy - facePos.h * 0.08) * h : h * 0.38);
-    const eyeOff = Math.round(
-      Math.sin(gl.t * 0.0021) * 9 + Math.sin(gl.t * 0.0041) * 5
-    );  // wider oscillation range for stronger face corruption
-    const eyeH  = Math.max(5, Math.round(h * 0.032));  // slightly narrower
-    const eyeXL = glMP ? Math.max(0, glMP.leftEye.x - w * 0.18) : 0;
-    const eyeXW = w * 0.50;
-    ctx.save();
-    ctx.globalAlpha = 0.78;
-    ctx.beginPath();
-    ctx.rect(eyeXL, eyeY - eyeH * 0.5, eyeXW, eyeH);
-    ctx.clip();
-    ctx.translate(eyeOff, 0);
-    drawVideoCover(ctx, 0, 0, w, h);
-    ctx.restore();
-
-    // Secondary: mouth-level displacement — adds asymmetric face corruption
-    const mouthY = glMP
-      ? glMP.mouth.y
-      : (facePos.detected ? (facePos.cy + facePos.h * 0.12) * h : h * 0.52);
-    const mOff = Math.round(
-      Math.sin(gl.t * 0.0031 + 2.1) * 6 + Math.sin(gl.t * 0.0057 + 0.7) * 3
-    );
-    const mH   = Math.max(3, Math.round(h * 0.022));
-    const mXL  = glMP ? Math.max(0, glMP.rightEye.x - w * 0.12) : w * 0.20;
-    const mXW  = w * 0.42;
-    ctx.save();
-    ctx.globalAlpha = 0.60;
-    ctx.beginPath();
-    ctx.rect(mXL, mouthY - mH * 0.5, mXW, mH);
-    ctx.clip();
-    ctx.translate(mOff, 0);
-    drawVideoCover(ctx, 0, 0, w, h);
-    ctx.restore();
-  }
-
-  // ── LAYER 4: intermittent strip glitches (horizontal + vertical) ──────────
-  // Strip interval shrinks and count grows with intensity: early = rare+mild, late = frequent+aggressive
+  // ── STATE MACHINE ─────────────────────────────────────────────────────────
   if (!isCapture) {
-    gl.timer += dt;
-    const stripInterval = 600 - intensity * 400;  // 600ms at 0% → 200ms at 100%
-    if (!gl.active && gl.timer > stripInterval + Math.random() * (800 - intensity * 500)) {
-      gl.active   = true;
-      gl.elapsed  = 0;
-      gl.timer    = 0;
-      gl.duration = 80 + Math.random() * (200 + intensity * 200);
-      gl.strips   = [];
-      const n = Math.round(1 + Math.random() * (2 + intensity * 2));  // 1-3 calm, up to 1-5 peak
-      for (let i = 0; i < n; i++) {
-        const isVert    = Math.random() < 0.06;
-        // Narrower strips — 20-35% width max for partial glitches
-        const isFullWide = Math.random() < 0.30;
-        const stripW     = isFullWide ? w : Math.floor(w * (0.12 + Math.random() * 0.28));
-        const stripX     = isFullWide ? 0 : Math.floor(Math.random() * (w - stripW));
-        const typeRoll    = Math.random();
-        const isTapeNoise = typeRoll < 0.22;
-        const isBlackBar  = !isTapeNoise && typeRoll < 0.30;
-        const isChroma    = !isTapeNoise && !isBlackBar;
-        const hR = Math.random();
-        const chromaHue = hR < 0.38 ? 125 : hR < 0.72 ? 182 : 258;
-        gl.strips.push({
-          y:        Math.floor(Math.random() * h),
-          h:        isTapeNoise
-            ? 1                                                         // tape noise: 1px only
-            : isBlackBar
-              ? 1                                                       // signal drop: 1px
-              : 1 + Math.floor(Math.random() * (2 + intensity * 2)),   // chroma: 1-3px
-          sx:       isVert ? 0      : stripX,
-          sw:       isVert ? w      : stripW,
-          offset:   (Math.random() - 0.5) * (10 + intensity * 12),
-          chroma:   isChroma,
-          blackBar: isBlackBar,
-          tapeNoise: isTapeNoise,
-          chromaHue,
-          vertical: isVert,
-          vx:       isVert ? Math.floor(Math.random() * w * 0.8) : 0,
-          vw:       isVert ? 1 + Math.floor(Math.random() * 3) : w,
-        });
-      }
-    }
-    if (gl.active) {
-      gl.elapsed += dt;
-      if (gl.elapsed > gl.duration) gl.active = false;
-    }
-  }
+    const COLS = ['#FF0022','#00EE44','#2255FF','#FF00EE','#00EEFF','#EEFF00','#9900FF','#FF5500'];
 
-  if (gl.active || isCapture) {
-    (gl.strips || []).forEach(strip => {
-      ctx.save();
-      ctx.beginPath();
-      if (strip.vertical) {
-        // Vertical mode: clip to a column, offset vertically
-        ctx.rect(strip.vx, 0, strip.vw, h);
-        ctx.clip();
-        if (strip.blackBar) {
-          ctx.fillStyle = '#000000';
-          ctx.fillRect(strip.vx, 0, strip.vw, h);
-        } else {
-          ctx.translate(0, Math.round(strip.offset * 0.35));
-          drawVideoCover(ctx, 0, 0, w, h);
-        }
-      } else {
-        // Horizontal mode: clip to a sectional row (partial width)
-        ctx.rect(strip.sx, strip.y, strip.sw, strip.h);
-        ctx.clip();
-        if (strip.tapeNoise) {
-          // VHS tape noise — semi-transparent light band (not black, not digital)
-          ctx.globalAlpha = 0.30 + Math.random() * 0.35;
-          ctx.fillStyle = `rgba(${180 + Math.floor(Math.random()*60)}, ${160 + Math.floor(Math.random()*60)}, ${120 + Math.floor(Math.random()*60)}, 1)`;
-          ctx.fillRect(strip.sx, strip.y, strip.sw, strip.h);
-        } else if (strip.blackBar) {
-          // Signal dropout — nearly black, slight colour noise at edge
-          ctx.globalAlpha = 0.85;
-          ctx.fillStyle = '#0A0408';
-          ctx.fillRect(strip.sx, strip.y, strip.sw, strip.h);
-        } else {
-          // Chroma tracking error — shifted, colour-distorted copy of the line
-          ctx.globalAlpha = 0.70;
-          ctx.filter = `saturate(6) hue-rotate(${strip.chromaHue || 180}deg) brightness(0.85)`;
-          ctx.translate(Math.round(strip.offset), 0);
-          drawVideoCover(ctx, 0, 0, w, h);
+    if (gl.glitchActive) {
+      // Advance slab lifetimes — expire finished ones
+      gl.slabs.forEach(s => { s.life += dt; });
+      gl.slabs = gl.slabs.filter(s => s.life < s.maxLife);
+
+      // All slabs gone → end event, enter quiet phase
+      if (!gl.slabs.length) {
+        gl.glitchActive  = false;
+        gl.pixelBlocks   = [];
+        gl.quietTimer    = 0;
+        gl.quietDuration = motionHigh
+          ? 250 + Math.random() * 550
+          : 1000 + Math.random() * 2200;
+      }
+    } else {
+      // Quiet phase — count up and fire next event when ready
+      gl.quietTimer += dt;
+      if (gl.quietTimer >= gl.quietDuration) {
+        gl.glitchActive = true;
+
+        const n = 2 + Math.floor(Math.random() * 2) + (motionHigh ? 1 + Math.floor(Math.random() * 2) : 0);
+        gl.slabs = Array.from({ length: n }, () => ({
+          y:       Math.floor(Math.random() * h * 0.88),
+          sh:      Math.max(20, Math.floor(h * (0.07 + Math.random() * 0.10))),
+          offset:  (Math.random() < 0.5 ? 1 : -1) * (8 + Math.floor(Math.random() * 28)),
+          life:    0,
+          maxLife: 55 + Math.floor(Math.random() * (motionHigh ? 160 : 380)),
+        }));
+
+        // Pixel blocks: right-side clusters near each slab's Y position
+        gl.pixelBlocks = [];
+        gl.slabs.forEach(s => {
+          const cnt = 4 + Math.floor(Math.random() * 7);
+          for (let i = 0; i < cnt; i++) {
+            const by = s.y + (Math.random() - 0.3) * s.sh * 5;
+            gl.pixelBlocks.push({
+              x:     Math.floor(w * 0.52 + Math.random() * w * 0.45),
+              y:     Math.max(0, Math.min(h - 4, Math.floor(by))),
+              bw:    5 + Math.floor(Math.random() * 15),
+              bh:    3 + Math.floor(Math.random() * 9),
+              color: COLS[Math.floor(Math.random() * COLS.length)],
+              alpha: 0.82 + Math.random() * 0.18,
+              video: Math.random() < 0.28,
+              vx:    s.offset,
+            });
+          }
+        });
+
+        // Upper-right corner isolated cluster — always present regardless of slab Y
+        for (let i = 0; i < 3 + Math.floor(Math.random() * 5); i++) {
+          gl.pixelBlocks.push({
+            x:     Math.floor(w * 0.68 + Math.random() * w * 0.30),
+            y:     Math.floor(Math.random() * h * 0.14),
+            bw:    4 + Math.floor(Math.random() * 13),
+            bh:    3 + Math.floor(Math.random() * 7),
+            color: COLS[Math.floor(Math.random() * COLS.length)],
+            alpha: 0.82 + Math.random() * 0.18,
+            video: Math.random() < 0.30,
+            vx:    (Math.random() < 0.5 ? 1 : -1) * (6 + Math.floor(Math.random() * 22)),
+          });
         }
       }
-      ctx.restore();
-    });
-
-    // Occasional frame-level signal instability — whole frame shifts briefly
-    // (VHS tape flutter: the entire image lurches sideways by 1-3 pixels)
-    if (!isCapture && Math.random() < 0.08) {
-      const flutterOff = Math.round((Math.random() - 0.5) * 4);
-      ctx.save();
-      ctx.globalAlpha = 0.18;
-      ctx.filter = 'saturate(0.70) brightness(0.88)';
-      drawVideoCover(ctx, flutterOff, 0, w, h);
-      ctx.restore();
     }
   }
 
-  // ── LAYER 3: block-offset glitches ───────────────────────────────────────
-  // Small rectangular regions that briefly shift sideways — adds tactile
-  // compression-artefact feel, distinct from the full-width strip layer.
-  if (!isCapture) {
-    gl.blockTimer += dt;
-    // Spawn a fresh cluster every 1.5–3 s
-    if (gl.blockTimer > 1500 + Math.random() * 1500) {
-      gl.blockTimer = 0;
-      const n = 1 + Math.floor(Math.random() * 2);   // 1 or 2 blocks
-      for (let i = 0; i < n; i++) {
-        gl.blocks.push({
-          x:        Math.floor(Math.random() * w * 0.75),
-          y:        Math.floor(Math.random() * h * 0.90),
-          bw:       Math.floor(w * (0.06 + Math.random() * 0.18)),  // 6–24% wide (was 15-45%)
-          bh:       Math.floor(h * (0.008 + Math.random() * 0.022)), // 1–3% tall (was 3-9%)
-          offset:   Math.round((Math.random() - 0.5) * 18),          // ±9 px (was ±16px)
-          elapsed:  0,
-          duration: 80 + Math.floor(Math.random() * 200),           // 80–280 ms
-        });
-      }
-    }
-    // Age out expired blocks
-    gl.blocks = gl.blocks.filter(b => b.elapsed < b.duration);
-    gl.blocks.forEach(b => { b.elapsed += dt; });
-  }
-
-  gl.blocks.forEach(b => {
-    const fade = b.elapsed < 40
-      ? b.elapsed / 40
-      : b.elapsed > b.duration - 50
-        ? (b.duration - b.elapsed) / 50
-        : 1;
+  // ── DRAW SLABS ─────────────────────────────────────────────────────────────
+  (gl.slabs || []).forEach(s => {
+    const t    = s.life / s.maxLife;
+    const fade = t < 0.06 ? t / 0.06 : t > 0.88 ? (1 - t) / 0.12 : 1;
     ctx.save();
-    ctx.globalAlpha = 0.82 * fade;
-    ctx.beginPath();
-    ctx.rect(b.x, b.y, b.bw, b.bh);
-    ctx.clip();
-    ctx.translate(b.offset, 0);
+    ctx.globalAlpha = fade;
+    ctx.beginPath(); ctx.rect(0, s.y, w, s.sh); ctx.clip();
+    ctx.translate(s.offset, 0);
     drawVideoCover(ctx, 0, 0, w, h);
     ctx.restore();
   });
 
-  // Motion-reactive interference — VHS-style: horizontal tracking errors near motion
-  if (!isCapture && gl.motionLevel > 0.030) {
-    const mLvl = Math.min(1, gl.motionLevel * 3.0);
-    const mY   = gl.motionCentroidY * h;
-    const nStrips = Math.round(mLvl * 2);  // fewer, cleaner strips
-    for (let mi = 0; mi < nStrips; mi++) {
-      const sy2  = mY + (Math.random() - 0.5) * h * 0.20;
-      const sh2  = 1 + Math.floor(Math.random() * (3 + mLvl * 4));  // thin VHS lines
-      const off2 = (Math.random() - 0.5) * (12 + mLvl * 22);        // tighter offsets
-      ctx.save();
-      ctx.globalAlpha = 0.40 + mLvl * 0.25;
-      ctx.beginPath();
-      ctx.rect(0, sy2, w, sh2);  // full width for VHS feel
-      ctx.clip();
-      ctx.filter = 'saturate(4) hue-rotate(182deg) brightness(0.85)';  // VHS chroma tint
-      ctx.translate(Math.round(off2), 0);
-      drawVideoCover(ctx, 0, 0, w, h);
-      ctx.restore();
-    }
-    // Occasional vertical column split near motion X
-    const mX   = (1 - gl.motionCentroidX) * w;
-    if (Math.random() < mLvl * 0.10) {
-      const colX  = mX + (Math.random() - 0.5) * w * 0.12;
-      const colW2 = 2 + Math.floor(Math.random() * (4 + mLvl * 6));  // thinner columns
-      const colOff = (Math.random() - 0.5) * (mLvl * 12);
-      ctx.save();
-      ctx.globalAlpha = 0.45 * mLvl;
-      ctx.beginPath();
-      ctx.rect(colX, 0, colW2, h);
-      ctx.clip();
-      ctx.translate(0, Math.round(colOff));
-      drawVideoCover(ctx, 0, 0, w, h);
-      ctx.restore();
-    }
-  }
-
-  // Extra distortion near additional detected faces
-  facesArray.slice(1).forEach(extraFace => {
-    if (!extraFace.detected || Math.random() > 0.4) return;
-    const exCX = extraFace.cx * w;
-    const exCY = extraFace.cy * h;
-    const exFH = extraFace.h * h;
-    const exY = exCY + (Math.random() - 0.5) * exFH * 0.8;
-    const exH2 = 2 + Math.floor(Math.random() * 8);
-    const exOff = (Math.random() - 0.5) * 30;
-    ctx.save();
-    ctx.globalAlpha = 0.55;
-    ctx.beginPath();
-    ctx.rect(0, exY, w, exH2);
-    ctx.clip();
-    ctx.translate(Math.round(exOff), 0);
-    drawVideoCover(ctx, 0, 0, w, h);
-    ctx.restore();
-  });
-
-  // ── PER-ROW JITTER DISTORTION — rows of pixels shift sideways individually ─
-  // Simulates digital compression failure: groups of rows slide left/right by
-  // varying amounts, creating the classic "digital glitch" staircase look.
-  if (gl.active || (intensity > 0.20 && !isCapture && Math.random() < 0.04)) {
-    const jRows = 3 + Math.floor(Math.random() * (4 + intensity * 5));
-    for (let ji = 0; ji < jRows; ji++) {
-      const jY = Math.floor(Math.random() * h);
-      const jH = 1 + Math.floor(Math.random() * 3);
-      const jOff = Math.round((Math.random() - 0.5) * (8 + intensity * 14));
-      ctx.save();
-      ctx.globalAlpha = 0.55 + Math.random() * 0.35;
-      ctx.beginPath(); ctx.rect(0, jY, w, jH); ctx.clip();
-      ctx.translate(jOff, 0);
-      drawVideoCover(ctx, 0, 0, w, h);
-      ctx.restore();
-    }
-  }
-
-  // ── DIGITAL DATA-SORT LAYER ───────────────────────────────────────────────
-  // Thin vertical clip-strips of the video with extreme hue rotation → vivid
-  // colour columns matching the reference image. Refreshed every ~2-3 seconds.
-  const _GLITCH_HUES = [0, 45, 90, 135, 180, 225, 270, 315, 30, 75, 150, 200, 260, 320];
-  if (!isCapture) {
-    gl.dataTimer += dt;
-    const refreshInterval = 2200 + Math.random() * 900;
-    if (!gl.dataStripes.length || gl.dataTimer > refreshInterval) {
-      gl.dataTimer = 0;
-      // 20-30 thin vertical stripes — clipped video with strong hue rotation
-      gl.dataStripes = [];
-      const n = 20 + Math.floor(Math.random() * 12);
-      for (let i = 0; i < n; i++) {
-        gl.dataStripes.push({
-          x:    Math.floor(Math.random() * w),
-          sw:   1 + Math.floor(Math.random() * 4),   // 1-4 px wide
-          sy:   Math.floor(Math.random() * h * 0.25),
-          sh:   Math.floor(h * (0.3 + Math.random() * 0.65)),
-          hue:  _GLITCH_HUES[Math.floor(Math.random() * _GLITCH_HUES.length)],
-          sat:  5 + Math.random() * 6,
-          alpha: 0.55 + Math.random() * 0.35,
-        });
-      }
-      // 8-14 small colourful pixel-blocks (JPEG corruption style, compact)
-      gl.colorBlocks = [];
-      const nb = 8 + Math.floor(Math.random() * 7);
-      const _BLOCK_COLS = ['#FF00FF','#00FFEE','#FFEE00','#FF2200','#00FF88',
-                           '#FF6600','#0088FF','#FF0099','#CCFF00','#FFFFFF'];
-      for (let i = 0; i < nb; i++) {
-        gl.colorBlocks.push({
-          x:     Math.floor(Math.random() * w * 0.90),
-          y:     Math.floor(Math.random() * h * 0.90),
-          bw:    Math.floor(3 + Math.random() * 14),   // 3-17px (was 8-63px)
-          bh:    Math.floor(2 + Math.random() * 7),    // 2-9px  (was 6-48px)
-          color: _BLOCK_COLS[Math.floor(Math.random() * _BLOCK_COLS.length)],
-          alpha: 0.30 + Math.random() * 0.38,
-        });
-      }
-    }
-  }
-
-  // Draw thin vertical video-strips (hue-rotated, high saturation)
-  gl.dataStripes.forEach(s => {
-    ctx.save();
-    ctx.globalAlpha = s.alpha;
-    ctx.filter = `hue-rotate(${s.hue}deg) saturate(${s.sat.toFixed(1)}) brightness(1.15)`;
-    ctx.beginPath();
-    ctx.rect(s.x, s.sy, s.sw, s.sh);
-    ctx.clip();
-    drawVideoCover(ctx, 0, 0, w, h);
-    ctx.restore();
-  });
-
-  // Draw coloured macro-blocks
+  // ── DRAW PIXEL ARTIFACT BLOCKS ─────────────────────────────────────────────
   ctx.save();
-  ctx.globalCompositeOperation = 'screen';
-  gl.colorBlocks.forEach(b => {
+  (gl.pixelBlocks || []).forEach(b => {
     ctx.globalAlpha = b.alpha;
-    ctx.fillStyle   = b.color;
-    ctx.fillRect(b.x, b.y, b.bw, b.bh);
+    if (b.video && video.readyState >= 2) {
+      // Video macro-block — offset source gives skin-tone displaced content
+      ctx.save();
+      ctx.beginPath(); ctx.rect(b.x, b.y, b.bw, b.bh); ctx.clip();
+      ctx.translate(b.vx, 0);
+      drawVideoCover(ctx, 0, 0, w, h);
+      ctx.restore();
+    } else {
+      ctx.fillStyle = b.color;
+      ctx.fillRect(b.x, b.y, b.bw, b.bh);
+    }
   });
   ctx.restore();
 }
