@@ -72,7 +72,7 @@ const PIXEL_BLOCK_CRS = 30;   // coarse block (PIXEL GHOST corruption patches)
 const HEART_COUNT     = 13;   // floating hearts for ILOVEYOU
 const SPARKLE_COUNT   = 8;    // ✦ sparkle particles for ILOVEYOU
 const COUNTDOWN_S     = 3;    // countdown seconds
-const GHOST_PATCHES   = 26;   // corruption patch count for PIXEL GHOST (max density)
+const GHOST_PATCHES   = 42;   // corruption patch count for PIXEL GHOST (max density)
 
 // ─── ASSET URLS (plug in your final values here) ───────────────────────────
 // Logo shown in both the email postcard and the popup preview.
@@ -1741,8 +1741,8 @@ function drawPixelGhost(ctx, w, h, isCapture, dt) {
   if (!isCapture && video.readyState >= 2) {
     if (!pg.motionCanvas) {
       pg.motionCanvas = document.createElement('canvas');
-      pg.motionCanvas.width  = 32;
-      pg.motionCanvas.height = 24;
+      pg.motionCanvas.width  = 48;
+      pg.motionCanvas.height = 36;
       pg.motionCtx = pg.motionCanvas.getContext('2d', { willReadFrequently: true });
       pg.fullMotion      = 0;
       pg.motionCentroidX = 0.5;
@@ -1751,16 +1751,16 @@ function drawPixelGhost(ctx, w, h, isCapture, dt) {
     const mctx = pg.motionCtx;
     mctx.save();
     mctx.scale(-1, 1);
-    mctx.drawImage(video, 0, 0, -32, 24);
+    mctx.drawImage(video, 0, 0, -48, 36);
     mctx.restore();
-    const curr = mctx.getImageData(0, 0, 32, 24).data;
+    const curr = mctx.getImageData(0, 0, 48, 36).data;
     if (pg.prevMotion && pg.prevMotion.length === curr.length) {
       let totalDelta = 0;
       let cx = 0, cy = 0, cw = 0;
-      const NOISE = 18;  // ignore sub-threshold pixel noise
-      for (let row = 0; row < 24; row++) {
-        for (let col = 0; col < 32; col++) {
-          const bi = (row * 32 + col) * 4;
+      const NOISE = 16;
+      for (let row = 0; row < 36; row++) {
+        for (let col = 0; col < 48; col++) {
+          const bi = (row * 48 + col) * 4;
           const d = Math.abs(curr[bi]   - pg.prevMotion[bi])
                   + Math.abs(curr[bi+1] - pg.prevMotion[bi+1])
                   + Math.abs(curr[bi+2] - pg.prevMotion[bi+2]);
@@ -1768,22 +1768,22 @@ function drawPixelGhost(ctx, w, h, isCapture, dt) {
           if (d > NOISE) { cx += col * d; cy += row * d; cw += d; }
         }
       }
-      pg.fullMotion  = Math.min(1, totalDelta / (32 * 24 * 3 * 255));
-      pg.rightMotion = pg.fullMotion;  // keep compat alias
+      pg.fullMotion  = Math.min(1, totalDelta / (48 * 36 * 3 * 255));
+      pg.rightMotion = pg.fullMotion;
       if (cw > 0) {
-        pg.motionCentroidX = cx / cw / 32;   // normalised [0..1]
-        pg.motionCentroidY = cy / cw / 24;
+        pg.motionCentroidX = cx / cw / 48;
+        pg.motionCentroidY = cy / cw / 36;
       }
     }
     pg.prevMotion = curr;
   }
 
   // ── DENSITY RAMP: start sparse (3 patches), grow to GHOST_PATCHES over ~35s ─
-  const densityRamp      = Math.min(1, pg.densityT / 35000);
-  // Motion bonus: up to +6 extra patches during active movement (full-frame)
-  const motionBonus      = Math.round((pg.fullMotion || 0) * 6);
+  const densityRamp      = Math.min(1, pg.densityT / 25000);
+  // Motion bonus: up to +12 extra patches during active movement (full-frame)
+  const motionBonus      = Math.round((pg.fullMotion || 0) * 12);
   const activePatchCount = Math.min(GHOST_PATCHES,
-    Math.max(5, Math.round(5 + (GHOST_PATCHES - 5) * densityRamp) + motionBonus));
+    Math.max(8, Math.round(8 + (GHOST_PATCHES - 8) * densityRamp) + motionBonus));
 
   // ── HAND-MOTION REFRACTION — chromatic glow at detected motion centroid ──
   // When hands are moving in frame, emit a soft chromatic-split ghost burst
@@ -1865,6 +1865,37 @@ function drawPixelGhost(ctx, w, h, isCapture, dt) {
       ctx.fillRect(barX, barY, barW, 1);
     }
     ctx.restore();
+  }
+
+  // ── GLITCH BARS — sparse horizontal displacement slivers ─────────────────
+  // 2-4 thin bars per frame that mimic digital signal corruption
+  if (!isCapture && (pg.fullMotion || 0) > 0.01) {
+    if (!pg.glitchBars) pg.glitchBars = [];
+    if (!pg.glitchBarTimer) pg.glitchBarTimer = 0;
+    pg.glitchBarTimer += dt;
+    if (pg.glitchBarTimer > 120 + Math.random() * 300) {
+      pg.glitchBarTimer = 0;
+      const nbars = 1 + Math.floor(Math.random() * 3) + Math.floor((pg.fullMotion || 0) * 4);
+      pg.glitchBars = Array.from({ length: nbars }, () => ({
+        y:       Math.floor(Math.random() * h),
+        sh:      1 + Math.floor(Math.random() * 4),
+        offset:  (Math.random() < 0.5 ? 1 : -1) * (4 + Math.floor(Math.random() * 18)),
+        life:    0,
+        maxLife: 40 + Math.floor(Math.random() * 120),
+      }));
+    }
+    pg.glitchBars.forEach(b => { b.life += dt; });
+    pg.glitchBars = pg.glitchBars.filter(b => b.life < b.maxLife);
+    pg.glitchBars.forEach(b => {
+      const t = b.life / b.maxLife;
+      const fade = t < 0.10 ? t / 0.10 : t > 0.85 ? (1 - t) / 0.15 : 1;
+      ctx.save();
+      ctx.globalAlpha = fade * 0.75;
+      ctx.beginPath(); ctx.rect(0, b.y, w, b.sh); ctx.clip();
+      ctx.translate(b.offset, 0);
+      drawVideoCover(ctx, 0, 0, w, h);
+      ctx.restore();
+    });
   }
 
   // Additional face ghost patches — lightweight extra patches per extra face
@@ -2902,6 +2933,53 @@ function drawILoveYou(ctx, w, h, isCapture, dt) {
     ctx.stroke();
     ctx.restore();
   }
+
+  // ── NEON HEART BORDERS — thin vertical strip of glowing hearts each side ──
+  {
+    const bannerH = Math.round(h * 0.19);
+    const tSec    = il.t / 1000;
+    // Usable vertical zone between banners
+    const zoneTop = bannerH;
+    const zoneH   = h - bannerH * 2;
+    // Small hearts — spacing so ~7-8 fit in the zone
+    const heartSz = Math.max(6, Math.round(zoneH / 8));
+    const spacing  = Math.round(zoneH / 7);
+    const neonCols = ['#FF00AA','#FF44CC','#FF0066','#FF22FF','#FF66DD'];
+    const borderX  = Math.max(4, Math.round(w * 0.018));   // how far from edge
+
+    ctx.save();
+    ctx.shadowBlur = 7;
+    for (let i = 0; i <= 7; i++) {
+      const cy2 = zoneTop + spacing * 0.5 + i * spacing;
+      if (cy2 > h - bannerH - heartSz) break;
+      // Animate: each heart pulses with a phase offset
+      const pulse = 0.72 + 0.28 * Math.sin(tSec * 2.8 + i * 0.9);
+      const col   = neonCols[(i + Math.floor(tSec * 0.8)) % neonCols.length];
+      ctx.shadowColor   = col;
+      ctx.globalAlpha   = pulse * 0.90;
+
+      const _drawNeonHeart = (cx2, cy3) => {
+        const s = heartSz * pulse;
+        ctx.beginPath();
+        ctx.moveTo(cx2, cy3 + s * 0.38);
+        ctx.bezierCurveTo(cx2 - s, cy3 - s * 0.10, cx2 - s, cy3 - s * 0.80, cx2, cy3 - s * 0.44);
+        ctx.bezierCurveTo(cx2 + s, cy3 - s * 0.80, cx2 + s, cy3 - s * 0.10, cx2, cy3 + s * 0.38);
+        ctx.closePath();
+        ctx.fillStyle   = col;
+        ctx.strokeStyle = 'rgba(255,255,255,0.70)';
+        ctx.lineWidth   = 0.8;
+        ctx.fill();
+        ctx.stroke();
+      };
+
+      // Left border
+      _drawNeonHeart(borderX + heartSz * 0.5, cy2);
+      // Right border
+      _drawNeonHeart(w - borderX - heartSz * 0.5, cy2);
+    }
+    ctx.shadowBlur = 0;
+    ctx.restore();
+  }
 }
 
 
@@ -2943,8 +3021,8 @@ function drawAura(ctx, w, h, isCapture, dt) {
     if (video.readyState >= 2) {
       if (!au.motionCanvas) {
         au.motionCanvas = document.createElement('canvas');
-        au.motionCanvas.width  = 24;
-        au.motionCanvas.height = 18;
+        au.motionCanvas.width  = 48;
+        au.motionCanvas.height = 36;
         au.motionCtx = au.motionCanvas.getContext('2d', { willReadFrequently: true });
         au.motionLevel = 0;
         au.motionCentroidX = 0.5;
@@ -2953,31 +3031,31 @@ function drawAura(ctx, w, h, isCapture, dt) {
       const amctx = au.motionCtx;
       amctx.save();
       amctx.scale(-1, 1);
-      amctx.drawImage(video, 0, 0, -24, 18);
+      amctx.drawImage(video, 0, 0, -48, 36);
       amctx.restore();
-      const aCurr = amctx.getImageData(0, 0, 24, 18).data;
+      const aCurr = amctx.getImageData(0, 0, 48, 36).data;
       if (au.prevMotionData && au.prevMotionData.length === aCurr.length) {
-        const ANOISE = 20;
+        const ANOISE = 16;
         let aTotalDelta = 0;
         const aHotPts = [];
-        for (let row = 0; row < 18; row++) {
-          for (let col = 0; col < 24; col++) {
-            const bi = (row * 24 + col) * 4;
+        for (let row = 0; row < 36; row++) {
+          for (let col = 0; col < 48; col++) {
+            const bi = (row * 48 + col) * 4;
             const d = Math.abs(aCurr[bi]   - au.prevMotionData[bi])
                     + Math.abs(aCurr[bi+1] - au.prevMotionData[bi+1])
                     + Math.abs(aCurr[bi+2] - au.prevMotionData[bi+2]);
             aTotalDelta += d;
-            if (d > ANOISE) aHotPts.push({ x: col / 24, y: row / 18, d });
+            if (d > ANOISE) aHotPts.push({ x: col / 48, y: row / 36, d });
           }
         }
-        const rawLevel = Math.min(1, aTotalDelta / (24 * 18 * 3 * 255));
-        au.motionLevel = au.motionLevel * 0.75 + rawLevel * 0.25;
+        const rawLevel = Math.min(1, aTotalDelta / (48 * 36 * 3 * 255));
+        au.motionLevel = au.motionLevel * 0.68 + rawLevel * 0.32;
 
         // Group hot pixels into spatial blobs (greedy nearest-neighbour, 0-1 space)
         aHotPts.sort((a, b) => b.d - a.d);
         const aBlobs = [];
         const aUsed  = new Uint8Array(aHotPts.length);
-        for (let i = 0; i < aHotPts.length && aBlobs.length < 5; i++) {
+        for (let i = 0; i < aHotPts.length && aBlobs.length < 8; i++) {
           if (aUsed[i]) continue;
           const p = aHotPts[i];
           let bx = p.x * p.d, by = p.y * p.d, bw = p.d;
@@ -2985,7 +3063,7 @@ function drawAura(ctx, w, h, isCapture, dt) {
           for (let j = i + 1; j < aHotPts.length; j++) {
             if (aUsed[j]) continue;
             const q = aHotPts[j];
-            if (Math.hypot(p.x - q.x, p.y - q.y) < 0.20) {
+            if (Math.hypot(p.x - q.x, p.y - q.y) < 0.14) {
               bx += q.x * q.d; by += q.y * q.d; bw += q.d; aUsed[j] = 1;
             }
           }
@@ -3060,15 +3138,29 @@ function drawAura(ctx, w, h, isCapture, dt) {
     drawVideoCover(tcx, 6, -6, w, h);
     tcx.restore();
 
+    // Stamp 7b: vivid orange — warm pop at far edge
+    tcx.save();
+    tcx.globalAlpha = 0.22;
+    tcx.filter = 'blur(22px) saturate(14) hue-rotate(22deg) brightness(2.0)';
+    drawVideoCover(tcx, -8, 8, w, h);
+    tcx.restore();
+
+    // Stamp 7c: deep orange-red — anchor the warm side
+    tcx.save();
+    tcx.globalAlpha = 0.16;
+    tcx.filter = 'blur(14px) saturate(12) hue-rotate(8deg) brightness(1.8)';
+    drawVideoCover(tcx, 8, -8, w, h);
+    tcx.restore();
+
     // Stamp 8: MOTION ENERGY — per-blob pink-white flares that follow hand/object shape.
     // Each motion blob gets its own smaller flare, so the energy follows the real
     // gesture region rather than a single smeared centroid.
-    if (au.motionLevel > 0.022 && au.motionBlobs && au.motionBlobs.length > 0) {
+    if (au.motionLevel > 0.012 && au.motionBlobs && au.motionBlobs.length > 0) {
       for (const blob of au.motionBlobs) {
-        if (blob.strength < 0.022) continue;
+        if (blob.strength < 0.012) continue;
         const bx    = (1 - blob.x) * w;   // mirror X to match display
         const by    = blob.y * h;
-        const mLvl  = Math.min(1, blob.strength * 12.0);
+        const mLvl  = Math.min(1, blob.strength * 18.0);
         // Radius per blob — large, intentional bloom on strong motion
         const rFlare = Math.max(18, Math.min(w * 0.34, w * 0.16 * (0.5 + mLvl * 1.5)));
 
@@ -3192,13 +3284,13 @@ function drawAura(ctx, w, h, isCapture, dt) {
 
   // Soft movement wash — when strong motion, a brief painterly pale veil passes through
   // Feels like fabric brushing across, occasionally whitening/paling a region
-  if (!isCapture && au.motionLevel > 0.04) {
-    const washLvl = Math.min(1, (au.motionLevel - 0.04) / 0.18);
+  if (!isCapture && au.motionLevel > 0.018) {
+    const washLvl = Math.min(1, (au.motionLevel - 0.018) / 0.10);
     const washX   = (1 - au.motionCentroidX) * w;
     const washY   = au.motionCentroidY * h;
     const washR   = Math.max(w * 0.20, Math.min(w * 0.55, w * 0.30 * (1 + washLvl)));
     const washGrd = ctx.createRadialGradient(washX, washY, 0, washX, washY, washR);
-    const washAlpha = washLvl * 0.22;
+    const washAlpha = washLvl * 0.38;
     washGrd.addColorStop(0,    `rgba(255, 248, 255, ${washAlpha})`);
     washGrd.addColorStop(0.35, `rgba(220, 200, 255, ${washAlpha * 0.65})`);
     washGrd.addColorStop(0.70, `rgba(180, 140, 220, ${washAlpha * 0.28})`);
@@ -3593,7 +3685,7 @@ function newStar(w, h, scatter) {
     vy:          0.08 + Math.random() * 0.58,   // wider speed range → stars fall at very different rates
     vx:          (Math.random() - 0.5) * 0.06,  // very slight lateral bias (corrected by sway)
     size:        0.6 + Math.pow(Math.random(), 1.5) * 3.8,   // smaller stars
-    baseAlpha:   0.80 + Math.random() * 0.20,
+    baseAlpha:   0.90 + Math.random() * 0.10,
     shape:       roll < 0.35 ? 1 : roll < 0.58 ? 2 : roll < 0.74 ? 3 : roll < 0.88 ? 5 : 6,  // no shape 4 (plus)
     color:       STAR_PALETTE[Math.floor(Math.random() * STAR_PALETTE.length)],
     twinkle:     Math.random() < 0.60,
@@ -3610,7 +3702,7 @@ function initFallingStarsAnim(w, h) {
   anim.fallingStars._initW = w;
   anim.fallingStars._initH = h;
   // 380 stars scattered across the full canvas on first init
-  for (let i = 0; i < 380; i++) {
+  for (let i = 0; i < 600; i++) {
     anim.fallingStars.particles.push(newStar(w, h, true));
   }
   anim.fallingStars.t = 0;
@@ -3640,19 +3732,19 @@ function drawFallingStars(ctx, w, h, isCapture, dt) {
   if (!isCapture && video.readyState >= 2) {
     if (!fs.motionCanvas) {
       fs.motionCanvas = document.createElement('canvas');
-      fs.motionCanvas.width  = 24;
-      fs.motionCanvas.height = 18;
+      fs.motionCanvas.width  = 48;
+      fs.motionCanvas.height = 36;
       fs.motionCtx = fs.motionCanvas.getContext('2d', { willReadFrequently: true });
     }
     const fmctx = fs.motionCtx;
-    fmctx.save(); fmctx.scale(-1, 1); fmctx.drawImage(video, 0, 0, -24, 18); fmctx.restore();
-    const fsCurr = fmctx.getImageData(0, 0, 24, 18).data;
+    fmctx.save(); fmctx.scale(-1, 1); fmctx.drawImage(video, 0, 0, -48, 36); fmctx.restore();
+    const fsCurr = fmctx.getImageData(0, 0, 48, 36).data;
     if (fs.prevMotionData && fs.prevMotionData.length === fsCurr.length) {
       let fsTotal = 0, fscx = 0, fscy = 0, fscw = 0;
-      const FSNOISE = 22;
-      for (let row = 0; row < 18; row++) {
-        for (let col = 0; col < 24; col++) {
-          const bi = (row * 24 + col) * 4;
+      const FSNOISE = 18;
+      for (let row = 0; row < 36; row++) {
+        for (let col = 0; col < 48; col++) {
+          const bi = (row * 48 + col) * 4;
           const d = Math.abs(fsCurr[bi] - fs.prevMotionData[bi])
                   + Math.abs(fsCurr[bi+1] - fs.prevMotionData[bi+1])
                   + Math.abs(fsCurr[bi+2] - fs.prevMotionData[bi+2]);
@@ -3660,11 +3752,11 @@ function drawFallingStars(ctx, w, h, isCapture, dt) {
           if (d > FSNOISE) { fscx += col * d; fscy += row * d; fscw += d; }
         }
       }
-      const rawFS = Math.min(1, fsTotal / (24 * 18 * 3 * 255));
-      fs.motionLevel = fs.motionLevel * 0.78 + rawFS * 0.22;
+      const rawFS = Math.min(1, fsTotal / (48 * 36 * 3 * 255));
+      fs.motionLevel = fs.motionLevel * 0.72 + rawFS * 0.28;
       if (fscw > 0) {
-        fs.motionCentroidX = fscx / fscw / 24;
-        fs.motionCentroidY = fscy / fscw / 18;
+        fs.motionCentroidX = fscx / fscw / 48;
+        fs.motionCentroidY = fscy / fscw / 36;
       }
     }
     fs.prevMotionData = fsCurr;
@@ -3688,19 +3780,20 @@ function drawFallingStars(ctx, w, h, isCapture, dt) {
       }
     });
 
-    // Motion reactivity — when hands move, burst extra fast stars at motion position
-    if ((fs.motionLevel || 0) > 0.045) {
-      const mLvl = Math.min(1, fs.motionLevel * 4.0);
-      const burstCount = Math.round(mLvl * 3);
+    // Motion reactivity — burst extra stars at motion centroid when hands move
+    if ((fs.motionLevel || 0) > 0.015) {
+      const mLvl = Math.min(1, fs.motionLevel * 6.0);
+      const burstCount = Math.round(mLvl * 14);
       const mx = (1 - (fs.motionCentroidX || 0.5)) * w;
       const my = (fs.motionCentroidY || 0.5) * h;
       for (let bi = 0; bi < burstCount; bi++) {
         const bs = newStar(w, h, false);
-        bs.x  = mx + (Math.random() - 0.5) * w * 0.12;
-        bs.y  = my + (Math.random() - 0.5) * h * 0.12;
-        bs.vy = 0.30 + Math.random() * 1.2;   // faster on burst
-        bs.size = 0.4 + Math.random() * 2.0;  // smaller burst stars
-        // Replace a random existing star so particle count stays fixed
+        bs.x  = mx + (Math.random() - 0.5) * w * 0.20;
+        bs.y  = my + (Math.random() - 0.5) * h * 0.20;
+        bs.vy = 0.40 + Math.random() * 1.8;   // faster on burst
+        bs.vx = (Math.random() - 0.5) * 0.4;  // slight spread
+        bs.size = 0.6 + Math.random() * 2.8;
+        bs.baseAlpha = 0.92 + Math.random() * 0.08;
         const replaceIdx = Math.floor(Math.random() * fs.particles.length);
         fs.particles[replaceIdx] = bs;
       }
@@ -3815,7 +3908,7 @@ function drawFallingStars(ctx, w, h, isCapture, dt) {
   // ── 3. Video — covers background stars in face/body area ─────────────────
   ctx.save();
   ctx.globalAlpha = 0.92;
-  ctx.filter      = 'brightness(0.82) saturate(0.88) contrast(1.02)';
+  ctx.filter      = 'saturate(0.88) contrast(1.02)';
   drawVideoCover(ctx, 0, 0, w, h);
   ctx.restore();
 
@@ -3825,7 +3918,7 @@ function drawFallingStars(ctx, w, h, isCapture, dt) {
   if (capScaleX !== 1) ctx.scale(capScaleX, capScaleY);
   fs.particles.forEach((p, i) => {
     if (i % 6 !== 0) return;
-    const a = _twinkleAlpha(p, p.baseAlpha * 0.90);
+    const a = _twinkleAlpha(p, p.baseAlpha * 1.0);
     _drawStarShape(p, a);
   });
   ctx.restore();
@@ -3848,19 +3941,19 @@ function drawGlitch(ctx, w, h, isCapture, dt) {
   if (!isCapture && video.readyState >= 2) {
     if (!gl.motionCanvas) {
       gl.motionCanvas = document.createElement('canvas');
-      gl.motionCanvas.width  = 24;
-      gl.motionCanvas.height = 18;
+      gl.motionCanvas.width  = 48;
+      gl.motionCanvas.height = 36;
       gl.motionCtx = gl.motionCanvas.getContext('2d', { willReadFrequently: true });
     }
     const gmctx = gl.motionCtx;
-    gmctx.save(); gmctx.scale(-1, 1); gmctx.drawImage(video, 0, 0, -24, 18); gmctx.restore();
-    const gCurr = gmctx.getImageData(0, 0, 24, 18).data;
+    gmctx.save(); gmctx.scale(-1, 1); gmctx.drawImage(video, 0, 0, -48, 36); gmctx.restore();
+    const gCurr = gmctx.getImageData(0, 0, 48, 36).data;
     if (gl.prevMotionData && gl.prevMotionData.length === gCurr.length) {
       let gTotal = 0, gcx = 0, gcy = 0, gcw = 0;
-      const GNOISE = 20;
-      for (let row = 0; row < 18; row++) {
-        for (let col = 0; col < 24; col++) {
-          const bi = (row * 24 + col) * 4;
+      const GNOISE = 16;
+      for (let row = 0; row < 36; row++) {
+        for (let col = 0; col < 48; col++) {
+          const bi = (row * 48 + col) * 4;
           const d = Math.abs(gCurr[bi] - gl.prevMotionData[bi])
                   + Math.abs(gCurr[bi+1] - gl.prevMotionData[bi+1])
                   + Math.abs(gCurr[bi+2] - gl.prevMotionData[bi+2]);
@@ -3868,11 +3961,11 @@ function drawGlitch(ctx, w, h, isCapture, dt) {
           if (d > GNOISE) { gcx += col * d; gcy += row * d; gcw += d; }
         }
       }
-      const rawGL = Math.min(1, gTotal / (24 * 18 * 3 * 255));
-      gl.motionLevel = gl.motionLevel * 0.75 + rawGL * 0.25;
+      const rawGL = Math.min(1, gTotal / (48 * 36 * 3 * 255));
+      gl.motionLevel = gl.motionLevel * 0.70 + rawGL * 0.30;
       if (gcw > 0) {
-        gl.motionCentroidX = gcx / gcw / 24;
-        gl.motionCentroidY = gcy / gcw / 18;
+        gl.motionCentroidX = gcx / gcw / 48;
+        gl.motionCentroidY = gcy / gcw / 36;
       }
     }
     gl.prevMotionData = gCurr;
@@ -3887,7 +3980,15 @@ function drawGlitch(ctx, w, h, isCapture, dt) {
 
   // ── STATE MACHINE ─────────────────────────────────────────────────────────
   if (!isCapture) {
-    const COLS = ['#FF0022','#00EE44','#2255FF','#FF00EE','#00EEFF','#EEFF00','#9900FF','#FF5500'];
+    // Continuous motion scale: 0 at rest → 1 at motionLevel ≥ 0.10
+    const mScale = Math.min(1, (gl.motionLevel || 0) / 0.10);
+    const COLS = [
+      '#BB00FF','#9900FF','#7700EE','#CC00FF',   // purple heavy weight
+      '#00EEFF','#00CCFF','#00AAEE',              // cyan
+      '#00DD55','#00FF66','#22EE44',              // green
+      '#FF00DD','#EE00BB',                        // magenta accent
+      '#0044FF','#2266FF',                        // blue
+    ];
 
     if (gl.glitchActive) {
       // Advance slab lifetimes — expire finished ones
@@ -3899,9 +4000,8 @@ function drawGlitch(ctx, w, h, isCapture, dt) {
         gl.glitchActive  = false;
         gl.pixelBlocks   = [];
         gl.quietTimer    = 0;
-        gl.quietDuration = motionHigh
-          ? 250 + Math.random() * 550
-          : 1000 + Math.random() * 2200;
+        // More motion → shorter quiet gap
+        gl.quietDuration = 150 + 2000 * (1 - mScale) + Math.random() * (800 - mScale * 600);
       }
     } else {
       // Quiet phase — count up and fire next event when ready
@@ -3909,19 +4009,19 @@ function drawGlitch(ctx, w, h, isCapture, dt) {
       if (gl.quietTimer >= gl.quietDuration) {
         gl.glitchActive = true;
 
-        const n = 2 + Math.floor(Math.random() * 2) + (motionHigh ? 1 + Math.floor(Math.random() * 2) : 0);
+        const n = 2 + Math.floor(Math.random() * 2) + Math.floor(mScale * 3);
         gl.slabs = Array.from({ length: n }, () => ({
           y:       Math.floor(Math.random() * h * 0.88),
           sh:      Math.max(20, Math.floor(h * (0.07 + Math.random() * 0.10))),
-          offset:  (Math.random() < 0.5 ? 1 : -1) * (8 + Math.floor(Math.random() * 28)),
+          offset:  (Math.random() < 0.5 ? 1 : -1) * (8 + Math.floor(Math.random() * 28) + Math.floor(mScale * 14)),
           life:    0,
-          maxLife: 55 + Math.floor(Math.random() * (motionHigh ? 160 : 380)),
+          maxLife: 120 + Math.floor(Math.random() * (550 - mScale * 250)),
         }));
 
         // Pixel blocks: right-side clusters near each slab's Y position
         gl.pixelBlocks = [];
         gl.slabs.forEach(s => {
-          const cnt = 4 + Math.floor(Math.random() * 7);
+          const cnt = 4 + Math.floor(Math.random() * 7) + Math.floor(mScale * 6);
           for (let i = 0; i < cnt; i++) {
             const by = s.y + (Math.random() - 0.3) * s.sh * 5;
             gl.pixelBlocks.push({
@@ -3938,7 +4038,7 @@ function drawGlitch(ctx, w, h, isCapture, dt) {
         });
 
         // Upper-right corner isolated cluster — always present regardless of slab Y
-        for (let i = 0; i < 3 + Math.floor(Math.random() * 5); i++) {
+        for (let i = 0; i < 3 + Math.floor(Math.random() * 5) + Math.floor(mScale * 4); i++) {
           gl.pixelBlocks.push({
             x:     Math.floor(w * 0.68 + Math.random() * w * 0.30),
             y:     Math.floor(Math.random() * h * 0.14),
