@@ -4726,6 +4726,9 @@ filterCells.forEach(cell => {
     if (!state.capturing) { playClick(); selectFilter(cell.dataset.filter); }
   });
 
+  // ALL cell (none) is not enlargeable — skip dblclick
+  if (cell.dataset.filter === 'none') return;
+
   // Double click — open Photo Booth-style overlay panel above the app-body
   cell.addEventListener('dblclick', e => {
     e.stopPropagation();
