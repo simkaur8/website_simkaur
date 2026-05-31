@@ -185,7 +185,7 @@ function ProjectCard({ project, onClick }: { project: StaticProject; onClick?: (
 
 function VideoThumbnail({ platform, videoId }: { platform: 'vimeo' | 'youtube'; videoId: string }) {
   const thumbnailUrl =
-    platform === 'youtube' ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : undefined
+    platform === 'youtube' ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : undefined
 
   if (thumbnailUrl) {
     return <img src={thumbnailUrl} alt="" className="h-full w-full object-cover" loading="lazy" /> // eslint-disable-line @next/next/no-img-element

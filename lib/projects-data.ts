@@ -44,11 +44,9 @@ export const staticProjects: StaticProject[] = [
     category: 'fashion-dance',
     year: 2026,
     description:
-      'Dance fashion film starring Aaliyah Paea & Rome Champion. Premiered at Palace Cinemas as part of JD IN MOTION.\n\nThis film is inspired by my obsession with watching battles between friends, siblings, partners, members of the same crew. Despite it being a competition, the love is so palpable.\n\nA small crew hypes a casual battle between the couple. Rome throws the first call, Aaliyah answers, each round an energetic exchange that escalates from playful competition, to charged battle, to confession. Their chemistry flips competition into conversation: receiving, reimagining, returning, then dancing together.\n\nPaying homage to Aaliyah & Rome\u2019s talent, their love, and the energy of dance battles + community here in Syd through fashion and film.',
+      'Dance fashion film starring Aaliyah Paea & Rome Champion. Premiered at Palace Cinemas as part of JD IN MOTION. A charged battle between a couple, from playful competition to confession, paying homage to community, love and dance in Sydney.',
     synopsis: [
-      'Dance fashion film starring Aaliyah Paea & Rome Champion. Premiered at Palace Cinemas as part of JD IN MOTION.',
-      'This film is inspired by my obsession with watching battles between friends, siblings, partners, members of the same crew. Despite it being a competition, the love is so palpable.',
-      'A small crew hypes a casual battle between the couple. Rome throws the first call, Aaliyah answers, each round an energetic exchange that escalates from playful competition, to charged battle, to confession. Their chemistry flips competition into conversation: receiving, reimagining, returning, then dancing together. Paying homage to Aaliyah & Rome\u2019s talent, their love, and the energy of dance battles + community here in Syd through fashion and film.',
+      'Dance fashion film starring Aaliyah Paea & Rome Champion. Premiered at Palace Cinemas as part of JD IN MOTION. A charged battle between a couple, from playful competition to confession, paying homage to community, love and dance in Sydney.',
     ],
     credits: [
       {
@@ -248,7 +246,6 @@ export const staticProjects: StaticProject[] = [
       { role: 'Nails', name: 'Katya' },
       { role: 'Styled in', name: 'Itadaki Store, Briar Will' },
     ],
-    comingSoon: true,
     video: { platform: 'vimeo', id: '1092672509' },
   },
   {
@@ -405,7 +402,6 @@ export const staticProjects: StaticProject[] = [
       { role: 'Direction, Cinematography & Edit', name: 'Sim Kaur' },
       { role: 'Featuring', name: 'Anjana Chandran' },
     ],
-    comingSoon: true,
     video: { platform: 'vimeo', id: '1151462076' },
   },
   {
@@ -426,7 +422,6 @@ export const staticProjects: StaticProject[] = [
       { role: 'Starring', name: 'Paris Crossley' },
       { role: 'Cinematography', name: 'Max Dona' },
     ],
-    comingSoon: true,
     video: { platform: 'vimeo', id: '1153107275' },
   },
   {
@@ -446,7 +441,6 @@ export const staticProjects: StaticProject[] = [
       { role: 'Cinematography', name: 'Alessia Chapman' },
     ],
     video: { platform: 'youtube', id: 'lvyVS5K9u9c' },
-    comingSoon: true,
   },
   {
     slug: 'in-the-mood-for-love',
@@ -483,7 +477,6 @@ export const staticProjects: StaticProject[] = [
       },
     ],
     video: { platform: 'youtube', id: 'YFQ3muHQf_Y' },
-    comingSoon: true,
   },
   {
     slug: 'sabor-celestial',

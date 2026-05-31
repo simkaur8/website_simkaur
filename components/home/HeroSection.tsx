@@ -111,7 +111,7 @@ export function HeroSection({ logoWebmUrl, logoMp4Url, showreelUrl }: HeroSectio
           className="text-center font-medium uppercase tracking-[0.18em]"
           style={{ fontSize: 'var(--text-base)', color: '#ffffff' }}
         >
-          Creative Direction
+          Film, Photo, Creative Direction
         </p>
       </motion.div>
 

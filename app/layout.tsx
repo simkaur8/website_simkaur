@@ -8,7 +8,6 @@ import { MobileNav } from '@/components/nav/MobileNav'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import { ClickSound } from '@/components/ui/ClickSound'
 
 const generalSans = localFont({
   src: '../public/fonts/GeneralSans-Variable.woff2',
@@ -88,7 +87,6 @@ export default function RootLayout({
           <main id="main-content" className="lg:pl-[var(--nav-w)]">
             {children}
           </main>
-          <ClickSound />
           <Analytics />
           <SpeedInsights />
         </Providers>

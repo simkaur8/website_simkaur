@@ -42,8 +42,17 @@ export function Footer({ email, footerCta, socialLinks }: FooterProps) {
           </span>
         ))}
       </div>
-      <p className="mt-1 text-[var(--text-muted)] sm:mt-2" style={{ fontSize: '0.6rem' }}>
-        Sim Kaur &copy; {year} Creative Direction
+      <div className="mt-2 flex items-center gap-2">
+        <span
+          className="inline-flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-2.5 py-0.5 text-green-400"
+          style={{ fontSize: '0.65rem', letterSpacing: '0.08em' }}
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-green-400" />
+          Available for commission
+        </span>
+      </div>
+      <p className="mt-2 text-[var(--text-muted)]" style={{ fontSize: '0.6rem' }}>
+        Sim Kaur &copy; {year}
       </p>
     </footer>
   )
