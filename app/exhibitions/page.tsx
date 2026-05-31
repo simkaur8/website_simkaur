@@ -55,11 +55,6 @@ const exhibitions = [
         portrait: false,
       },
       {
-        src: '/images/exhibitions/transmedia/20260501_Transmedia_photo_GarryTrinh-9421.jpg',
-        alt: 'Transmedia Worldbuilding Residency',
-        portrait: false,
-      },
-      {
         src: '/images/exhibitions/transmedia/20260501_Transmedia_photo_GarryTrinh-9472.jpg',
         alt: 'Transmedia Worldbuilding Residency',
         portrait: false,
@@ -81,11 +76,6 @@ const exhibitions = [
       },
       {
         src: '/images/exhibitions/transmedia/20260501_Transmedia_photo_GarryTrinh-9592.jpg',
-        alt: 'Transmedia Worldbuilding Residency',
-        portrait: true,
-      },
-      {
-        src: '/images/exhibitions/transmedia/20260501_Transmedia_photo_GarryTrinh-9597.jpg',
         alt: 'Transmedia Worldbuilding Residency',
         portrait: true,
       },

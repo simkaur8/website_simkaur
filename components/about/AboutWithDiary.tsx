@@ -41,16 +41,10 @@ export function AboutWithDiary() {
             style={{ fontSize: 'var(--text-base)' }}
           >
             <p>
-              Sim Kaur is a creative director, filmmaker, and photographer based in North West
-              Sydney, Australia. A Western Sydney University graduate (B.C.I., Screen Media), her
-              work moves across direction, editing, and photography, where fashion meets narrative,
-              dance meets screen, and ideas find their way into physical form. Sim is drawn to world
-              building, creative documentation of the performing arts, and storytelling through
-              screen media. She has collaborated with clients including Westfield Australia, Elle
-              India, and Office Magazine.
-            </p>
-            <p className="mt-4">
-              <em>She lives and creates on Darug Country, land that was never ceded.</em>
+              Sim Kaur is a filmmaker, photographer and creative director based in North West Sydney
+              on Darug Country. She works across direction, editing and stills, with a focus on
+              dance, fashion and performance on screen. Her practice is grounded in storytelling
+              through moving image, shaped by a background in screen media studies.
             </p>
           </div>
 
