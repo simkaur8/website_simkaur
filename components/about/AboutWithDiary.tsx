@@ -48,26 +48,6 @@ export function AboutWithDiary() {
             </p>
           </div>
 
-          {/* Client row */}
-          <div className="mt-8">
-            <p
-              className="mb-3 uppercase tracking-[0.14em] text-[var(--text-muted)]"
-              style={{ fontSize: '0.6rem' }}
-            >
-              Selected clients
-            </p>
-            <div
-              className="flex flex-wrap items-center gap-x-7 gap-y-2 text-[var(--text-muted)]"
-              style={{ fontSize: '0.65rem', letterSpacing: '0.12em' }}
-            >
-              {['ELLE India', 'Westfield', 'Office Magazine', 'JD IN MOTION'].map((name) => (
-                <span key={name} className="uppercase">
-                  {name}
-                </span>
-              ))}
-            </div>
-          </div>
-
           {/* Contact + Links — pinned to bottom */}
           <div className="mt-6">
             <div style={{ fontSize: 'var(--text-base)' }}>
