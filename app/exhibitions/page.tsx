@@ -24,11 +24,11 @@ export const metadata: Metadata = {
 
 const exhibitions = [
   {
-    title: 'Transmedia Worldbuilding Residency',
+    title: 'JHALAK: A Glimpse',
     subtitle:
-      '4A Centre for Contemporary Asian Art x Antariksha Studio. October 2025 to June 2026, Sydney.',
+      '4A Centre for Contemporary Asian Art x Antariksha Studio. Transmedia Worldbuilding Residency, 2026. Sydney.',
     description:
-      'Completed as part of the Transmedia Worldbuilding Residency at 4A Centre for Contemporary Asian Art. A six-month collaborative program exploring worldbuilding across game design, performance, sound and digital art. The residency included mentored development, an intensive in-person workshop, and public showcases across Sydney, digital platforms, and Mumbai’s Eyemyth Festival.',
+      'Developed through the Transmedia Worldbuilding Residency at 4A Centre for Contemporary Asian Art, Jhalak / A Glimpse (2026) documents the artist’s ongoing effort to record her own life through digital media, using photography as both a tool and a means of reflection. By recreating a tableau of her bedroom corner, Kaur builds a layered environment where past and present coexist. Familiar objects, textures, and images are recontextualised into a site of contemplation, a personal archive shaped by emotion, memory, and digital intervention, inviting viewers to navigate a private world without resolving into a single narrative. Exhibited as part of public showcases across Sydney and at Mumbai’s Eyemyth Festival.',
     link: {
       text: 'More info at 4A →',
       href: 'https://4a.com.au/events/transmedia-worldbuilding-residency',

@@ -101,7 +101,7 @@ export function StaticDirectionGrid({ projects }: StaticDirectionGridProps) {
               className="uppercase tracking-[0.18em] text-[var(--text-muted)]"
               style={{ fontSize: 'var(--text-xs)' }}
             >
-              Edit
+              Editing credits
             </p>
             <div className="h-px flex-1 bg-[var(--border)]" />
           </div>
