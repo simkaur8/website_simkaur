@@ -1,5 +1,6 @@
 import { Footer } from '@/components/Footer'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { ExhibitionGallery } from '@/components/exhibitions/ExhibitionGallery'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -196,49 +197,12 @@ export default function ExhibitionsPage() {
                   </p>
                 </div>
 
-                {/* Scroll gallery (Transmedia) */}
-                {'scrollGallery' in exh && exh.scrollGallery && exh.media && (
-                  <div
-                    className="mb-8 flex overflow-x-auto"
-                    style={{
-                      gap: 'clamp(0.5rem, 1vw, 0.8rem)',
-                      height: 'clamp(150px, calc(min(100vw - 4rem, 72rem) / 3 * 0.8), 310px)',
-                    }}
-                  >
-                    {exh.media.map((item, i) => (
-                      <div
-                        key={i}
-                        className="h-full flex-shrink-0 overflow-hidden"
-                        style={{ aspectRatio: item.portrait ? '2/3' : '5/4' }}
-                      >
-                        <img
-                          src={item.src}
-                          alt={item.alt || ''}
-                          className="h-full w-full object-cover"
-                          loading="lazy"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Triptych grid */}
-                {!('scrollGallery' in exh && exh.scrollGallery) && 'media' in exh && exh.media && (
-                  <div
-                    className="mb-8 grid grid-cols-1 sm:grid-cols-3"
-                    style={{ gap: 'clamp(0.5rem, 1vw, 0.8rem)' }}
-                  >
-                    {exh.media.map((item, i) => (
-                      <div key={i} className="aspect-[5/4] overflow-hidden">
-                        <img
-                          src={item.src}
-                          alt={item.alt || ''}
-                          className="h-full w-full object-cover"
-                          loading="lazy"
-                        />
-                      </div>
-                    ))}
-                  </div>
+                {/* Gallery */}
+                {'media' in exh && exh.media && (
+                  <ExhibitionGallery
+                    media={exh.media}
+                    scrollGallery={'scrollGallery' in exh ? exh.scrollGallery : false}
+                  />
                 )}
 
                 {/* Description */}
